@@ -36,6 +36,16 @@
     <string name="zipcode">Zipcode</string>
 
 
+    //Manifest
+    <string name="customer_details_title">Customer Details</string>
+    <string name="Create_order_title">Create Customer Order</string>
+    <string name="create_address_title">Create Address</string>
+    <string name="select_address_title">Select Address</string>
+    <string name="confirm_details_title">Confirm Details</string>
+    <string name="confirm_details_title">Confirm Details</string>
+
+
+
     <string-array name="planets_array">
         <item>Home</item>
         <item>View/Edit Profile</item>

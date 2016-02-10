@@ -29,28 +29,28 @@
         </activity>
         <activity android:name=".HomeActivity" >
         </activity>
-        <activity android:name=".CustomerDetails" android:label="Customer Details" >
+        <activity android:name=".CustomerDetails" android:label="@string/customer_details_title" >
 
         </activity>
         <activity
             android:name=".CreatePurchaseOrder"
-            android:label="Create Purchase Order"
+            android:label="@string/Create_order_title"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-        <activity android:name=".CreateAddress"  android:label="Create Address" >
+        <activity android:name=".CreateAddress"  android:label="@string/create_address_title" >
         </activity>
-        <activity android:name=".SelectAddress"  android:label="Select Address" >
+        <activity android:name=".SelectAddress"   android:label="@string/select_address_title" >
         </activity>
         <activity
             android:name=".OrderConfirmDetails"
-            android:windowSoftInputMode="adjustPan"  android:label="Confirm Details">
+            android:windowSoftInputMode="adjustPan"  android:label="@string/confirm_details_title">
         </activity>
         <activity
             android:name=".NavigataionActivity"
             android:label="Motherland"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".PurchaseOrderActivity" android:label="Create Purchase Order">
+        <activity android:name=".PurchaseOrderActivity" android:label="@string/Create_order_title">
         </activity>
         <activity android:name=".SplashActivity"  android:theme="@style/AppTheme.NoActionBar"  >
             <intent-filter>

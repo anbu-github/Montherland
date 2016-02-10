@@ -6,4 +6,6 @@
     <color name="blue_dark">#34495e</color>
     <color name="graylight">#f7f7f7</color>
     <color name="divider_grey">#b6b6b6</color>
+    <color name="light_grey">#727272</color>
+    <color name="light_dark">#212121</color>
 </resources>
