@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_margin="5dp"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/TextviewStyle_space_blue"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:text="@string/Garment_Type" />
+    <Spinner
+        android:id="@+id/garmentType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dialog" />
+    <TextView
+        style="@style/TextviewStyle_space_blue"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:text="@string/Garment_Quantity" />
+    <EditText
+        style="@style/SimpleTextviewStyle_16"
+        android:layout_width="fill_parent"
+        android:id="@+id/quantity"
+        android:layout_marginBottom="5dp"
+        android:inputType="number"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

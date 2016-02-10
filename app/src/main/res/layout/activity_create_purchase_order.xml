@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.charnock.dev.ServiceAlljobs">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout"
+        android:weightSum="1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/rl"
+            android:layout_weight="1">
+
+            <!--
+                        <ListView
+                            android:id="@+id/listView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/jobsheet_date"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true" />
+            -->
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:id="@+id/textView2"
+                android:layout_alignParentTop="true"
+                android:text="@string/customer_Name"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                style="@style/TextviewStyle_space_blue" />
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/customer_list"
+                android:layout_below="@+id/textView2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:spinnerMode="dialog" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/customer_List"
+                android:id="@+id/textView3"
+                android:layout_below="@+id/customer_list"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                style="@style/TextviewStyle_space_blue" />
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/customer_company_list"
+                android:spinnerMode="dialog"
+                android:layout_below="@+id/textView3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/customer_contact"
+                android:id="@+id/textView6"
+                android:visibility="gone"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/customer_company_list"
+                style="@style/TextviewStyle_space_blue" />
+
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/customer_contact"
+                android:spinnerMode="dialog"
+                android:visibility="gone"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView6"
+                android:layout_alignParentLeft="true" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/customer_contact"
+                android:background="@android:color/darker_gray"/>
+
+            <com.dev.montherland.adapter.ExpandableListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listView"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginTop="10dp"
+                android:background="#ffffff"
+                android:divider="@color/divider_grey"
+                android:layout_below="@+id/customer_contact"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+            <ImageButton
+                android:id="@+id/plustButton"
+                android:layout_width="@dimen/fab_button_small"
+                android:layout_height="@dimen/fab_button_small"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="bottom"
+                android:onClick="addOrder"
+                android:layout_marginBottom="@dimen/fab_button_margin_bottom"
+                android:layout_marginRight="@dimen/fab_button_margin_right"
+                android:background="@drawable/fab_shape"
+                android:src="@drawable/fab_ic_add_small"
+                android:tint="@android:color/white" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

@@ -47,7 +47,6 @@ public class HomeActivity extends AppCompatActivity {
             password = getIntent().getExtras().getString("password");
             StaticVariables.email=email;
             StaticVariables.password=password;
-
         }
         catch (Exception e){
             e.printStackTrace();
@@ -109,6 +108,12 @@ public class HomeActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(request, data_receive);
         Log.v("request", request + "");
     }
+    public void onBackPressed() {
 
+        super.onBackPressed();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+        overridePendingTransition(R.anim.left_right, R.anim.right_left);
+    }
 
 }

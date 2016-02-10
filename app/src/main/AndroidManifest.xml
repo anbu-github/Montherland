@@ -22,29 +22,37 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity android:name=".MainActivity" >
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
         </activity>
         <activity
             android:name=".Login"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
-<!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
--->
         </activity>
         <activity android:name=".HomeActivity" >
         </activity>
-        <activity android:name=".CustomerDetails" >
+        <activity android:name=".CustomerDetails" android:label="Customer Details" >
+
+        </activity>
+        <activity
+            android:name=".CreatePurchaseOrder"
+            android:label="Create Purchase Order"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity android:name=".CreateAddress"  android:label="Create Address" >
+        </activity>
+        <activity android:name=".SelectAddress"  android:label="Select Address" >
+        </activity>
+        <activity
+            android:name=".OrderConfirmDetails"
+            android:windowSoftInputMode="adjustPan"  android:label="Confirm Details">
+        </activity>
+        <activity
+            android:name=".NavigataionActivity"
+            android:label="Motherland"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity android:name=".PurchaseOrderActivity" android:label="Create Purchase Order">
+        </activity>
+        <activity android:name=".SplashActivity"  android:theme="@style/AppTheme.NoActionBar"  >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
