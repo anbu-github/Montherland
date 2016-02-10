@@ -21,7 +21,7 @@
 
     //purchase create order
     <string name="create_order">Create Order</string>
-    <string name="customer_List">Customer List</string>
+    <string name="customer_List">Customer Contact</string>
     <string name="customer_Name">Customer Company</string>
     <string name="customer_contact">Customer Contact</string>
     <string name="Garment_Type">Garment Type</string>
@@ -41,7 +41,6 @@
     <string name="Create_order_title">Create Customer Order</string>
     <string name="create_address_title">Create Address</string>
     <string name="select_address_title">Select Address</string>
-    <string name="confirm_details_title">Confirm Details</string>
     <string name="confirm_details_title">Confirm Details</string>
 
 

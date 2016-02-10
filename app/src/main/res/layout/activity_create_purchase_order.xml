@@ -1,33 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.charnock.dev.ServiceAlljobs">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/linearLayout"
-        android:weightSum="1">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:id="@+id/rl"
-            android:layout_weight="1">
-
-            <!--
-                        <ListView
-                            android:id="@+id/listView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/jobsheet_date"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true" />
-            -->
-
+        android:id="@+id/linearLayout">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,6 +75,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/textView6"
                 android:layout_alignParentLeft="true" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -99,6 +87,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/listView"
+                android:dividerHeight="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:nestedScrollingEnabled="false"
                 android:layout_marginTop="10dp"
                 android:background="#ffffff"
@@ -106,21 +97,21 @@
                 android:layout_below="@+id/customer_contact"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
-            <ImageButton
-                android:id="@+id/plustButton"
-                android:layout_width="@dimen/fab_button_small"
-                android:layout_height="@dimen/fab_button_small"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="bottom"
-                android:onClick="addOrder"
-                android:layout_marginBottom="@dimen/fab_button_margin_bottom"
-                android:layout_marginRight="@dimen/fab_button_margin_right"
-                android:background="@drawable/fab_shape"
-                android:src="@drawable/fab_ic_add_small"
-                android:tint="@android:color/white" />
-
-        </RelativeLayout>
     </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/plustButton"
+        android:layout_width="@dimen/fab_button_diameter"
+        android:layout_height="@dimen/fab_button_diameter"
+        android:layout_gravity="bottom|right"
+        android:onClick="addOrder"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/fab_shape"
+        android:src="@drawable/fab_ic_add"
+        android:tint="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

@@ -48,4 +48,5 @@
         android:layout_alignBottom="@+id/quantity"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

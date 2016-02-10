@@ -2,31 +2,28 @@ package com.dev.montherland;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.adapter.AddressCreateAdapter;
 import com.dev.montherland.model.Create_Address_Model;
-import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.parsers.Create_Address_JSONParser;
-import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
-import com.dev.montherland.util.StaticVariables;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,13 +54,17 @@ public class SelectAddress extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        ImageButton ig = (ImageButton) findViewById(R.id.btn_add_address);
+        ig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SelectAddress.this, CreateAddress.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    public void addNewAddress(View view){
-
-       Intent in=new Intent(thisActivity,CreateAddress.class);
-        startActivity(in);
-    }
     public void getAddressList() {
         PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_addresses.php?",

@@ -1,19 +1,17 @@
 package com.dev.montherland;
 
-import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,11 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement thod to
- * create an instance of this fragment.
- */
 public class CustomerHomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +38,7 @@ public class CustomerHomeFragment extends Fragment {
     private List<Response_Model> persons;
     StaggeredGridLayoutManager mLayoutManager;
     String data_receive = "string_req_recieve",id,email,password;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -64,18 +58,16 @@ public class CustomerHomeFragment extends Fragment {
                         PDialog.hide();
                         Log.v("response", response + "");
                         try {
-                            PDialog.hide();
+
                             JSONArray ar = new JSONArray(response);
                             persons= Response_JSONParser.parserFeed(response);
                             recyclerView.setAdapter(new RecyclerViewAdapter(persons));
 
                         } catch (JSONException e) {
-                            PDialog.hide();
                             //Log.d("response", response);
                             //Log.d("error in json", "l " + e);
 
                         } catch (Exception e) {
-                            PDialog.hide();
 //                            Log.d("json connection", "No internet access" + e);
                         }
                     }
@@ -126,14 +118,17 @@ public class CustomerHomeFragment extends Fragment {
         catch (Exception e){
             e.printStackTrace();
         }
+
+        ActionBar mActionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
+        mActionBar.setTitle("Customer List");
+
+
         getMasterList();
         recyclerView = (RecyclerView)view.findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
         mLayoutManager=new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(mLayoutManager);
-
-        ActionBar mActionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
-        mActionBar.setTitle("Customer List");
+        mLayoutManager.setOrientation(mLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         return view;
     }

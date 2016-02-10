@@ -1,10 +1,7 @@
 package com.dev.montherland;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -21,16 +18,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.dev.montherland.adapter.AddressCreateAdapter;
 import com.dev.montherland.adapter.PurchaseOrderListAdapter;
-import com.dev.montherland.model.Create_Address_Model;
 import com.dev.montherland.model.Purchase_Order_Model;
-import com.dev.montherland.parsers.Create_Address_JSONParser;
 import com.dev.montherland.parsers.Purchase_Order_JSONParser;
-import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
+
 import org.json.JSONArray;
-import org.json.JSONException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,11 +97,6 @@ public class PurchaseOrderFragment extends Fragment {
                             JSONArray ar = new JSONArray(response);
                             persons = Purchase_Order_JSONParser.parserFeed(response);
                             recyclerView.setAdapter(new PurchaseOrderListAdapter(persons,getActivity()));
-                        } catch (JSONException e) {
-                            PDialog.hide();
-                            //Log.d("response", response);
-                            //Log.d("error in json", "l " + e);
-
                         } catch (Exception e) {
                             PDialog.hide();
 //                            Log.d("json connection", "No internet access" + e);
