@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -29,9 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -52,16 +49,6 @@ public class Login extends AppCompatActivity {
         password=(EditText)findViewById(R.id.input_password);
         inputLayoutName=(TextInputLayout)findViewById(R.id.input_layout_name);
         inputLayoutPassword=(TextInputLayout)findViewById(R.id.input_layout_password);
-
-
-        SharedPreferences sharedPreferences = getSharedPreferences("Login", Context.MODE_PRIVATE);  //First arg is filename and second arg is value i.e. private i.e. only app can access this file
-        islogin=sharedPreferences.getString("islogin", DEFAULT);  //First arg is key and second arg is value. If key/value doesnt exist then DEFAULT will be returned
-
-        if (islogin.equals("loggedIn")){
-            Intent in=new Intent(thisActivity,NavigataionActivity.class);
-            startActivity(in);
-
-        }
 
         getDataList();
         if (!(savedInstanceState==null)) {

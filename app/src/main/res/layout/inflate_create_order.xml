@@ -1,12 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    style="@style/layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
+<android.support.v7.widget.CardView
+    android:id="@+id/cv_category"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:clickable="false"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="110dp"
+        android:clickable="false"
+        android:background="#F5FEF1"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -23,15 +34,16 @@
                 android:text="@string/Garment_Type" />
             <Spinner
                 android:id="@+id/garmentType"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dialog" />
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -41,16 +53,22 @@
                 android:layout_marginTop="5dp"
                 android:layout_height="wrap_content"
                 android:text="@string/Garment_Quantity"/>
+
             <EditText
                 style="@style/SimpleTextviewStyle_16"
-                android:layout_marginTop="20dp"
                 android:layout_width="fill_parent"
                 android:id="@+id/quantity"
-                android:inputType="phone"
-                android:layout_height="wrap_content" />
+                android:gravity="bottom"
+                android:layout_gravity="bottom"
+                android:inputType="number"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

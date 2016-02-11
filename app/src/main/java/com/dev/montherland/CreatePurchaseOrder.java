@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,7 +49,9 @@ public class CreatePurchaseOrder extends AppCompatActivity {
     List<Response_Model> response_model;
     String companyId, customerId, contactId;
     int count = 1;
-    com.dev.montherland.adapter.ExpandableListView listview;
+    RecyclerView mRecyclerView;
+    RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView.Adapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,12 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         Companylist = (Spinner) findViewById(R.id.customer_list);
 
         GarmentTypes = (Spinner) findViewById(R.id.garmentType);
-        listview = (com.dev.montherland.adapter.ExpandableListView) findViewById(R.id.listView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.listView);
+        mRecyclerView.setHasFixedSize(true);
+
+        // The number of Columns
+        mLayoutManager = new GridLayoutManager(CreatePurchaseOrder.this,1);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -127,7 +136,9 @@ public class CreatePurchaseOrder extends AppCompatActivity {
     public void addOrder(View view) {
         count++;
         Toast.makeText(thisActivity, "cubj", Toast.LENGTH_SHORT).show();
-        listview.setAdapter(new CreateOrderAdapter(thisActivity, count, dataAdapter4));
+        mAdapter = new CreateOrderAdapter(thisActivity,
+                count,dataAdapter4);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
@@ -271,7 +282,9 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                            listview.setAdapter(new CreateOrderAdapter(thisActivity, count, dataAdapter4));
+                            mAdapter = new CreateOrderAdapter(thisActivity,
+                                    count,dataAdapter4);
+                            mRecyclerView.setAdapter(mAdapter);
 
                         } catch (Exception e) {
                             PDialog.hide();
@@ -320,9 +333,8 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
         Intent in = new Intent(thisActivity, NavigataionActivity.class);
         startActivity(in);
+        finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
-        overridePendingTransition(R.anim.left_right, R.anim.right_left);
     }
 
     @Override
