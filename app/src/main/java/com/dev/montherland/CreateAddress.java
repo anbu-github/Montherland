@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.util.PDialog;
+import com.dev.montherland.util.StaticVariables;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +55,15 @@ public class CreateAddress extends AppCompatActivity {
         address3 = (EditText) findViewById(R.id.address_line3);
         city = (EditText) findViewById(R.id.state);
         pincode = (EditText) findViewById(R.id.pincode);
-        getStateList();
+
+
+        if (StaticVariables.isNetworkConnected(thisActivity)) {
+            getStateList();
+        }
+        else {
+            Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+        }
+
 
         dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, stateList);
@@ -96,7 +106,12 @@ public class CreateAddress extends AppCompatActivity {
             pincode.setError("please enter pincode");
         }
         else {
-            createAdddress();
+            if (StaticVariables.isNetworkConnected(thisActivity)) {
+                createAdddress();
+            }
+            else {
+                Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -16,11 +17,9 @@ import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,8 +51,13 @@ public class HomeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        if (StaticVariables.isNetworkConnected(thisActivity)) {
+            getMasterList();
+        }
+        else {
+            Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+        }
 
-        getMasterList();
             }
 
     public void getMasterList() {

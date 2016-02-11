@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#fffef2"
+    android:background="#F5F6F5"
     tools:context="com.charnock.dev.ServiceAlljobs">
 
     <ScrollView
@@ -30,17 +30,27 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 style="@style/TextviewStyle_space_blue" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/layout_border"
+            android:layout_marginRight="20dp"
+
+            android:layout_marginLeft="25dp"
+            android:layout_height="45dp">
 
             <Spinner
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/customer_list"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
                 android:layout_below="@+id/textView2"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:spinnerMode="dialog" />
+
+        </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -54,16 +64,23 @@
                 android:layout_alignParentStart="true"
                 style="@style/TextviewStyle_space_blue" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/layout_border"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_height="45dp">
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/customer_company_list"
                 android:spinnerMode="dialog"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="5dp"
                 android:layout_below="@+id/textView3"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,6 +92,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/customer_company_list"
                 style="@style/TextviewStyle_space_blue" />
+
 
             <Spinner
                 android:layout_width="fill_parent"
@@ -89,13 +107,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_margin="15dp"
                 android:layout_below="@id/customer_contact"
-                android:background="@android:color/darker_gray"/>
+                android:background="#E0E0E0"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listView"
-            android:nestedScrollingEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

@@ -31,7 +31,7 @@ import java.util.Map;
 
 public class OrderConfirmDetails extends AppCompatActivity {
     String address1, address2, address3, city, state,address_id,zipcode;
-    TextView tv_address1, tv_address2, tv_address3, tv_city, tv_state,total_item;
+    TextView tv_address1, tv_address2, tv_address3, tv_city, tv_state,total_item,customer_contact;
     Activity thisActivity = this;
     com.dev.montherland.adapter.ExpandableListView listview;
     @Override
@@ -44,12 +44,13 @@ public class OrderConfirmDetails extends AppCompatActivity {
         tv_address3 = (TextView) findViewById(R.id.add3);
         tv_state = (TextView) findViewById(R.id.state);
         tv_city = (TextView) findViewById(R.id.city);
+        customer_contact = (TextView) findViewById(R.id.customer_contact);
         total_item = (TextView) findViewById(R.id.total_item_no);
         listview = (com.dev.montherland.adapter.ExpandableListView) findViewById(R.id.listView);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Confirm Order");
+            getSupportActionBar().setTitle("Order Details");
             address1 = getIntent().getExtras().getString("address1");
             address2 = getIntent().getExtras().getString("address2");
             address3 = getIntent().getExtras().getString("address3");
@@ -63,6 +64,7 @@ public class OrderConfirmDetails extends AppCompatActivity {
             tv_address1.setText(address1);
             tv_address2.setText(address2);
             tv_address3.setText(address3);
+            customer_contact.setText(StaticVariables.customerName);
             tv_state.setText(state);
             tv_city.setText(zipcode);
 
@@ -87,14 +89,22 @@ public class OrderConfirmDetails extends AppCompatActivity {
     }
 
     public void confirmOrderRequest() {
+
+        Gson gson = new Gson();
+        String jsonGarmentId=gson.toJson(StaticVariables.garmentIdList);
+        String jsonQuantity=gson.toJson(StaticVariables.editQuantityList);
+        Log.d("garment_type_json", jsonGarmentId);
+        Log.d("quantity_json",jsonQuantity);
+        Log.d("address_id",address_id);
+        Log.d("customer_contact_id",StaticVariables.customerContact);
+
           PDialog.show(thisActivity);
-        StringRequest request = new StringRequest(Request.Method.GET, getResources().getString(R.string.url_motherland) + "purchase_order_submit.php?",
+        StringRequest request = new StringRequest(Request.Method.GET, getResources().getString(R.string.url_motherland) + "purchase_order_submit.php?id=4&email=test@test.com&password=aaa&customer_contact_id="+StaticVariables.customerContact+"&customer_contact_address_id="+address_id+"&garment_type_json="+jsonGarmentId+"&quantity_json="+jsonQuantity,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
                         PDialog.hide();
-                        Log.v("response", response + "");
                         try {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
@@ -124,11 +134,11 @@ public class OrderConfirmDetails extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
 
+                Map<String, String> params = new HashMap<>();
+
                 Gson gson = new Gson();
                 String jsonGarmentId=gson.toJson(StaticVariables.garmentIdList);
                 String jsonQuantity=gson.toJson(StaticVariables.garmentTypeList);
-
-                Map<String, String> params = new HashMap<>();
 
                 params.put("email", "test@test.com");
                 params.put("password", "e48900ace570708079d07244154aa64a");
@@ -138,16 +148,77 @@ public class OrderConfirmDetails extends AppCompatActivity {
                 params.put("garment_type_json", jsonGarmentId);
                 params.put("quantity_json", jsonQuantity);
 
-
-
                 Log.d("garment_type_json", jsonGarmentId);
                 Log.d("quantity_json",jsonQuantity);
                 Log.d("address_id",address_id);
                 Log.d("customer_contact_id",StaticVariables.customerContact);
+
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(request, "data_receive");
+        Log.v("request", request + "");
+
+
+//        StringRequest request = new StringRequest(Request.Method.GET, getResources().getString(R.string.url_motherland) + "purchase_order_submit.php?id=4&email=test@test.com&" +
+//                "password=e48900ace570708079d07244154aa64a&customer_contact_id="+StaticVariables.customerContact+"&customer_contact_address_id="+address_id+"&garment_type_json="+jsonQuantity+"&garment_type_json="+jsonGarmentId+");
+//                new Response.Listener<String>()
+//                {
+//                    @Override
+//                    public void onResponse(String response) {
+//                        PDialog.hide();
+//                        Log.v("response", response + "");
+//                        try {
+//                            PDialog.hide();
+//                            JSONArray ar = new JSONArray(response);
+//
+//
+//                        } catch (JSONException e) {
+//                            PDialog.hide();
+//                            //Log.d("response", response);
+//                            //Log.d("error in json", "l " + e);
+//
+//                        } catch (Exception e) {
+//                            PDialog.hide();
+////                            Log.d("json connection", "No internet access" + e);
+//                        }
+//                    }
+//                },
+//
+//                new Response.ErrorListener() {
+//
+//                    @Override
+//                    public void onErrorResponse(VolleyError arg0) {
+//                        PDialog.hide();
+//
+//                    }
+//                }) {
+//
+//            @Override
+//            protected Map<String, String> getParams() {
+//
+//                Gson gson = new Gson();
+//                String jsonGarmentId=gson.toJson(StaticVariables.garmentIdList);
+//                String jsonQuantity=gson.toJson(StaticVariables.garmentTypeList);
+//
+//                Map<String, String> params = new HashMap<>();
+//
+//                params.put("email", "test@test.com");
+//                params.put("password", "e48900ace570708079d07244154aa64a");
+//                params.put("id", "4");
+//                params.put("customer_contact_address_id", address_id);
+//                params.put("customer_contact_id", StaticVariables.customerContact);
+//                params.put("garment_type_json", jsonGarmentId);
+//                params.put("quantity_json", jsonQuantity);
+//
+//                Log.d("garment_type_json", jsonGarmentId);
+//                Log.d("quantity_json",jsonQuantity);
+//                Log.d("address_id",address_id);
+//                Log.d("customer_contact_id",StaticVariables.customerContact);
+//                return params;
+//            }
+//        };
+//        AppController.getInstance().addToRequestQueue(request, "data_receive");
         Log.v("request", request + "");
     }
 
@@ -161,7 +232,13 @@ public class OrderConfirmDetails extends AppCompatActivity {
                 return true;
             case R.id.next_button:
                 Toast.makeText(thisActivity, "confirm", Toast.LENGTH_SHORT).show();
-                confirmOrderRequest();
+                if (StaticVariables.isNetworkConnected(thisActivity)) {
+                    confirmOrderRequest();
+                }
+                else {
+                    Toast.makeText(thisActivity,"Please check the network connection",Toast.LENGTH_SHORT).show();
+                }
+
 
 
                 return true;

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,6 +23,7 @@ import com.dev.montherland.adapter.PurchaseOrderListAdapter;
 import com.dev.montherland.model.Purchase_Order_Model;
 import com.dev.montherland.parsers.Purchase_Order_JSONParser;
 import com.dev.montherland.util.PDialog;
+import com.dev.montherland.util.StaticVariables;
 
 import org.json.JSONArray;
 
@@ -80,7 +82,12 @@ public class PurchaseOrderFragment extends Fragment {
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mLayoutManager.setOrientation(mLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        getPurchaseOrderLIst();
+        if (StaticVariables.isNetworkConnected(getActivity())) {
+            getPurchaseOrderLIst();        }
+        else {
+            Toast.makeText(getActivity(), "Please check the network connection", Toast.LENGTH_SHORT).show();
+        }
+
         return view;
     }
 

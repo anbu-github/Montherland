@@ -35,7 +35,6 @@ import java.util.Map;
 
 public class CreatePurchaseOrder extends AppCompatActivity {
 
-
     Activity thisActivity = this;
     String data_receive = "string_req_recieve";
     ArrayList<String> customerLIst = new ArrayList<>();
@@ -47,7 +46,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
     Spinner customerList, Companylist, ContactList, GarmentTypes;
     ArrayAdapter<String> dataAdapter, dataAdapter2, dataAdapter3, dataAdapter4;
     List<Response_Model> response_model;
-    String companyId, customerId, contactId;
+    String companyId, customerId, contactId,companyName,customerName;
     int count = 1;
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
@@ -67,27 +66,37 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         // The number of Columns
         mLayoutManager = new GridLayoutManager(CreatePurchaseOrder.this,1);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        mRecyclerView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mAdapter.notifyItemRemoved(0);
+                return false;
+            }
+        });
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        getCompanyList();
-        getGarmentTypes();
+        if (StaticVariables.isNetworkConnected(thisActivity)) {
+            getCompanyList();
+            getGarmentTypes();
+        }
+        else {
+            Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+        }
 
         dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, customerLIst);
+                R.layout.spinner_layout, customerLIst);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         dataAdapter2 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, companyList);
+                R.layout.spinner_layout, companyList);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         dataAdapter4 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, garmentList);
+                R.layout.spinner_layout, garmentList);
         dataAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
@@ -99,6 +108,8 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                 try {
                     customerId = customerLIst.get(position);
                     StaticVariables.customerContact = position + "";
+                    customerName=customerList.getSelectedItem().toString();
+                    StaticVariables.customerName=customerName;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -118,7 +129,15 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                 try {
                     companyId = position + "";
                     customerLIst.clear();
-                    getCustomerList();
+                    companyName=Companylist.getSelectedItem().toString();
+
+                    if (StaticVariables.isNetworkConnected(thisActivity)) {
+                        getCustomerList();
+                    }
+                    else {
+                        Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -129,15 +148,15 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public void addOrder(View view) {
+       // count=StaticVariables.count;
         count++;
         Toast.makeText(thisActivity, "cubj", Toast.LENGTH_SHORT).show();
         mAdapter = new CreateOrderAdapter(thisActivity,
                 count,dataAdapter4);
+
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -221,7 +240,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                                 companyList.add(parentObject.getString("name"));
                                 companyIdList.add(parentObject.getString("id"));
 
-
                                 Log.v("company_name", parentObject.getString("name"));
                                 //Log.d("success", parentObject.getString("success"));
                             }
@@ -285,6 +303,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                             mAdapter = new CreateOrderAdapter(thisActivity,
                                     count,dataAdapter4);
                             mRecyclerView.setAdapter(mAdapter);
+                            mAdapter.notifyItemRemoved(0);
 
                         } catch (Exception e) {
                             PDialog.hide();
@@ -375,11 +394,28 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                 }
                 Log.v("list", editQuantityList1.toString());
                 Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
-                Intent in = new Intent(CreatePurchaseOrder.this, SelectAddress.class);
-                StaticVariables.editQuantityList = editQuantityList1;
-                StaticVariables.garmentTypeList = garmentTypeList1;
-                StaticVariables.garmentIdList = garmentIdList1;
-                startActivity(in);
+
+                if (companyName.equals("Select")){
+
+                    Toast.makeText(thisActivity,"Please select company",Toast.LENGTH_SHORT).show();
+                }
+                else if(customerName.equals("Select")){
+                    Toast.makeText(thisActivity,StaticVariables.editQuantityList.toString(),Toast.LENGTH_SHORT).show();
+
+                }
+                else if(StaticVariables.editQuantityList.isEmpty()){
+                    Toast.makeText(thisActivity,"Please enter no of quantity",Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    Intent in = new Intent(CreatePurchaseOrder.this, SelectAddress.class);
+                    StaticVariables.editQuantityList = editQuantityList1;
+                    StaticVariables.garmentTypeList = garmentTypeList1;
+                    StaticVariables.garmentIdList = garmentIdList1;
+                    startActivity(in);
+                }
+
+
                 return true;
 
             default:

@@ -23,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.util.MCrypt;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.Preferences;
+import com.dev.montherland.util.StaticVariables;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -154,7 +155,13 @@ public class Login extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            loginRequest();
+
+            if (StaticVariables.isNetworkConnected(thisActivity)) {
+                loginRequest();
+            }
+            else {
+                Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+            }
          /*   Intent in=new Intent(Login.this,HomeActivity.class);
             startActivity(in);*/
 

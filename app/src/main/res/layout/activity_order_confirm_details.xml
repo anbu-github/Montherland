@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:weightSum="1"
+        android:background="#F5F6F5"
+
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -30,12 +32,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Order Details"
-                    android:id="@+id/contact_details"
+                    android:text="contact"
+                    android:id="@+id/customer_contact"
                     android:layout_alignParentTop="true"
-                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
                     android:textStyle="bold"
-                    android:textSize="18dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_marginLeft="5dp" />
@@ -45,7 +46,8 @@
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/add1"
-                    android:layout_below="@+id/contact_details"
+                    android:textSize="18dp"
+                    android:layout_below="@+id/customer_contact"
                     style="@style/SimpleTextviewStyle_16"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -56,6 +58,8 @@
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     style="@style/SimpleTextviewStyle_16"
+                    android:textSize="18dp"
+
                     android:id="@+id/add2"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -66,6 +70,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New Text"
+                    android:textSize="18dp"
+
                     android:id="@+id/add3"
                     style="@style/SimpleTextviewStyle_16"
                     android:layout_alignParentLeft="true"
@@ -77,6 +83,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New Text"
+                    android:textSize="18dp"
+
                     android:id="@+id/state"
                     style="@style/SimpleTextviewStyle_16"
                     android:layout_below="@+id/add3"
@@ -89,6 +97,7 @@
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/city"
+                    android:textSize="18dp"
                     style="@style/SimpleTextviewStyle_16"
                     android:layout_below="@+id/state"
                     android:layout_alignParentLeft="true"

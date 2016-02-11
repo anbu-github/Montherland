@@ -38,7 +38,7 @@ public class CustomerDetails extends AppCompatActivity {
         name=(TextView)findViewById(R.id.add1);
         website=(TextView)findViewById(R.id.website);
         mobile=(TextView)findViewById(R.id.phone);
-        //getContactlist();
+        getContactlist();
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

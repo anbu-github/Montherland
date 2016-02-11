@@ -50,9 +50,7 @@ public class NavigataionActivity extends AppCompatActivity
     String data_receive = "string_req_recieve",id,email,password,user_id;
     Activity thisActivity=this;
     TextView mail;
-
     Fragment fragment = null;
-
     Class fragmentClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +72,10 @@ public class NavigataionActivity extends AppCompatActivity
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
+
             e.printStackTrace();
         }
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 

@@ -1,5 +1,6 @@
 package com.dev.montherland;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -38,7 +39,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Intent intent = new Intent(v.getContext(), CustomerDetails.class);
                 intent.putExtra("id",persons.get(position).getId());
                 v.getContext().startActivity(intent);
-
 
             }
         });

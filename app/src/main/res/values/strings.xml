@@ -25,7 +25,7 @@
     <string name="customer_Name">Customer Company</string>
     <string name="customer_contact">Customer Contact</string>
     <string name="Garment_Type">Garment Type</string>
-    <string name="Garment_Quantity">Garment Quantity</string>
+    <string name="Garment_Quantity">Quantity</string>
 
     //create address
     <string name="address1">Address1</string>
@@ -41,7 +41,7 @@
     <string name="Create_order_title">Create Customer Order</string>
     <string name="create_address_title">Create Address</string>
     <string name="select_address_title">Select Address</string>
-    <string name="confirm_details_title">Confirm Details</string>
+    <string name="confirm_details_title">Customer Details</string>
 
 
 

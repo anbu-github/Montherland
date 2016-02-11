@@ -25,7 +25,6 @@ import com.dev.montherland.util.StaticVariables;
 
 import java.util.List;
 
-
 public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrderListAdapter.MyViewHolder> {
     List<Purchase_Order_Model> persons;
     String date,contact,company;

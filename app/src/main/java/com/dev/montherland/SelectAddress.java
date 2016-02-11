@@ -21,6 +21,7 @@ import com.dev.montherland.adapter.AddressCreateAdapter;
 import com.dev.montherland.model.Create_Address_Model;
 import com.dev.montherland.parsers.Create_Address_JSONParser;
 import com.dev.montherland.util.PDialog;
+import com.dev.montherland.util.StaticVariables;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +44,13 @@ public class SelectAddress extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_address);
 
-        getAddressList();
+        if (StaticVariables.isNetworkConnected(thisActivity)) {
+            getAddressList();
+        }
+        else {
+            Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+        }
+
         recyclerView = (RecyclerView) findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);

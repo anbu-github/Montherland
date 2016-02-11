@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -16,6 +17,7 @@ import com.dev.montherland.adapter.PurchaseOrderListAdapter;
 import com.dev.montherland.model.Purchase_Order_Model;
 import com.dev.montherland.parsers.Purchase_Order_JSONParser;
 import com.dev.montherland.util.PDialog;
+import com.dev.montherland.util.StaticVariables;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +45,14 @@ public class PurchaseOrderActivity extends AppCompatActivity {
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mLayoutManager.setOrientation(mLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
-        getPurchaseOrderLIst();
+
+        if (StaticVariables.isNetworkConnected(thisActivity)) {
+            getPurchaseOrderLIst();
+
+        }
+        else {
+            Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void getPurchaseOrderLIst() {

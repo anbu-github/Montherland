@@ -13,17 +13,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dev.montherland.R;
 import com.dev.montherland.util.StaticVariables;
 
 import java.util.ArrayList;
 
-public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.ViewHolder> {
+public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.ViewHolder>  {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private int count;
+     int count;
     private ArrayAdapter<String> adapter;
     ArrayList<String> editQuantityList = new ArrayList<>();
     ArrayList<String> garmentTypeList = new ArrayList<>();
@@ -61,7 +63,12 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
     public int getItemCount() {
         return count;
     }
+    public void delete(int position) { //removes the row
 
+        count=count-1;
+        StaticVariables.count=count;
+        notifyItemRemoved(position);
+    }
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
 
@@ -108,12 +115,26 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
                 StaticVariables.editQuantityList = editQuantityList;
             }
         });
+
+
+        viewHolder.cv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(context,"delte",Toast.LENGTH_SHORT).show();
+                delete(position);
+                editQuantityList.remove(position);
+                garmentIdList.remove(position);
+                garmentTypeList.remove(position);
+                return false;
+            }
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
         CardView cv;
         EditText quantity;
         Spinner spinner1;
+        TextView delete;
 
         public ViewHolder(View itemView) {
             super(itemView);
