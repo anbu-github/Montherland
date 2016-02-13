@@ -122,7 +122,6 @@ public class CustomerHomeFragment extends Fragment {
         ActionBar mActionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
         mActionBar.setTitle("Customer List");
 
-
         getMasterList();
         recyclerView = (RecyclerView)view.findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);

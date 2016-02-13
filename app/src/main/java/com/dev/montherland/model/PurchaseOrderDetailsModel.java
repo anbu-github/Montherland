@@ -1,11 +1,9 @@
 package com.dev.montherland.model;
 
 /**
- * Created by pf-05 on 2/4/2016.
+ * Created by pf-05 on 2/12/2016.
  */
-
-
-public class Create_Address_Model {
+public class PurchaseOrderDetailsModel {
 
     String id;
     String success;

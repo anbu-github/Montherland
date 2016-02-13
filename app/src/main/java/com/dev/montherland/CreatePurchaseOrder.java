@@ -20,7 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.adapter.CreateOrderAdapter;
+import com.dev.montherland.model.GarmentListModel;
 import com.dev.montherland.model.Response_Model;
+import com.dev.montherland.parsers.Garment_JSONParer;
 import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
@@ -33,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CreatePurchaseOrder extends AppCompatActivity {
+public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrderAdapter.DataFromAdapterToActivity {
 
     Activity thisActivity = this;
     String data_receive = "string_req_recieve";
@@ -45,12 +47,14 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
     Spinner customerList, Companylist, ContactList, GarmentTypes;
     ArrayAdapter<String> dataAdapter, dataAdapter2, dataAdapter3, dataAdapter4;
-    List<Response_Model> response_model;
+    List<Response_Model> response_model=new ArrayList<>();
+    List<GarmentListModel> garment_model;
     String companyId, customerId, contactId,companyName,customerName;
-    int count = 1;
+
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView.Adapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         customerList = (Spinner) findViewById(R.id.customer_company_list);
         Companylist = (Spinner) findViewById(R.id.customer_list);
 
-        GarmentTypes = (Spinner) findViewById(R.id.garmentType);
         mRecyclerView = (RecyclerView) findViewById(R.id.listView);
         mRecyclerView.setHasFixedSize(true);
 
@@ -104,12 +107,10 @@ public class CreatePurchaseOrder extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-
                 try {
                     customerId = customerLIst.get(position);
-                    StaticVariables.customerContact = position + "";
+                  //  StaticVariables.customerContact = customerIdList.get(position).toString();
                     customerName=customerList.getSelectedItem().toString();
-                    StaticVariables.customerName=customerName;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -150,16 +151,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         });
     }
 
-    public void addOrder(View view) {
-       // count=StaticVariables.count;
-        count++;
-        Toast.makeText(thisActivity, "cubj", Toast.LENGTH_SHORT).show();
-        mAdapter = new CreateOrderAdapter(thisActivity,
-                count,dataAdapter4);
-
-        mRecyclerView.setAdapter(mAdapter);
-
-    }
 
     public void getCustomerList() {
 
@@ -174,12 +165,16 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
 
-                            customerLIst.add("Select");
+                            customerLIst.add("Select Contact");
                             for (int i = 0; i < ar.length(); i++) {
 
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 customerLIst.add(parentObject.getString("name"));
+                                //customerIdList.add(parentObject.getString("id"));
+                              StaticVariables.customerContact=parentObject.getString("id");
+                                StaticVariables.customerName=parentObject.getString("name");
 
+                                StaticVariables.contactId=parentObject.getString("id");
 
                                 Log.v("name", parentObject.getString("name"));
                                 //Log.d("success", parentObject.getString("success"));
@@ -202,7 +197,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
                     }
                 }) {
-
 
             @Override
             protected Map<String, String> getParams() {
@@ -233,8 +227,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                         try {
                             //PDialog.hide();
                             JSONArray ar = new JSONArray(response);
-
-                            companyList.add("Select");
+                            companyList.add("Select Company");
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 companyList.add(parentObject.getString("name"));
@@ -290,20 +283,15 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                         try {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
-                            response_model = Response_JSONParser.parserFeed(response);
+                            garment_model = Garment_JSONParer.parserFeed(response);
 
-                            try {
-                                for(Response_Model flower: response_model) {
-                                    garmentList.add(flower.getName());
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            Log.v("garment size",garment_model.size()+"");
 
-                            mAdapter = new CreateOrderAdapter(thisActivity,
-                                    count,dataAdapter4);
+
+
+                            mAdapter = new CreateOrderAdapter(thisActivity
+                                    ,garment_model);
                             mRecyclerView.setAdapter(mAdapter);
-                            mAdapter.notifyItemRemoved(0);
 
                         } catch (Exception e) {
                             PDialog.hide();
@@ -366,53 +354,69 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
                 return true;
             case R.id.next_button:
-                ArrayList<String> editQuantityList = new ArrayList<>();
-                ArrayList<String> editQuantityList1 = new ArrayList<>();
-                ArrayList<String> garmentTypeList = new ArrayList<>();
-                ArrayList<String> garmentTypeList1 = new ArrayList<>();
-                ArrayList<String> garmentIdList = new ArrayList<>();
-                ArrayList<String> garmentIdList1 = new ArrayList<>();
-
-                editQuantityList = StaticVariables.editQuantityList;
-                garmentTypeList = StaticVariables.garmentTypeList;
-                garmentIdList = StaticVariables.garmentIdList;
-                for (int i = 0; i <= editQuantityList.size(); i++) {
-                    try {
-
-                        if (!(editQuantityList.get(i).equals("TEST"))) {
-                            editQuantityList1.add(editQuantityList.get(i));
-                        }
-                        if (!(garmentTypeList.get(i).equals("TEST"))) {
-                            garmentTypeList1.add(garmentTypeList.get(i));
-                        }
-                        if (!(garmentIdList.get(i).equals("TEST"))) {
-                            garmentIdList1.add(garmentIdList.get(i));
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                Log.v("list", editQuantityList1.toString());
                 Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
 
-                if (companyName.equals("Select")){
+                if (companyName.equals("Select Company")){
 
                     Toast.makeText(thisActivity,"Please select company",Toast.LENGTH_SHORT).show();
                 }
-                else if(customerName.equals("Select")){
-                    Toast.makeText(thisActivity,StaticVariables.editQuantityList.toString(),Toast.LENGTH_SHORT).show();
+                else if(customerName.equals("Select Contact")){
+                    Toast.makeText(thisActivity,"Please select contact",Toast.LENGTH_SHORT).show();
 
                 }
-                else if(StaticVariables.editQuantityList.isEmpty()){
-                    Toast.makeText(thisActivity,"Please enter no of quantity",Toast.LENGTH_SHORT).show();
 
-                }
                 else {
-                    Intent in = new Intent(CreatePurchaseOrder.this, SelectAddress.class);
-                    StaticVariables.editQuantityList = editQuantityList1;
-                    StaticVariables.garmentTypeList = garmentTypeList1;
-                    StaticVariables.garmentIdList = garmentIdList1;
-                    startActivity(in);
+                    ArrayList<String>garment_type=new ArrayList<>();
+                    ArrayList<String>garment_quantity=new ArrayList<>();
+                    ArrayList<String>garment_id=new ArrayList<>();
+                    int no=0;
+
+
+                    for (int i=0;i<=garment_model.size();i++){
+
+                        try{
+                            if (garment_model.get(i).getGarmentQuantity().equals("")){
+
+                                no++;
+                               // Toast.makeText(thisActivity,"Please enter the quantity of" +garment_model.get(i).getGarmentType(),Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+
+                                Boolean isValidNo=StaticVariables.checkIfNumber(garment_model.get(i).getGarmentQuantity());
+
+                                if (!isValidNo){
+                                    Toast.makeText(thisActivity,"Please enter valid number",Toast.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    garment_quantity.add(garment_model.get(i).getGarmentQuantity());
+                                    garment_type.add(garment_model.get(i).getGarmentType());
+                                    garment_id.add(garment_model.get(i).getGarmentTypeId());
+                                }
+
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    Log.v("quantity no", garment_model.get(0).getGarmentQuantity().toString());
+
+                    if (no>=garment_model.size()){
+                        Toast.makeText(thisActivity,"Please enter at least any one of the garment items",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Intent in = new Intent(CreatePurchaseOrder.this, SelectAddress.class);
+                        startActivity(in);
+
+                    }
+
+
+
+                   StaticVariables.editQuantityList = garment_quantity;
+                    StaticVariables.garmentTypeList = garment_type;
+                    StaticVariables.garmentIdList = garment_id;
+
                 }
 
 
@@ -421,5 +425,11 @@ public class CreatePurchaseOrder extends AppCompatActivity {
             default:
                 return true;
         }
+    }
+
+    @Override
+    public void garmentQuantity(String quantity, int i) {
+        garment_model.get(i).setGarmentQuantity(quantity);
+        Log.v("quantity",quantity+"");
     }
 }

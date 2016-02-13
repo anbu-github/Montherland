@@ -1,45 +1,48 @@
 package com.dev.montherland.adapter;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.dev.montherland.PurchaseOrderDetails;
 import com.dev.montherland.R;
+import com.dev.montherland.model.Customer_Details_Model;
+import com.dev.montherland.model.GarmentListModel1;
 import com.dev.montherland.util.StaticVariables;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by pf-05 on 2/6/2016.
+ * Created by pf-05 on 2/13/2016.
  */
-public class OrderConfirmDetailsAdapter  extends BaseAdapter{
+public class CustomerDetailsAdapter extends BaseAdapter{
 
-   private Context context;
+    private Context context;
     private LayoutInflater layoutInflater;
     private int count;
     private ArrayAdapter<String> adapter;
+    List<Customer_Details_Model> person;
     ArrayList<String> editQuantityList = new ArrayList<>();
     ArrayList<String> editQuantityList1 = new ArrayList<>();
-    public  OrderConfirmDetailsAdapter(Context context) {
+    public  CustomerDetailsAdapter(Context context,List<Customer_Details_Model> person) {
         this.context = context;
-        count = StaticVariables.editQuantityList.size();
+        this.person=person;
         this.adapter = adapter;
         this.layoutInflater = LayoutInflater.from(context);
 
-        Log.v("count",StaticVariables.editQuantityList.size()+"");
+        Log.v("count", StaticVariables.editQuantityList.size() + "");
     }
     @Override
     public int getCount() {
-        return count;
+        return person.size();
     }
 
     @Override
@@ -56,7 +59,7 @@ public class OrderConfirmDetailsAdapter  extends BaseAdapter{
     public View getView(final int position, View convertView, ViewGroup parent) {
         // if (convertView == null) {
         final ViewHolder holder;
-        convertView = layoutInflater.inflate(R.layout.purchase_order_details_adaptor, null);
+        convertView = layoutInflater.inflate(R.layout.customer_details_adapter, null);
             /*ViewHolder viewHolder = new ViewHolder(convertView);
 
             convertView.setTag(viewHolder);
@@ -65,11 +68,23 @@ public class OrderConfirmDetailsAdapter  extends BaseAdapter{
 
         try {
 
-            holder.quantity = (TextView) convertView.findViewById(R.id.quantity);
-            holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
-            holder.quantity.setText(StaticVariables.editQuantityList.get(position));
-            holder.garment_type.setText(StaticVariables.garmentTypeList.get(position));
+            holder.name = (TextView) convertView.findViewById(R.id.name);
+            holder.date = (TextView) convertView.findViewById(R.id.date);
+            holder.name.setText(person.get(position).getName());
+            holder.date.setText(person.get(position).getDate());
 
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context,person.get(position).getId(),Toast.LENGTH_SHORT).show();
+
+                    Intent in=new Intent(context, PurchaseOrderDetails.class);
+                    StaticVariables.count=position;
+                    context.startActivity(in);
+                    //overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+                }
+            });
         }
         catch (Exception e){
             e.printStackTrace();
@@ -90,7 +105,7 @@ public class OrderConfirmDetailsAdapter  extends BaseAdapter{
      */
 
     private class ViewHolder {
-        TextView quantity,garment_type;
+        TextView name,date;
     }
 
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.montherland.OrderConfirmDetails;
+import com.dev.montherland.PurchaseOrderDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.model.Create_Address_Model;
 import com.dev.montherland.model.Purchase_Order_Model;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrderListAdapter.MyViewHolder> {
     List<Purchase_Order_Model> persons;
-    String date,contact,company;
+    String date,contact,company,id;
     Context context;
     Integer cbPos=0,selctedPos=0;
 
@@ -62,13 +63,25 @@ public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrder
         date=persons.get(position).getDate();
         contact=persons.get(position).getCustomer_contact();
         company=persons.get(position).getCusomer_company();
+        id=persons.get(position).getId();
 
         holder.date.setText(date);
         holder.contact.setText(contact);
         holder.company.setText(company);
 
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in=new Intent(context, PurchaseOrderDetails.class);
+                in.putExtra("id",id);
+                StaticVariables.count=position;
+                context.startActivity(in);
 
 
+               //Toast.makeText(context, persons.get(position).getId().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -89,7 +102,7 @@ public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrder
 
         public MyViewHolder(View itemView){
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.cv);
+            cv = (CardView)itemView.findViewById(R.id.select_address);
             date = (TextView)itemView.findViewById(R.id.date);
             contact = (TextView)itemView.findViewById(R.id.contact);
             company = (TextView)itemView.findViewById(R.id.company);

@@ -76,7 +76,7 @@ public class PurchaseOrderFragment extends Fragment {
 
 
         ActionBar mActionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
-        mActionBar.setTitle("Purchased Order List");
+        mActionBar.setTitle("Purchase Order List");
 
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);

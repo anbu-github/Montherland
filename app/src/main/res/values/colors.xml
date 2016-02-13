@@ -8,4 +8,9 @@
     <color name="divider_grey">#b6b6b6</color>
     <color name="light_grey">#727272</color>
     <color name="light_dark">#212121</color>
+    <color name="light_dark1">#191919</color>
+    <color name="light_grey1">#5E5E5E</color>
+    <color name="title_color">#696e79</color>
+    <color name="title_color1">#29303f</color>
+    <color name="sub_title_grey">#363c4a</color>
 </resources>

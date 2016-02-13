@@ -13,6 +13,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.dev.montherland.adapter.CustomerDetailsAdapter;
+import com.dev.montherland.adapter.PurchaseOrderDetailadapter;
+import com.dev.montherland.model.Customer_Details_Model;
+import com.dev.montherland.parsers.Customer_Details_Parser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
@@ -22,14 +26,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CustomerDetails extends AppCompatActivity {
-
+    List<Customer_Details_Model> person;
     TextView name,website,mobile;
     String id,email,password,cus_name,cus_mobile,cus_website,data_receive="data_receive";
     Activity thisActivity=this;
     ArrayList<String> cusList=new ArrayList<>();
+    com.dev.montherland.adapter.ExpandableListView listview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +46,12 @@ public class CustomerDetails extends AppCompatActivity {
         website=(TextView)findViewById(R.id.website);
         mobile=(TextView)findViewById(R.id.phone);
         getContactlist();
+        listview = (com.dev.montherland.adapter.ExpandableListView) findViewById(R.id.listView);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+           id=getIntent().getExtras().getString("id");
+
         }
         catch (Exception e){
             e.printStackTrace();
@@ -59,21 +69,22 @@ public class CustomerDetails extends AppCompatActivity {
                         Log.v("response", response + "");
                         try {
                             PDialog.hide();
-                            JSONArray ar = new JSONArray(response);
+                            JSONObject jobj = new JSONObject(response);
 
+                            String basic_details=jobj.getString("basic_details");
+                            String orders=jobj.getString("orders");
+                            JSONArray ar = new JSONArray(basic_details);
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
-
                                 name.setText(parentObject.getString("name"));
                                 website.setText(parentObject.getString("website"));
                                 mobile.setText(parentObject.getString("phone"));
-
-
                                 Log.v("contactList",parentObject.getString("name"));
                                 //Log.d("success", parentObject.getString("success"));
                             }
 
-
+                            person= Customer_Details_Parser.parserFeed(orders);
+                            listview.setAdapter(new CustomerDetailsAdapter(CustomerDetails.this,person));
 
                         } catch (JSONException e) {
                             PDialog.hide();
@@ -101,7 +112,7 @@ public class CustomerDetails extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("email", "test@test.com");
-                params.put("customer_id", "1");
+                params.put("customer_id",id);
                 params.put("password", "e48900ace570708079d07244154aa64a");
                 params.put("id", "4");
 

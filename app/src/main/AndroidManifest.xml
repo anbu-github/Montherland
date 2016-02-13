@@ -29,35 +29,50 @@
         </activity>
         <activity android:name=".HomeActivity" >
         </activity>
-        <activity android:name=".CustomerDetails" android:label="@string/customer_details_title" >
-
+        <activity
+            android:name=".CustomerDetails"
+            android:label="@string/customer_details_title" >
         </activity>
         <activity
             android:name=".CreatePurchaseOrder"
             android:label="@string/Create_order_title"
             android:windowSoftInputMode="adjustPan" >
+
         </activity>
-        <activity android:name=".CreateAddress"  android:label="@string/create_address_title" >
+        <activity
+            android:name=".CreateAddress"
+            android:label="@string/create_address_title" >
+
         </activity>
-        <activity android:name=".SelectAddress"   android:label="@string/select_address_title" >
+        <activity
+            android:name=".SelectAddress"
+            android:label="@string/select_address_title" >
         </activity>
         <activity
             android:name=".OrderConfirmDetails"
-            android:windowSoftInputMode="adjustPan"  android:label="@string/confirm_details_title">
+            android:label="@string/confirm_details_title"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".NavigataionActivity"
             android:label="Motherland"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".PurchaseOrderActivity" android:label="@string/Create_order_title">
+        <activity
+            android:name=".PurchaseOrderActivity"
+            android:label="@string/Create_order_title" >
         </activity>
-        <activity android:name=".SplashActivity"  android:theme="@style/AppTheme.NoActionBar"  >
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".PurchaseOrderDetails" android:label="Purchase Order Details">
 
         </activity>
     </application>

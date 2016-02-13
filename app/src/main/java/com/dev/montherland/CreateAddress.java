@@ -187,8 +187,9 @@ public class CreateAddress extends AppCompatActivity {
                 params.put("address_lin3", strAddress3);
                 params.put("city", strCity);
                 params.put("state_id", stateId);
-                params.put("zipcode", strPincode);
+                params.put("zip", strPincode);
 
+                Log.v("zipcode",strPincode);
 
                 //id=4&email=test@test.com&address_lin1=121westparallel&address_lin2=kartiknager&address_lin3=abcd&city=bangalore&state_id=1&customer_id=5
 

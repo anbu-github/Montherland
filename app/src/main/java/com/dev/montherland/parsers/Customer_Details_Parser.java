@@ -1,7 +1,7 @@
 package com.dev.montherland.parsers;
 
-import com.dev.montherland.model.Create_Address_Model;
-import com.dev.montherland.model.Purchase_Order_Model;
+import com.dev.montherland.model.Customer_Details_Model;
+import com.dev.montherland.model.GarmentListModel;
 import com.dev.montherland.util.StaticVariables;
 
 import org.json.JSONArray;
@@ -12,23 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by pf-05 on 2/8/2016.
+ * Created by pf-05 on 2/13/2016.
  */
-public class Purchase_Order_JSONParser {
-    public static List<Purchase_Order_Model> parserFeed(String content) {
+public class Customer_Details_Parser {
+
+    public static List<Customer_Details_Model> parserFeed(String content) {
         try {
             // JSONObject parentObject = new JSONObject(content);
-            StaticVariables.quantityList.clear();
             JSONArray ar = new JSONArray(content);
-            List<Purchase_Order_Model> respnse = new ArrayList<>();
+            List<Customer_Details_Model> respnse = new ArrayList<>();
             for (int i = 0; i < ar.length(); i++) {
                 JSONObject parentObject = ar.getJSONObject(i);
-                Purchase_Order_Model flower = new Purchase_Order_Model();
+                Customer_Details_Model flower = new Customer_Details_Model();
                 flower.setId(parentObject.getString("id"));
                 StaticVariables.quantityList.add(parentObject.getString("id"));
+                flower.setName(parentObject.getString("name"));
                 flower.setDate(parentObject.getString("DATE"));
-                flower.setCusomer_company(parentObject.getString("customer_company"));
-                flower.setCustomer_contact(parentObject.getString("customer_contact"));
                 //Log.d("success", parentObject.getString("success"));
                 respnse.add(flower);
             }
@@ -44,5 +43,4 @@ public class Purchase_Order_JSONParser {
         }
 
     }
-
 }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F6F5"
+    android:background="#f1f1f1"
     tools:context="com.charnock.dev.ServiceAlljobs">
 
     <ScrollView
@@ -23,18 +23,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
+                android:visibility="gone"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/textView2"
                 android:layout_alignParentTop="true"
                 android:text="@string/customer_Name"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                style="@style/TextviewStyle_space_blue" />
+                android:textColor="@color/title_color"
+                style="@style/TextviewStyle_space_dark_blue" />
         <LinearLayout
             android:layout_width="match_parent"
             android:background="@drawable/layout_border"
             android:layout_marginRight="20dp"
-
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="25dp"
             android:layout_height="45dp">
 
@@ -57,6 +59,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/customer_List"
                 android:id="@+id/textView3"
+                android:visibility="gone"
+                android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_below="@+id/customer_list"
@@ -68,6 +72,7 @@
             android:layout_width="match_parent"
             android:background="@drawable/layout_border"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="25dp"
             android:layout_height="45dp">
             <Spinner
@@ -108,30 +113,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@id/customer_contact"
-                android:background="#E0E0E0"
+                android:background="#E1E1E1"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="#CFD8DC"
+            android:layout_height="30dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Garments List"
+                android:textSize="20sp"
+
+                android:id="@+id/textView10"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/listView"
             android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
     </ScrollView>
 
-    <ImageButton
-        android:id="@+id/plustButton"
-        android:layout_width="@dimen/fab_button_diameter"
-        android:layout_height="@dimen/fab_button_diameter"
-        android:layout_gravity="bottom|right"
-        android:onClick="addOrder"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/fab_shape"
-        android:src="@drawable/fab_ic_add"
-        android:tint="@android:color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

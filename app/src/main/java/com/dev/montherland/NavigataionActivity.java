@@ -71,6 +71,16 @@ public class NavigataionActivity extends AppCompatActivity
 
         try {
             fragment = (Fragment) fragmentClass.newInstance();
+
+            if (StaticVariables.value==1){
+
+                fragmentClass = PurchaseOrderFragment.class;
+                fragment = (Fragment) fragmentClass.newInstance();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+
+            }
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -86,8 +96,8 @@ public class NavigataionActivity extends AppCompatActivity
             email = getIntent().getExtras().getString("email");
             password = getIntent().getExtras().getString("password");
             user_id=id;
-            TextView tv=(TextView)headerLayout.findViewById(R.id.email);
-            tv.setText(email);
+           // TextView tv=(TextView)headerLayout.findViewById(R.id.email);
+            //tv.setText(email);
             StaticVariables.email=email;
             StaticVariables.password=password;
 

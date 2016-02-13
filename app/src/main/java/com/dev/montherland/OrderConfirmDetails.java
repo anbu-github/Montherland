@@ -1,6 +1,9 @@
 package com.dev.montherland;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +34,7 @@ import java.util.Map;
 
 public class OrderConfirmDetails extends AppCompatActivity {
     String address1, address2, address3, city, state,address_id,zipcode;
-    TextView tv_address1, tv_address2, tv_address3, tv_city, tv_state,total_item,customer_contact;
+    TextView tv_address1, tv_address2, tv_address3, tv_city, tv_state,total_item,customer_contact,tv_zipcode;
     Activity thisActivity = this;
     com.dev.montherland.adapter.ExpandableListView listview;
     @Override
@@ -39,12 +42,14 @@ public class OrderConfirmDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_confirm_details);
 
+        Log.v("contcid", StaticVariables.contactId);
         tv_address1 = (TextView) findViewById(R.id.add1);
         tv_address2 = (TextView) findViewById(R.id.add2);
         tv_address3 = (TextView) findViewById(R.id.add3);
         tv_state = (TextView) findViewById(R.id.state);
         tv_city = (TextView) findViewById(R.id.city);
-        customer_contact = (TextView) findViewById(R.id.customer_contact);
+        tv_zipcode = (TextView) findViewById(R.id.zipcode);
+        customer_contact = (TextView) findViewById(R.id.customer_name);
         total_item = (TextView) findViewById(R.id.total_item_no);
         listview = (com.dev.montherland.adapter.ExpandableListView) findViewById(R.id.listView);
 
@@ -66,7 +71,8 @@ public class OrderConfirmDetails extends AppCompatActivity {
             tv_address3.setText(address3);
             customer_contact.setText(StaticVariables.customerName);
             tv_state.setText(state);
-            tv_city.setText(zipcode);
+            tv_city.setText(city);
+            tv_zipcode.setText(zipcode);
 
 
         } catch (Exception e) {
@@ -87,17 +93,17 @@ public class OrderConfirmDetails extends AppCompatActivity {
         item.setTitle("Confirm");
         return true;
     }
-
     public void confirmOrderRequest() {
-
         Gson gson = new Gson();
+        StaticVariables.customerContact=StaticVariables.contactId;
         String jsonGarmentId=gson.toJson(StaticVariables.garmentIdList);
         String jsonQuantity=gson.toJson(StaticVariables.editQuantityList);
+      //  String jsonQuantity=StaticVariables.editQuantityList.toString();
         Log.d("garment_type_json", jsonGarmentId);
-        Log.d("quantity_json",jsonQuantity);
-        Log.d("address_id",address_id);
-        Log.d("customer_contact_id",StaticVariables.customerContact);
-
+        Log.v("quantity_json", jsonQuantity);
+        Log.d("address_id", address_id);
+//        StaticVariables.customerContact=7+"";
+        Log.d("customer_contact_id",StaticVariables.contactId);
           PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.GET, getResources().getString(R.string.url_motherland) + "purchase_order_submit.php?id=4&email=test@test.com&password=aaa&customer_contact_id="+StaticVariables.customerContact+"&customer_contact_address_id="+address_id+"&garment_type_json="+jsonGarmentId+"&quantity_json="+jsonQuantity,
                 new Response.Listener<String>()
@@ -105,6 +111,26 @@ public class OrderConfirmDetails extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         PDialog.hide();
+                        Log.v("response",response);
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                        builder.setCancelable(false)
+                                .setTitle("Success")
+                                .setMessage("Your order has been placed successfully")
+                                .setNegativeButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        Intent intent = new Intent(thisActivity, NavigataionActivity.class);
+                                        intent.putExtra("from","backtohome");
+                                        StaticVariables.value=1;
+                                        startActivity(intent);
+                                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                                    }
+                                });
+                        builder.show();
                         try {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
@@ -231,7 +257,7 @@ public class OrderConfirmDetails extends AppCompatActivity {
 
                 return true;
             case R.id.next_button:
-                Toast.makeText(thisActivity, "confirm", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(thisActivity, "confirm", Toast.LENGTH_SHORT).show();
                 if (StaticVariables.isNetworkConnected(thisActivity)) {
                     confirmOrderRequest();
                 }

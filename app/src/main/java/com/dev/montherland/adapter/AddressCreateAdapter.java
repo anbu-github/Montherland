@@ -26,8 +26,10 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
     List<Create_Address_Model> persons;
     String address1,address2,address3,city,state,zipcode;
     Integer cbPos=0,selctedPos=0;
-
-
+    ArrayList<CheckBox> mCheckBoxes = new ArrayList<CheckBox>();
+    private static int lastCheckedPos = 0;
+    private static CheckBox lastChecked = null;
+    private Integer selected_position = -1;
     public AddressCreateAdapter(List<Create_Address_Model> persons) {
         this.persons = persons;
     }
@@ -36,7 +38,6 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
         Intent intent=new Intent(context, OrderConfirmDetails.class);
 
         try {
-
             cbPos = StaticVariables.cbpos;
             intent.putExtra("address1", persons.get(cbPos).getAddressline1());
             intent.putExtra("address2", persons.get(cbPos).getAddressline2());
@@ -50,6 +51,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
             e.printStackTrace();
         }
     }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -74,7 +76,10 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
         holder.city.setText(city);
         holder.zipcode.setText(zipcode);
         holder.state.setText(state);
+
+
         holder.cb.setTag(new Integer(position));
+        mCheckBoxes.add(holder.cb);
 
         holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -84,19 +89,52 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
             }
         });
 
+        lastChecked = holder.cb;
         holder.cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CheckBox cb = (CheckBox) v;
-                 cbPos = ((Integer)cb.getTag()).intValue();
-                StaticVariables.cbpos=cbPos;
-                Toast.makeText(
-                        v.getContext(),
-                        "Clicked on Checkbox: " + cbPos + " is "
-                                + cb.isChecked(), Toast.LENGTH_LONG).show();
+                cbPos = ((Integer) cb.getTag()).intValue();
+                StaticVariables.cbpos = cbPos;
 
+                if (((CheckBox) v).isChecked())
+                {
+                    for (int i = 0; i < mCheckBoxes.size(); i++) {
+                        if (mCheckBoxes.get(i) == v)
+                            selected_position = i;
 
+                        else
+                            mCheckBoxes.get(i).setChecked(false);
+                    }
+
+                }
+                else
+                {
+                    selected_position=-1;
+                }
             }
+
+
+
+
+
+
+               /* CheckBox cb = (CheckBox) v;
+                cbPos = ((Integer) cb.getTag()).intValue();
+                StaticVariables.cbpos = cbPos;
+
+                if (cb.isChecked()) {
+                    if (lastChecked != null) {
+                        lastChecked.setChecked(false);
+                        // feedslist.get(lastCheckedPos).setIsSelected(false);
+                    }
+
+                    lastChecked = cb;
+                    lastCheckedPos = cbPos;
+                } else
+                    lastChecked = null;*/
+
+
         });
 
 

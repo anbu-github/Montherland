@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/customer" android:icon="@android:drawable/ic_menu_gallery"
+        <item android:id="@+id/customer" android:icon="@drawable/customer"
             android:title="Customers" />
-        <item android:id="@+id/purchase_order" android:icon="@android:drawable/ic_menu_gallery"
+        <item android:id="@+id/purchase_order" android:icon="@drawable/order"
             android:title="Purchase Order" />
       <!--  <item android:id="@+id/nav_slideshow" android:icon="@android:drawable/ic_menu_slideshow"
             android:title="Slideshow" />

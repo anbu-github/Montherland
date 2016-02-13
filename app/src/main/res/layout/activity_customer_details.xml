@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.dev.montherland.CustomerDetails">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/add1"
         android:textSize="@dimen/primary_text_size"
-        android:textColor="@color/light_dark"
+        android:textColor="@color/title_color1"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -48,7 +50,7 @@
         android:layout_height="22dp"
         android:id="@+id/imageView2"
         android:src="@drawable/web"
-
+        android:layout_marginLeft="5dp"
         android:layout_alignBottom="@+id/website"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -58,9 +60,59 @@
         android:layout_height="22dp"
         android:id="@+id/imageView3"
         android:src="@drawable/phone"
+        android:layout_marginLeft="5dp"
         android:layout_below="@+id/imageView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="15dp" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/imageView3"
+        android:background="#d5d6d9"
+        android:id="@+id/view23" />
 
-</RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/rl"
+            android:layout_below="@+id/view23"
+            android:background="#CFD8DC"
+            android:layout_height="30dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Purchase Orders"
+                android:textSize="20sp"
+
+                android:id="@+id/textView10"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+    <LinearLayout
+
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl"
+        android:background="@drawable/layout_border"
+        android:layout_marginRight="3dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <com.dev.montherland.adapter.ExpandableListView
+            android:id="@+id/listView"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:divider="#d5d6d9"
+            android:dividerHeight="1dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
