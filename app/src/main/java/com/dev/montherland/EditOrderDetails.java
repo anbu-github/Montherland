@@ -3,11 +3,8 @@ package com.dev.montherland;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,10 +22,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.dev.montherland.adapter.CreateOrderAdapter;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -57,13 +52,16 @@ public class EditOrderDetails extends AppCompatActivity {
 
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat1);
     SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
+
     DatePickerDialog.OnDateSetListener  calender_date;
     EditText quantity,style,instr;
     TimePickerDialog.OnTimeSetListener time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_order_details);
+
         order_type=(Spinner)findViewById(R.id.order_type);
         status=(Spinner)findViewById(R.id.status);
         quantity=(EditText)findViewById(R.id.quantity);
@@ -77,15 +75,7 @@ public class EditOrderDetails extends AppCompatActivity {
         order_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                try {
-
-                    wash_id= garmentWashIdList.get(position).toString();
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    wash_id= String.valueOf(garmentWashIdList.get(position));
             }
 
             @Override
@@ -96,15 +86,7 @@ public class EditOrderDetails extends AppCompatActivity {
         status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                try {
-
-                    status_id= statusIdList.get(position).toString();
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    status_id= String.valueOf(statusIdList.get(position));
             }
 
             @Override
@@ -186,86 +168,6 @@ public class EditOrderDetails extends AppCompatActivity {
 
     }
 
-    public void saveEditOrders() {
-
-        Instrction=instr.getText().toString();
-        Log.v("instr",instr.getText().toString());
-        PDialog.show(thisActivity);
-        String url="http://purplefront.net/motherland_dev/home/master_purchase_order_edit.php?id=4&email=test@test.com&password=aa&order_line_id="+line_id+"&garment_id="+garment_id+"&instructions="+Instrction+"&quantity="+quantity.getText().toString()+"&wash_id="+wash_id+"&style_number="+style.getText().toString()+"&expected_delivery_date="+date.getText().toString()+"&status_id="+status_id;
-        StringRequest request = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        PDialog.hide();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
-                        builder.setCancelable(false)
-                                .setTitle("Success")
-                                .setMessage("Your order details have been updated successfully")
-                                .setNegativeButton("ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        Intent intent = new Intent(thisActivity, NavigataionActivity.class);
-                                        intent.putExtra("from", "backtohome");
-                                        startActivity(intent);
-                                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
-                                    }
-                                });
-                        builder.show();
-                        Log.v("response", response + "");
-                        try {
-                            PDialog.hide();
-                            JSONArray ar = new JSONArray(response);
-
-                            for (int i = 0; i < ar.length(); i++) {
-                                JSONObject parentObject = ar.getJSONObject(i);
-
-                                Log.v("name", parentObject.getString("name"));
-                                //Log.d("success", parentObject.getString("success"));
-                            }
-
-
-                        } catch (Exception e) {
-                            PDialog.hide();
-//                            Log.d("json connection", "No internet access" + e);
-                        }
-                    }
-                },
-
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError arg0) {
-                        PDialog.hide();
-
-                    }
-                }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
-                params.put("order_line_id", line_id);
-                params.put("garment_id", garment_id);
-                params.put("quantity", quantity.getText().toString());
-                params.put("wash_id", wash_id);
-                params.put("style_number", style.getText().toString());
-                params.put("expected_delivery_date", get_date);
-                params.put("status_id", status_id);
-                params.put("instructions", Instrction);
-
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
-                return params;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(request, "data_receive5");
-        Log.v("request", request + "");
-    }
-
     public void saveOrder() {
         PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "master_purchase_order_edit.php",
@@ -300,21 +202,25 @@ public class EditOrderDetails extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-//                try {
-//                    params.put("email", "test@test.com");
-//                    params.put("password", "aa");
-//                    params.put("id", "4");
-//                    params.put("order_line_id", line_id);
-//                    params.put("garment_id", garment_id);
-//                    params.put("quantity", "4000");
-//                    params.put("wash_id", wash_id);
-//                    params.put("style_number", "test");
-//                    params.put("expected_delivery_date", get_date);
-//                    params.put("status_id", status_id);
-//                    params.put("instructions", "test");
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    String quantity_str = quantity.getText().toString();
+                    String instru = instr.getText().toString();
+                    String style_no = style.getText().toString();
+
+                    params.put("email", "test@test.com");
+                    params.put("password", "aa");
+                    params.put("id", "4");
+                    params.put("order_line_id", line_id);
+                    params.put("garment_id", garment_id);
+                    params.put("quantity", quantity_str);
+                    params.put("wash_id", wash_id);
+                    params.put("style_number", style_no);
+                    params.put("expected_delivery_date", get_date);
+                    params.put("status_id", status_id);
+                    params.put("instructions", instru);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 return params;
             }
@@ -537,9 +443,6 @@ public class EditOrderDetails extends AppCompatActivity {
                 else {
                     Toast.makeText(thisActivity,"Please check the network connection",Toast.LENGTH_SHORT).show();
                 }
-
-
-
                 return true;
 
             default:
