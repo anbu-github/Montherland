@@ -8,7 +8,33 @@ public class Purchase_Order_Model {
     String id;
     String Date;
     String customer_contact;
-    String cusomer_company;
+    String customer_company;
+    String order_type;
+    String quantity;
+
+    public String getCustomer_company() {
+        return customer_company;
+    }
+
+    public void setCustomer_company(String customer_company) {
+        this.customer_company = customer_company;
+    }
+
+    public String getOrder_type() {
+        return order_type;
+    }
+
+    public void setOrder_type(String order_type) {
+        this.order_type = order_type;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
 
     public String getId() {
         return id;
@@ -34,11 +60,5 @@ public class Purchase_Order_Model {
         this.customer_contact = customer_contact;
     }
 
-    public String getCusomer_company() {
-        return cusomer_company;
-    }
 
-    public void setCusomer_company(String cusomer_company) {
-        this.cusomer_company = cusomer_company;
-    }
 }

@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.dev.montherland.OrderConfirmDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.model.GarmentListModel1;
-import com.dev.montherland.model.PurchaseOrderDetailsModel;
 import com.dev.montherland.util.PDialog;
 
 import java.util.List;
@@ -85,7 +84,7 @@ public class PurchaseOrderDetailsAdapter extends RecyclerView.Adapter<PurchaseOr
         public MyViewHolder(View itemView){
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.select_address);
-            quantity = (TextView) itemView.findViewById(R.id.quantity);
+            quantity = (TextView) itemView.findViewById(R.id.total_quantity);
             garment_type = (TextView) itemView.findViewById(R.id.garment_type);
         }
     }

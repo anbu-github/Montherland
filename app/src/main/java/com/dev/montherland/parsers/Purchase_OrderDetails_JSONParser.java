@@ -34,6 +34,10 @@ public class Purchase_OrderDetails_JSONParser {
                 flower.setCustomerCompany(parentObject.getString("customer_company"));
                 flower.setDate(parentObject.getString("DATE"));
                 flower.setId(parentObject.getString("id"));
+                flower.setExpected_delivery(parentObject.getString("expected_delivery"));
+                flower.setExpected_pickup(parentObject.getString("expected_pickup"));
+                flower.setInstruction(parentObject.getString("instructions"));
+                flower.setStatus(parentObject.getString("status"));
                 //Log.d("success", parentObject.getString("success"));
                 respnse.add(flower);
             }

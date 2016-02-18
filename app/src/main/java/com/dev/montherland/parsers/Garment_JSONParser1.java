@@ -24,6 +24,11 @@ public class Garment_JSONParser1 {
                 GarmentListModel1 flower = new GarmentListModel1();
                 flower.setGarmentName(parentObject.getString("garment"));
                 flower.setGarmentQuantity(parentObject.getString("quantity"));
+                flower.setId(parentObject.getString("id"));
+                flower.setWashType(parentObject.getString("wash"));
+                flower.setStyleNumber(parentObject.getString("style_number"));
+                flower.setGarmentInstruction(parentObject.getString("instructions"));
+                flower.setExpectedDelivery(parentObject.getString("expected_delivery"));
                 //Log.d("success", parentObject.getString("success"));
                 respnse.add(flower);
             }

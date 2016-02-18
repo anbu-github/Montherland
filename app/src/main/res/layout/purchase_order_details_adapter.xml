@@ -66,7 +66,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:textStyle="bold"
-                android:id="@+id/quantity"
+                android:id="@+id/total_quantity"
                 android:layout_alignTop="@+id/textView8"
                 android:layout_toRightOf="@+id/textView4"
                 android:layout_toEndOf="@+id/textView4"

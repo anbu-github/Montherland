@@ -8,8 +8,11 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:weightSum="1"
-        android:background="#F5F6F5"
+        android:background="@color/background_screen"
         android:layout_height="match_parent">
+
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,15 +23,13 @@
             android:layout_marginRight="10dp"
             android:layout_height="0dp">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-
+                android:text="Review Order"
                 android:textSize="18dp"
-                android:textColor="@color/title_color"
+                android:layout_marginBottom="5dp"
                 android:textStyle="bold"
-                style="@style/SimpleTextviewStyle_16"
-                android:id="@+id/customer_name"
+                android:id="@+id/quantity"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="5dp" />
@@ -157,11 +158,10 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/listView"
                 android:layout_alignParentLeft="true"
+                android:divider="@null"
+                android:background="@android:color/transparent"
                 android:layout_alignParentStart="true"
-                android:nestedScrollingEnabled="false"
-                android:divider="@color/divider_grey"
-                android:dividerHeight="1dp"
-                android:layout_marginTop="2dp" />
+                android:nestedScrollingEnabled="false" />
         </LinearLayout>
 
 

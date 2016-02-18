@@ -27,8 +27,11 @@ public class Purchase_Order_JSONParser {
                 flower.setId(parentObject.getString("id"));
                 StaticVariables.quantityList.add(parentObject.getString("id"));
                 flower.setDate(parentObject.getString("DATE"));
-                flower.setCusomer_company(parentObject.getString("customer_company"));
+                flower.setCustomer_company(parentObject.getString("customer_company"));
                 flower.setCustomer_contact(parentObject.getString("customer_contact"));
+                flower.setOrder_type(parentObject.getString("order_type"));
+                flower.setCustomer_contact(parentObject.getString("customer_contact"));
+                flower.setQuantity(parentObject.getString("quantity"));
                 //Log.d("success", parentObject.getString("success"));
                 respnse.add(flower);
             }

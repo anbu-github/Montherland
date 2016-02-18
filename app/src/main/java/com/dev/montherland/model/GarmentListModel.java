@@ -8,6 +8,44 @@ public class GarmentListModel {
     String garmentTypeId;
     String garmentQuantity;
     String garmentName;
+    String garmentStyle;
+    String garmentWashType;
+
+    public String getGarmentInstr() {
+        return garmentInstr;
+    }
+
+    public void setGarmentInstr(String garmentInstr) {
+        this.garmentInstr = garmentInstr;
+    }
+
+    String garmentInstr;
+
+    public String getGarmentWashId() {
+        return garmentWashId;
+    }
+
+    public void setGarmentWashId(String garmentWashId) {
+        this.garmentWashId = garmentWashId;
+    }
+
+    public String getGarmentWashType() {
+        return garmentWashType;
+    }
+
+    public void setGarmentWashType(String garmentWashType) {
+        this.garmentWashType = garmentWashType;
+    }
+
+    public String getGarmentStyle() {
+        return garmentStyle;
+    }
+
+    public void setGarmentStyle(String garmentStyle) {
+        this.garmentStyle = garmentStyle;
+    }
+
+    String garmentWashId;
 
     public String getGarmentQty() {
         return garmentQty;

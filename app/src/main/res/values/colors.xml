@@ -13,4 +13,8 @@
     <color name="title_color">#696e79</color>
     <color name="title_color1">#29303f</color>
     <color name="sub_title_grey">#363c4a</color>
+    <color name="background_green">#0bc6a0</color>
+    <color name="background_screen">#EEEEEE</color>
+    <color name="title_bar_color">#919191</color>
+    <color name="black_text_color">#000000</color>
 </resources>

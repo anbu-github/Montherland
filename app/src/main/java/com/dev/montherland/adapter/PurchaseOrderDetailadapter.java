@@ -1,6 +1,7 @@
 package com.dev.montherland.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.dev.montherland.EditOrderDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.model.GarmentListModel1;
 import com.dev.montherland.util.StaticVariables;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -56,24 +62,45 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
     public View getView(final int position, View convertView, ViewGroup parent) {
         // if (convertView == null) {
         final ViewHolder holder;
-        convertView = layoutInflater.inflate(R.layout.purchase_order_details_adaptor, null);
+        convertView = layoutInflater.inflate(R.layout.customer_order_details_adapter, null);
             /*ViewHolder viewHolder = new ViewHolder(convertView);
 
             convertView.setTag(viewHolder);
 */
-        holder = new ViewHolder();
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context,""+person.get(position).getId(),Toast.LENGTH_SHORT).show();
+                Intent in=new Intent(context, EditOrderDetails.class);
+                in.putExtra("id",person.get(position).getId());
+                context.startActivity(in);
+            }
+        });
 
-        try {
-
-            holder.quantity = (TextView) convertView.findViewById(R.id.quantity);
+            holder = new ViewHolder();
+            holder.garment_instruction = (TextView) convertView.findViewById(R.id.instruction);
+            holder.quantity = (TextView) convertView.findViewById(R.id.total_quantity);
             holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
+            holder.wash = (TextView) convertView.findViewById(R.id.wash);
+            holder.wash_type = (TextView) convertView.findViewById(R.id.wash_type);
+            holder.style = (TextView) convertView.findViewById(R.id.style);
+            holder.date = (TextView) convertView.findViewById(R.id.date);
             holder.quantity.setText(person.get(position).getGarmentQuantity());
             holder.garment_type.setText(person.get(position).getGarmentName());
+            holder.wash_type.setText(person.get(position).getWashType());
+            holder.style.setText(person.get(position).getStyleNumber());
+            if (person.get(position).getExpectedDelivery().contains("null")) {
 
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+                DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+                Calendar cal = Calendar.getInstance();
+                holder.date.setText(dateFormat.format(cal.getTime()));
+            }
+        else {
+                holder.date.setText(person.get(position).getExpectedDelivery());
+
+            }
+            holder.garment_instruction.setText(person.get(position).getGarmentInstruction());
+
 
         return convertView;
     }
@@ -90,7 +117,7 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
      */
 
     private class ViewHolder {
-        TextView quantity,garment_type;
+        TextView quantity,garment_type,wash,wash_type,style,date,garment_instruction;
     }
 
 }

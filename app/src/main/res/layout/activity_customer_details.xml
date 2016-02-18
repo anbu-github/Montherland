@@ -79,7 +79,7 @@
             android:orientation="vertical"
             android:id="@+id/rl"
             android:layout_below="@+id/view23"
-            android:background="#CFD8DC"
+            android:background="@color/title_bar_color"
             android:layout_height="30dp">
 
 

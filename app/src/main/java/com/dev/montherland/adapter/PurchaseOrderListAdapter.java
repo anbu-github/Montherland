@@ -12,14 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dev.montherland.OrderConfirmDetails;
 import com.dev.montherland.PurchaseOrderDetails;
 import com.dev.montherland.R;
-import com.dev.montherland.model.Create_Address_Model;
 import com.dev.montherland.model.Purchase_Order_Model;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
@@ -42,7 +39,7 @@ public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrder
         Intent intent=new Intent(context, OrderConfirmDetails.class);
 
         cbPos= StaticVariables.cbpos;
-        intent.putExtra("company",persons.get(cbPos).getCusomer_company());
+        intent.putExtra("company",persons.get(cbPos).getCustomer_company());
         intent.putExtra("date",persons.get(cbPos).getDate());
         intent.putExtra("contact",persons.get(cbPos).getCustomer_contact());
         context.startActivity(intent);
@@ -62,12 +59,16 @@ public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrder
 
         date=persons.get(position).getDate();
         contact=persons.get(position).getCustomer_contact();
-        company=persons.get(position).getCusomer_company();
+        company=persons.get(position).getCustomer_company();
         id=persons.get(position).getId();
 
         holder.date.setText(date);
         holder.contact.setText(contact);
         holder.company.setText(company);
+        holder.id.setText(id);
+        holder.order_type.setText(persons.get(position).getOrder_type());
+        StaticVariables.purchaseOrderType=persons.get(position).getOrder_type();
+        holder.total.setText(persons.get(position).getQuantity());
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +76,7 @@ public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrder
 
                 Intent in=new Intent(context, PurchaseOrderDetails.class);
                 in.putExtra("id",id);
+                StaticVariables.value=2;
                 StaticVariables.count=position;
                 context.startActivity(in);
 
@@ -98,14 +100,17 @@ public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrder
         CardView cv;
         TextView date,contact,company;
         CheckBox cb;
-        TextView city;
+        TextView city,id,order_type,total;
 
         public MyViewHolder(View itemView){
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.select_address);
             date = (TextView)itemView.findViewById(R.id.date);
             contact = (TextView)itemView.findViewById(R.id.contact);
-            company = (TextView)itemView.findViewById(R.id.company);
+            company = (TextView)itemView.findViewById(R.id.item);
+            order_type = (TextView)itemView.findViewById(R.id.order_type);
+            id = (TextView)itemView.findViewById(R.id.id);
+            total = (TextView)itemView.findViewById(R.id.total);
 
         }
     }

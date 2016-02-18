@@ -38,19 +38,20 @@
             android:label="@string/Create_order_title"
             android:windowSoftInputMode="adjustPan" >
 
-        </activity>
-        <activity
-            android:name=".CreateAddress"
-            android:label="@string/create_address_title" >
+
 
         </activity>
         <activity
+            android:name=".CreateAddress"
+            android:label="@string/Create_order_title" >
+        </activity>
+        <activity
             android:name=".SelectAddress"
-            android:label="@string/select_address_title" >
+            android:label="@string/Create_order_title" >
         </activity>
         <activity
             android:name=".OrderConfirmDetails"
-            android:label="@string/confirm_details_title"
+            android:label="@string/Create_order_title"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
@@ -72,8 +73,21 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".PurchaseOrderDetails" android:label="Purchase Order Details">
-
+        <activity
+            android:name=".PurchaseOrderDetails"
+            android:label="Purchase Order Details" >
+        </activity>
+        <activity
+            android:name=".DeliveryChellanActivity"
+            android:label="Delivery Challan" >
+        </activity>
+        <activity android:name=".DatepickupActivity" >
+        </activity>
+        <activity android:name=".InstructionActivity" >
+        </activity>
+        <activity android:name=".EditOrderDetails" android:label="Edit Item">
+        </activity>
+        <activity android:name=".GarmentsDataActivity" android:label="Create Order" >
         </activity>
     </application>
 

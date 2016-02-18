@@ -22,10 +22,13 @@
     //purchase create order
     <string name="create_order">Create Order</string>
     <string name="customer_List">Customer Contact</string>
-    <string name="customer_Name">Customer Company</string>
-    <string name="customer_contact">Customer Contact</string>
-    <string name="Garment_Type">Garment Type</string>
+    <string name="customer_Name">Customer</string>
+    <string name="customer_contact">Contact</string>
+    <string name="order_typet">Order Type</string>
+    <string name="Garment_Type">Garment</string>
     <string name="Garment_Quantity">Quantity</string>
+    <string name="delivery_date">Expected Delivery Date</string>
+    <string name="expected_pickup">Expected pickup Date/Time</string>
 
     //create address
     <string name="address1">Address1</string>
@@ -38,7 +41,7 @@
 
     //Manifest
     <string name="customer_details_title">Customer Details</string>
-    <string name="Create_order_title">Create Customer Order</string>
+    <string name="Create_order_title">Create Order</string>
     <string name="create_address_title">Create Address</string>
     <string name="select_address_title">Select Address</string>
     <string name="confirm_details_title">Customer Details</string>

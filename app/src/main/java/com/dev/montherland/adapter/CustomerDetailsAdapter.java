@@ -79,6 +79,7 @@ public class CustomerDetailsAdapter extends BaseAdapter{
                     Toast.makeText(context,person.get(position).getId(),Toast.LENGTH_SHORT).show();
 
                     Intent in=new Intent(context, PurchaseOrderDetails.class);
+                    StaticVariables.value=2;
                     StaticVariables.count=position;
                     context.startActivity(in);
                     //overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);

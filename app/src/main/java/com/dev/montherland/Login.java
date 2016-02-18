@@ -20,6 +20,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.dev.montherland.model.ExistingUser_Model;
+import com.dev.montherland.parsers.Existing_User_JSONParser;
 import com.dev.montherland.util.MCrypt;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.Preferences;
@@ -30,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -42,6 +45,7 @@ public class Login extends AppCompatActivity {
     Activity thisActivity=this;
     String islogin;
     private final String DEFAULT = "Login";
+    List<ExistingUser_Model> feedslist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +80,9 @@ public class Login extends AppCompatActivity {
       String i= savedInstanceState.getString("hello");
         Toast.makeText(Login.this, i, Toast.LENGTH_SHORT).show();
     }
+
+
+
 
     public void getDataList() {
 
@@ -215,8 +222,9 @@ public class Login extends AppCompatActivity {
 
                         PDialog.hide();
                         Log.v("response", response + "");
-                        if (response.equals("")){
+                        feedslist= Existing_User_JSONParser.parserFeed(response);
 
+                        if (response.equals("")){
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
                             builder.setCancelable(false)
@@ -233,6 +241,7 @@ public class Login extends AppCompatActivity {
                         try {
 
                             JSONArray ar = new JSONArray(response);
+
 
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
@@ -303,5 +312,44 @@ public class Login extends AppCompatActivity {
         };
         AppController.getInstance().addToRequestQueue(request, data_receive);
     }
+
+    public void updatedisplay() {
+        PDialog.hide();
+        //Log.d("updatedisplay_out", "updatedisplay_out");
+        if (feedslist != null) {
+
+            for (final ExistingUser_Model flower : feedslist) {
+                String success = flower.getId();
+                switch (success) {
+                    case "Error": {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                        builder.setTitle("Error")
+                                .setMessage("Unknown Error")
+                                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        break;
+                    }
+
+                    default:
+                        dbhelp entry = new dbhelp(thisActivity);
+                        entry.open();
+                        entry.createuser(flower.getId(), flower.getName(), flower.getEmail(), flower.getPassword(), flower.getPhone(), flower.getBusiness_id(), flower.getProfile_id(), flower.getNode_id(), flower.getRole_id(), flower.getPermission_id(), flower.getLevel_id());
+
+
+
+                }
+            }
+        } else {
+
+
+        }
+    }
+
 
 }

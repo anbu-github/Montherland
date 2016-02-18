@@ -72,14 +72,19 @@ public class NavigataionActivity extends AppCompatActivity
         try {
             fragment = (Fragment) fragmentClass.newInstance();
 
-            if (StaticVariables.value==1){
+            if (StaticVariables.value==2){
 
                 fragmentClass = PurchaseOrderFragment.class;
                 fragment = (Fragment) fragmentClass.newInstance();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
-
+            }
+            else {
+                fragmentClass = PurchaseOrderFragment.class;
+                fragment = (Fragment) fragmentClass.newInstance();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
             }
         } catch (Exception e) {
 

@@ -57,6 +57,8 @@ public class SelectAddress extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("Create Order");
+
 
         } catch (Exception e) {
             e.printStackTrace();

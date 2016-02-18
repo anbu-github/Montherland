@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.adapter.PurchaseOrderListAdapter;
+import com.dev.montherland.model.Database;
 import com.dev.montherland.model.Purchase_Order_Model;
 import com.dev.montherland.parsers.Purchase_Order_JSONParser;
 import com.dev.montherland.util.PDialog;
@@ -44,6 +45,7 @@ public class PurchaseOrderFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     StaggeredGridLayoutManager mLayoutManager;
+    List<Database> database;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,19 @@ public class PurchaseOrderFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_purchase_order,container,false);
         recyclerView = (RecyclerView)view.findViewById(R.id.rv);
         addButton = (ImageButton)view.findViewById(R.id.btn_add_address);
+
+        try {
+            dbhelp.DatabaseHelper2 dbhelp = new dbhelp.DatabaseHelper2(getActivity());
+            dbhelp.getReadableDatabase();
+            database = dbhelp.getdatabase();
+            dbhelp.close();
+            Log.d("id database", database.get(0).getId());
+            Log.d("email database",database.get(0).getEmail());
+        } catch (Exception e) {
+            Log.d("error in database",e+"");
+            e.printStackTrace();
+        }
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +91,7 @@ public class PurchaseOrderFragment extends Fragment {
 
 
         ActionBar mActionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
-        mActionBar.setTitle("Purchase Order List");
+        mActionBar.setTitle("Orders");
 
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);

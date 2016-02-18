@@ -1,16 +1,12 @@
 package com.dev.montherland.adapter;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dev.montherland.R;
@@ -64,11 +60,14 @@ public class OrderConfirmDetailsAdapter  extends BaseAdapter{
         holder = new ViewHolder();
 
         try {
-
-            holder.quantity = (TextView) convertView.findViewById(R.id.quantity);
+            holder.quantity = (TextView) convertView.findViewById(R.id.total_quantity);
+            holder.washType = (TextView) convertView.findViewById(R.id.wash);
+            holder.style = (TextView) convertView.findViewById(R.id.styleno);
             holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
             holder.quantity.setText(StaticVariables.editQuantityList.get(position));
             holder.garment_type.setText(StaticVariables.garmentTypeList.get(position));
+            holder.style.setText(StaticVariables.garmentStyle.get(position));
+            holder.washType.setText(StaticVariables.garmentWashtype.get(position));
 
         }
         catch (Exception e){
@@ -90,7 +89,7 @@ public class OrderConfirmDetailsAdapter  extends BaseAdapter{
      */
 
     private class ViewHolder {
-        TextView quantity,garment_type;
+        TextView quantity,garment_type,washType,style;
     }
 
 }

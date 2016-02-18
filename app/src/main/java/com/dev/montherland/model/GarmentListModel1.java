@@ -8,6 +8,55 @@ public class GarmentListModel1 {
     String garmentTypeId;
     String garmentQuantity;
     String garmentName;
+    String washType;
+
+    public String getExpectedDelivery() {
+        return expectedDelivery;
+    }
+
+    public void setExpectedDelivery(String expectedDelivery) {
+        this.expectedDelivery = expectedDelivery;
+    }
+
+    String expectedDelivery;
+
+    public String getGarmentInstruction() {
+        return garmentInstruction;
+    }
+
+    public void setGarmentInstruction(String garmentInstruction) {
+        this.garmentInstruction = garmentInstruction;
+    }
+
+    String garmentInstruction;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    String id;
+
+    public String getStyleNumber() {
+        return styleNumber;
+    }
+
+    public void setStyleNumber(String styleNumber) {
+        this.styleNumber = styleNumber;
+    }
+
+    public String getWashType() {
+        return washType;
+    }
+
+    public void setWashType(String washType) {
+        this.washType = washType;
+    }
+
+    String styleNumber;
 
     public String getGarmentQty() {
         return garmentQty;

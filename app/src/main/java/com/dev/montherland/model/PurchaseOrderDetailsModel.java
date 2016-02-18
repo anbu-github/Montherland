@@ -14,6 +14,44 @@ public class PurchaseOrderDetailsModel {
     String city;
     String date;
     String customerContact;
+    String customerCompany;
+    String status;
+    String expected_delivery;
+    String expected_pickup;
+
+    public String getInstruction() {
+        return instruction;
+    }
+
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
+    }
+
+    String instruction;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getExpected_delivery() {
+        return expected_delivery;
+    }
+
+    public void setExpected_delivery(String expected_delivery) {
+        this.expected_delivery = expected_delivery;
+    }
+
+    public String getExpected_pickup() {
+        return expected_pickup;
+    }
+
+    public void setExpected_pickup(String expected_pickup) {
+        this.expected_pickup = expected_pickup;
+    }
 
     public String getCustomerContact() {
         return customerContact;
@@ -31,7 +69,7 @@ public class PurchaseOrderDetailsModel {
         this.customerCompany = customerCompany;
     }
 
-    String customerCompany;
+
 
     public String getDate() {
         return date;

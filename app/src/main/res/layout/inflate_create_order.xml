@@ -1,38 +1,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/layout"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-
-    android:orientation="horizontal">
+    android:layout_height="match_parent"
+    android:layout_marginLeft="2dp"
+    android:layout_marginRight="2dp"
+    android:background="@color/background_screen"
+    android:orientation="vertical">
 
 <android.support.v7.widget.CardView
     android:id="@+id/cv_category"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:clickable="false"
-    android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginLeft="15dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardBackgroundColor="@color/graylight"
+    card_view:cardCornerRadius="3dp"
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true"
+    android:focusable="true">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="match_parent"
         android:clickable="false"
-        android:background="#eceff1"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
-
-            <TextView
-                style="@style/TextviewStyle_space_blue"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_height="wrap_content"
-                android:text="@string/Garment_Type" />
+        android:orientation="vertical">
 
             <TextView
                 style="@style/TextviewStyle_space_blue"
@@ -42,39 +35,78 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/garment_type"
                 android:text="@string/Garment_Type" />
-
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextviewStyle_space_blue"
-                android:layout_width="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_height="wrap_content"
-                android:text="@string/Garment_Quantity"/>
-
             <EditText
                 style="@style/SimpleTextviewStyle_16"
                 android:layout_width="fill_parent"
-                android:id="@+id/quantity"
+                android:id="@+id/total_quantity"
+                android:gravity="bottom"
+                android:layout_gravity="bottom"
+                android:hint="Quantity"
+                android:inputType="number"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/styleno"
+                android:layout_toRightOf="@+id/styleno"
+                android:layout_toEndOf="@+id/styleno"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp" />
+
+            <EditText
+                style="@style/SimpleTextviewStyle_16"
+                android:layout_width="150dp"
+                android:id="@+id/styleno"
+                android:hint="Style"
                 android:gravity="bottom"
                 android:layout_gravity="bottom"
                 android:inputType="number"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/spinner1"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="25dp" />
+                android:layout_marginTop="5dp" />
 
-        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/spinner1"
+            android:background="@drawable/layout_border2"
+            android:layout_below="@+id/garment_type"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_height="50dp">
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:layout_gravity="center"
+            android:spinnerMode="dialog"
+            android:entries="@array/planets_array"/>
+        </LinearLayout>
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Instructions"
+            android:textStyle="bold"
+            android:id="@+id/textView38"
+            android:layout_below="@+id/spinner1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="46dp"
+            android:layout_marginLeft="3dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="Enter here"
+            android:id="@+id/garment_instr"
+            android:maxLines="7"
+            android:layout_below="@+id/textView38"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
