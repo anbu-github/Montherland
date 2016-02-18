@@ -108,32 +108,22 @@ public class PurchaseOrderDetails extends AppCompatActivity {
                             pickup_date.setText(feedlist.get(0).getExpected_pickup());
 
                             Log.v("basic details",feedlist.get(0).getAddressline1());
-                            //Log.v("job",job+"");
-                            //Log.v("parts", parts + "");
-
                             persons= Garment_JSONParser1.parserFeed(orders);
 
                             Log.v("garmentper", persons.get(0).getStyleNumber());
 
                             listview.setAdapter(new PurchaseOrderDetailadapter(PurchaseOrderDetails.this,persons));
-                           // recyclerView.setAdapter(new PurchaseOrderDetailsAdapter(persons, PurchaseOrderDetails.this));
 
 
                            Toast.makeText(PurchaseOrderDetails.this, "Please click on any item which to be edited", Toast.LENGTH_SHORT).show();
                             Log.v("garment type", persons.get(0).getGarmentQty());
 
-                            //  justifyListViewHeightBasedOnChildren(listview);
-//                            justifyListViewHeightBasedOnChildren(listview2);
 
 
                         } catch (JSONException e) {
                             PDialog.hide();
 
-                            //Log.d("response", response);
-                            //Log.d("error in json", "l " + e);
-
                         } catch (Exception e) {
-//                            Log.d("json connection", "No internet access" + e);
                         }
 
                     }

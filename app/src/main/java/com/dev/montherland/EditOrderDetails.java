@@ -54,7 +54,7 @@ public class EditOrderDetails extends AppCompatActivity {
     TextView item,date;
     Calendar myCalendar = Calendar.getInstance();
    String myFormat1 = "yyyy-MM-dd HH:mm:ss";
-    DateFormat fmtDateAndTime = DateFormat.getDateTimeInstance();
+
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat1);
     SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
     DatePickerDialog.OnDateSetListener  calender_date;
@@ -186,18 +186,13 @@ public class EditOrderDetails extends AppCompatActivity {
 
     }
 
-//    private void updateTime() {
-//        SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm");
-//        date.setText(sdf1.format(myCalendar.getTime()+" "+ sdf.format(myCalendar.getTime())));
-//    }
     public void saveEditOrders() {
 
         Instrction=instr.getText().toString();
         Log.v("instr",instr.getText().toString());
         PDialog.show(thisActivity);
-        String url1="http://purplefront.net/motherland_dev/home/master_purchase_order_edit.php?id=4&email=test@test.com&password=aa&order_line_id="+line_id+"&garment_id="+garment_id+"&instructions="+Instrction+"&quantity="+quantity.getText().toString()+"&wash_id="+wash_id+"&style_number="+style.getText().toString()+"&expected_delivery_date="+date.getText().toString()+"&status_id="+status_id;
-        String url="id=4&email=test@test.com&password=aa&order_line_id="+line_id+"&garment_id="+garment_id+"&instructions="+Instrction+"&quantity="+quantity.getText().toString()+"&wash_id="+wash_id+"&style_number="+style.getText().toString()+"&expected_delivery_date="+get_date+"&status_id="+status_id+"&instructions="+instr;
-        StringRequest request = new StringRequest(Request.Method.GET, url1,
+        String url="http://purplefront.net/motherland_dev/home/master_purchase_order_edit.php?id=4&email=test@test.com&password=aa&order_line_id="+line_id+"&garment_id="+garment_id+"&instructions="+Instrction+"&quantity="+quantity.getText().toString()+"&wash_id="+wash_id+"&style_number="+style.getText().toString()+"&expected_delivery_date="+date.getText().toString()+"&status_id="+status_id;
+        StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -305,17 +300,21 @@ public class EditOrderDetails extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
-                params.put("order_line_id", line_id);
-                params.put("garment_id", garment_id);
-                params.put("quantity", quantity.getText().toString());
-                params.put("wash_id", wash_id);
-                params.put("style_number", style.getText().toString());
-                params.put("expected_delivery_date", get_date);
-                params.put("status_id", status_id);
-                params.put("instructions", Instrction);
+//                try {
+//                    params.put("email", "test@test.com");
+//                    params.put("password", "aa");
+//                    params.put("id", "4");
+//                    params.put("order_line_id", line_id);
+//                    params.put("garment_id", garment_id);
+//                    params.put("quantity", "4000");
+//                    params.put("wash_id", wash_id);
+//                    params.put("style_number", "test");
+//                    params.put("expected_delivery_date", get_date);
+//                    params.put("status_id", status_id);
+//                    params.put("instructions", "test");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
 
                 return params;
             }
@@ -374,9 +373,6 @@ public class EditOrderDetails extends AppCompatActivity {
                 params.put("email", "test@test.com");
                 params.put("password", "e48900ace570708079d07244154aa64a");
                 params.put("id", "4");
-
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
                 return params;
             }
         };
@@ -428,7 +424,6 @@ public class EditOrderDetails extends AppCompatActivity {
 
                         } catch (Exception e) {
                             PDialog.hide();
-//                            Log.d("json connection", "No internet access" + e);
                         }
                     }
                 },
@@ -450,7 +445,7 @@ public class EditOrderDetails extends AppCompatActivity {
                 params.put("password", "e48900ace570708079d07244154aa64a");
                 params.put("id", "4");
                 params.put("order_line_id", line_id);
-                params.put("order_id", "1");
+                params.put("order_id", line_id);
 
                 //Log.d("params", database.get(0).getId());
                 //Log.d("service_id", StaticVariables.service_id);
@@ -507,9 +502,6 @@ public class EditOrderDetails extends AppCompatActivity {
 
                 Map<String, String> params = new HashMap<>();
 
-
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
                 return params;
             }
         };
@@ -538,7 +530,7 @@ public class EditOrderDetails extends AppCompatActivity {
             case R.id.next_button:
                 // Toast.makeText(thisActivity, "confirm", Toast.LENGTH_SHORT).show();
                 if (StaticVariables.isNetworkConnected(thisActivity)) {
-                    saveEditOrders();
+                    saveOrder();
 //                    Toast.makeText(thisActivity, "This feature is under construction", Toast.LENGTH_SHORT).show();
 
                 }
