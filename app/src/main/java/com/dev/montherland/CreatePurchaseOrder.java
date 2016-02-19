@@ -4,12 +4,8 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +28,6 @@ import com.dev.montherland.adapter.CreateOrderAdapter;
 import com.dev.montherland.model.GarmentListModel;
 import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.parsers.Garment_JSONParer;
-import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
@@ -43,7 +38,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +58,7 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
     ArrayList<String> garmentWashTypeList = new ArrayList<>();
     ArrayList<String> garmentStyleList = new ArrayList<>();
     ArrayList<String> washTypeList = new ArrayList<>();
+
     Spinner customerList, Companylist, orderType;
 
     ArrayAdapter<String> dataAdapter, dataAdapter2, orderTypeAdapter, dataAdapter4,washTypeAdapter;
@@ -192,8 +187,6 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                         true).show();
             }
         });
-
-
         // The number of Columns
 
 
@@ -349,15 +342,17 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                             customerLIst.add("Select Contact");
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
-                                customerLIst.add(parentObject.getString("name"));
-                                customerIdList.add(parentObject.getString("id"));
-                                // StaticVariables.customerContact=parentObject.getString("id");
-                                StaticVariables.customerName = parentObject.getString("name");
+                                if(!parentObject.getString("name").equals("NO Data")) {
+                                    customerLIst.add(parentObject.getString("name"));
+                                    customerIdList.add(parentObject.getString("id"));
+                                    // StaticVariables.customerContact=parentObject.getString("id");
+                                    StaticVariables.customerName = parentObject.getString("name");
 
-                                //StaticVariables.contactId=parentObject.getString("id");
+                                    //StaticVariables.contactId=parentObject.getString("id");
 
-                                Log.v("name", parentObject.getString("name"));
-                                //Log.d("success", parentObject.getString("success"));
+                                    Log.v("name", parentObject.getString("name"));
+                                    //Log.d("success", parentObject.getString("success"));
+                                }
                             }
                             customerList.setAdapter(dataAdapter);
 

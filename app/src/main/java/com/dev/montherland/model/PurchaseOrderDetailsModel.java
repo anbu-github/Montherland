@@ -18,6 +18,16 @@ public class PurchaseOrderDetailsModel {
     String status;
     String expected_delivery;
     String expected_pickup;
+    String order_type;
+    String instruction;
+
+    public String getOrder_type() {
+        return order_type;
+    }
+
+    public void setOrder_type(String order_type) {
+        this.order_type = order_type;
+    }
 
     public String getInstruction() {
         return instruction;
@@ -26,8 +36,6 @@ public class PurchaseOrderDetailsModel {
     public void setInstruction(String instruction) {
         this.instruction = instruction;
     }
-
-    String instruction;
 
     public String getStatus() {
         return status;

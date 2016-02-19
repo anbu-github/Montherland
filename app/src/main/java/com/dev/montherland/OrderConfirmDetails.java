@@ -18,8 +18,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.adapter.OrderConfirmDetailsAdapter;
 import com.dev.montherland.model.Database;
-import com.dev.montherland.model.Response_Model;
-import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 import com.google.gson.Gson;
@@ -31,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderConfirmDetails extends AppCompatActivity {
+
     String address1, address2, address3, city, state,address_id,zipcode;
     TextView tv_address1, tv_address2, tv_address3, tv_city, tv_state,total_item,customer_contact,tv_zipcode;
     TextView str_instr,company,orderType,delivery,total_no,pickup_date;
@@ -44,7 +43,6 @@ public class OrderConfirmDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_details);
 
-       // Log.v("contcid", StaticVariables.contactId);
         tv_address1 = (TextView) findViewById(R.id.add1);
         tv_address2 = (TextView) findViewById(R.id.add2);
         tv_address3 = (TextView) findViewById(R.id.add3);
@@ -59,29 +57,25 @@ public class OrderConfirmDetails extends AppCompatActivity {
         total_no = (TextView) findViewById(R.id.total_no);
         total_item = (TextView) findViewById(R.id.total_quantity);
 
-       // dbhelp.DatabaseHelper2 datab = new dbhelp.DatabaseHelper2(thisActivity);
-        //database = datab.getdatabase();
-
         customer_contact = (TextView) findViewById(R.id.quantity);
        // total_item = (TextView) findViewById(R.id.total_item_no);
         listview = (com.dev.montherland.adapter.ExpandableListView) findViewById(R.id.listView);
 
-
-           // m_bundle=getIntent().getExtras().getBundle("bundle");
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Create Order");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        address1 = getIntent().getExtras().getString("address1");
+
+            address1 = getIntent().getExtras().getString("address1");
             address2 = getIntent().getExtras().getString("address2");
             address3 = getIntent().getExtras().getString("address3");
             city = getIntent().getExtras().getString("city");
             state = getIntent().getExtras().getString("state");
             address_id = getIntent().getExtras().getString("address_id");
             zipcode = getIntent().getExtras().getString("zipcode");
-            //        Log.v("address1",address1);
+
             str_instr.setText(StaticVariables.prodcutInstr);
             tv_address1.setText(address1);
             tv_address2.setText(address2);
@@ -93,16 +87,7 @@ public class OrderConfirmDetails extends AppCompatActivity {
             pickup_date.setText(StaticVariables.pickupDate);
 
 
-        try {
-            dbhelp.DatabaseHelper2 dbhelp = new dbhelp.DatabaseHelper2(OrderConfirmDetails.this);
-            dbhelp.getReadableDatabase();
-            database = dbhelp.getdatabase();
-            dbhelp.close();
-            Log.d("id", database.get(0).getId());
-            Log.d("email",database.get(0).getEmail());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         Log.v("expected_pickup",StaticVariables.pickedDateTIme);
 
         total_no.setText(String.valueOf(StaticVariables.garmentTypeList.size()));
@@ -115,6 +100,7 @@ public class OrderConfirmDetails extends AppCompatActivity {
         for (int i=0;i<=StaticVariables.garmentTypeList.size()-1;i++){
             total=total+Integer.parseInt(StaticVariables.editQuantityList.get(i));
         }
+
         total_item.setText(String.valueOf(total));
 
         listview.setAdapter(new OrderConfirmDetailsAdapter(thisActivity));

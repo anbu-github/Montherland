@@ -15,7 +15,6 @@ public class Response_JSONParser {
 
     public static List<Response_Model> parserFeed(String content) {
         try {
-            // JSONObject parentObject = new JSONObject(content);
             JSONArray ar = new JSONArray(content);
             List<Response_Model> respnse = new ArrayList<>();
             for (int i = 0; i < ar.length(); i++) {
@@ -23,7 +22,6 @@ public class Response_JSONParser {
                 Response_Model flower = new Response_Model();
                 flower.setId(parentObject.getString("id"));
                 flower.setName(parentObject.getString("name"));
-                //Log.d("success", parentObject.getString("success"));
                 respnse.add(flower);
             }
 

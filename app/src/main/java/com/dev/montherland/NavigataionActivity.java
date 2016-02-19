@@ -3,28 +3,22 @@ package com.dev.montherland;
 
 
 import android.app.Activity;
-
-import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
-
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -47,11 +41,12 @@ public class NavigataionActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private List<Response_Model> persons;
     StaggeredGridLayoutManager mLayoutManager;
-    String data_receive = "string_req_recieve",id,email,password,user_id;
+    String data_receive = "string_req_recieve";
     Activity thisActivity=this;
     TextView mail;
     Fragment fragment = null;
     Class fragmentClass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,15 +91,8 @@ public class NavigataionActivity extends AppCompatActivity
 
         View headerLayout = navigationView.getHeaderView(0);
         try {
-
-            id = getIntent().getExtras().getString("id");
-            email = getIntent().getExtras().getString("email");
-            password = getIntent().getExtras().getString("password");
-            user_id=id;
            // TextView tv=(TextView)headerLayout.findViewById(R.id.email);
             //tv.setText(email);
-            StaticVariables.email=email;
-            StaticVariables.password=password;
 
         }catch (Exception e){
             e.printStackTrace();
@@ -159,9 +147,9 @@ public class NavigataionActivity extends AppCompatActivity
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", email);
-                params.put("password", password);
-                params.put("id", id);
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
 
                 //Log.d("params", database.get(0).getId());
                 //Log.d("service_id", StaticVariables.service_id);

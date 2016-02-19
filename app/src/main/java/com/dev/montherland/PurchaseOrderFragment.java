@@ -20,13 +20,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.adapter.PurchaseOrderListAdapter;
-import com.dev.montherland.model.Database;
 import com.dev.montherland.model.Purchase_Order_Model;
 import com.dev.montherland.parsers.Purchase_Order_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
-
-import org.json.JSONArray;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,54 +31,28 @@ import java.util.Map;
 
 
 public class PurchaseOrderFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
+    ImageButton addButton;
+    StaggeredGridLayoutManager mLayoutManager;
     private RecyclerView recyclerView;
     private List<Purchase_Order_Model> persons;
-    ImageButton addButton;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    StaggeredGridLayoutManager mLayoutManager;
-    List<Database> database;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_purchase_order,container,false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.rv);
-        addButton = (ImageButton)view.findViewById(R.id.btn_add_address);
 
-        try {
-            dbhelp.DatabaseHelper2 dbhelp = new dbhelp.DatabaseHelper2(getActivity());
-            dbhelp.getReadableDatabase();
-            database = dbhelp.getdatabase();
-            dbhelp.close();
-            Log.d("id database", database.get(0).getId());
-            Log.d("email database",database.get(0).getEmail());
-        } catch (Exception e) {
-            Log.d("error in database",e+"");
-            e.printStackTrace();
-        }
+        View view = inflater.inflate(R.layout.fragment_purchase_order, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv);
+        addButton = (ImageButton) view.findViewById(R.id.btn_add_address);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(getActivity(), CreatePurchaseOrder.class);
                 getActivity().finish();
                 startActivity(intent);
@@ -90,7 +61,7 @@ public class PurchaseOrderFragment extends Fragment {
         });
 
 
-        ActionBar mActionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
+        ActionBar mActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         mActionBar.setTitle("Orders");
 
         recyclerView.setHasFixedSize(true);
@@ -98,9 +69,9 @@ public class PurchaseOrderFragment extends Fragment {
         mLayoutManager.setOrientation(mLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (StaticVariables.isNetworkConnected(getActivity())) {
-            getPurchaseOrderLIst();        }
-        else {
-            Toast.makeText(getActivity(), "Please check the network connection", Toast.LENGTH_SHORT).show();
+            getPurchaseOrderLIst();
+        } else {
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
         }
 
         return view;
@@ -109,21 +80,25 @@ public class PurchaseOrderFragment extends Fragment {
 
     public void getPurchaseOrderLIst() {
         PDialog.show(getActivity());
-        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "master_purchase_order.php?",
-                new Response.Listener<String>()
-                {
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "master_purchase_order.php",
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         PDialog.hide();
-                        Log.v("response", response + "");
-                        try {
-                            PDialog.hide();
-                            JSONArray ar = new JSONArray(response);
-                            persons = Purchase_Order_JSONParser.parserFeed(response);
-                            recyclerView.setAdapter(new PurchaseOrderListAdapter(persons,getActivity()));
-                        } catch (Exception e) {
-                            PDialog.hide();
-//                            Log.d("json connection", "No internet access" + e);
+                        Log.v("response", response);
+                        PDialog.hide();
+                        persons = Purchase_Order_JSONParser.parserFeed(response);
+
+                        if(persons == null) {
+                            Toast.makeText(getActivity(),getResources().getString(R.string.no_order_created),Toast.LENGTH_LONG).show();
+                        } else {
+                            if(persons.get(0).getId().equals("No Data")) {
+                                Toast.makeText(getActivity(),getResources().getString(R.string.no_order_created),Toast.LENGTH_LONG).show();
+                            } else if (persons.get(0).getId().equals("Error")) {
+                                Toast.makeText(getActivity(),getResources().getString(R.string.error_occurred1),Toast.LENGTH_LONG).show();
+                            } else {
+                                recyclerView.setAdapter(new PurchaseOrderListAdapter(persons, getActivity()));
+                            }
                         }
                     }
                 },
@@ -139,21 +114,15 @@ public class PurchaseOrderFragment extends Fragment {
 
             @Override
             protected Map<String, String> getParams() {
-
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
-
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(request, "data_receive");
-        Log.v("request", request + "");
     }
-
 
 
 }

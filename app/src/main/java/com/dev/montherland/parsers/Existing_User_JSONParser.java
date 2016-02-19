@@ -9,10 +9,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by pf-05 on 2/17/2016.
- */
-
 public class Existing_User_JSONParser {
     public static List<ExistingUser_Model> parserFeed(String content) {
         try {
