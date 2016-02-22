@@ -23,6 +23,7 @@ public class StaticVariables {
     public static String customerContact;     //create purchase order spinner customerContact
     public static String customerName;     //create purchase order spinner customerContact
     public static String companyName;     //create purchase order spinner customerContact
+    public static String customerId;     //id choosen in create order customer spinner
     public static String orderType;     //create purchase order spinner customerContact
     public static String orderTypeId;     //create purchase order spinner customerContact
     public static String deliveryDate;     //create purchase order spinner customerContact
