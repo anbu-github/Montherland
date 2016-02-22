@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 
-import java.util.ArrayList;
+import com.dev.montherland.model.Database;
 
-/**
- * Created by pf-05 on 1/27/2016.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class StaticVariables {
+
+    public static List<Database> database;
+
     public static String id="";
     public static String email="";
     public static String password="";
@@ -27,6 +31,7 @@ public class StaticVariables {
     public static String pickedDateTIme="";     //create purchase order spinner customerContact
     public static String deliveryDateTIme="";     //create purchase order spinner customerContact
     public static String purchaseOrderType="";     //create purchase order spinner customerContact
+
     //create order adapter
     public static ArrayList<String> editQuantityList = new ArrayList<>();
     public static ArrayList<String> garmentTypeList = new ArrayList<>();
@@ -38,6 +43,8 @@ public class StaticVariables {
     public static ArrayList<String> garmentWashTypeId = new ArrayList<>();
     public static ArrayList<String> garmentInstr = new ArrayList<>();
 
+    // Order Details
+    public static String order_id = "";
 
     public static boolean isNetworkConnected(Activity thisActivity) {
         ConnectivityManager cm = (ConnectivityManager) thisActivity.getSystemService(Context.CONNECTIVITY_SERVICE);

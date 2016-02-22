@@ -1,6 +1,5 @@
 package com.dev.montherland.parsers;
 
-import com.dev.montherland.model.GarmentListModel;
 import com.dev.montherland.model.GarmentListModel1;
 
 import org.json.JSONArray;
@@ -10,9 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by pf-05 on 2/12/2016.
- */
+
 public class Garment_JSONParser1 {
     public static List<GarmentListModel1> parserFeed(String content) {
         try {

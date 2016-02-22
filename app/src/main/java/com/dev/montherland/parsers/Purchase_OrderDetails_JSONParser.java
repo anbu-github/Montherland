@@ -1,6 +1,5 @@
 package com.dev.montherland.parsers;
 
-import com.dev.montherland.model.Create_Address_Model;
 import com.dev.montherland.model.PurchaseOrderDetailsModel;
 
 import org.json.JSONArray;
@@ -10,14 +9,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by pf-05 on 2/12/2016.
- */
+
 public class Purchase_OrderDetails_JSONParser {
 
     public static List<PurchaseOrderDetailsModel> parserFeed(String content) {
         try {
-            // JSONObject parentObject = new JSONObject(content);
             JSONArray ar = new JSONArray(content);
             List<PurchaseOrderDetailsModel> respnse = new ArrayList<>();
             for (int i = 0; i < ar.length(); i++) {
@@ -38,7 +34,7 @@ public class Purchase_OrderDetails_JSONParser {
                 flower.setExpected_pickup(parentObject.getString("expected_pickup"));
                 flower.setInstruction(parentObject.getString("instructions"));
                 flower.setStatus(parentObject.getString("status"));
-                //Log.d("success", parentObject.getString("success"));
+                flower.setOrder_type(parentObject.getString("order_type"));
                 respnse.add(flower);
             }
 

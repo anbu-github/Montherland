@@ -1,11 +1,8 @@
 package com.dev.montherland.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by pf-05 on 2/6/2016.
- */
+
 public class Response_Model1 {
 
     ArrayList<String> id=new ArrayList<>();

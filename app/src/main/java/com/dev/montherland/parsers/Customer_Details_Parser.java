@@ -1,7 +1,6 @@
 package com.dev.montherland.parsers;
 
 import com.dev.montherland.model.Customer_Details_Model;
-import com.dev.montherland.model.GarmentListModel;
 import com.dev.montherland.util.StaticVariables;
 
 import org.json.JSONArray;
@@ -11,9 +10,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by pf-05 on 2/13/2016.
- */
 public class Customer_Details_Parser {
 
     public static List<Customer_Details_Model> parserFeed(String content) {
