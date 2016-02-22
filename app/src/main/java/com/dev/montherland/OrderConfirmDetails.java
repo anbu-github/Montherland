@@ -18,8 +18,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.adapter.OrderConfirmDetailsAdapter;
 import com.dev.montherland.model.Database;
-import com.dev.montherland.model.Response_Model;
-import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 import com.google.gson.Gson;
@@ -31,9 +29,10 @@ import java.util.List;
 import java.util.Map;
 
 public class OrderConfirmDetails extends AppCompatActivity {
-    String address1, address2, address3, city, state,address_id,zipcode;
-    TextView tv_address1, tv_address2, tv_address3, tv_city, tv_state,total_item,customer_contact,tv_zipcode;
-    TextView str_instr,company,orderType,delivery,total_no,pickup_date;
+
+    String address1, address2, address3, city, state, address_id, zipcode;
+    TextView tv_address1, tv_address2, tv_address3, tv_city, tv_state, total_item, customer_contact, tv_zipcode;
+    TextView str_instr, company, orderType, delivery, total_no, pickup_date;
     Activity thisActivity = this;
     com.dev.montherland.adapter.ExpandableListView listview;
 
@@ -44,7 +43,6 @@ public class OrderConfirmDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_details);
 
-       // Log.v("contcid", StaticVariables.contactId);
         tv_address1 = (TextView) findViewById(R.id.add1);
         tv_address2 = (TextView) findViewById(R.id.add2);
         tv_address3 = (TextView) findViewById(R.id.add3);
@@ -59,62 +57,49 @@ public class OrderConfirmDetails extends AppCompatActivity {
         total_no = (TextView) findViewById(R.id.total_no);
         total_item = (TextView) findViewById(R.id.total_quantity);
 
-       // dbhelp.DatabaseHelper2 datab = new dbhelp.DatabaseHelper2(thisActivity);
-        //database = datab.getdatabase();
-
         customer_contact = (TextView) findViewById(R.id.quantity);
-       // total_item = (TextView) findViewById(R.id.total_item_no);
+        // total_item = (TextView) findViewById(R.id.total_item_no);
         listview = (com.dev.montherland.adapter.ExpandableListView) findViewById(R.id.listView);
 
-
-           // m_bundle=getIntent().getExtras().getBundle("bundle");
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Create Order");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         address1 = getIntent().getExtras().getString("address1");
-            address2 = getIntent().getExtras().getString("address2");
-            address3 = getIntent().getExtras().getString("address3");
-            city = getIntent().getExtras().getString("city");
-            state = getIntent().getExtras().getString("state");
-            address_id = getIntent().getExtras().getString("address_id");
-            zipcode = getIntent().getExtras().getString("zipcode");
-            //        Log.v("address1",address1);
-            str_instr.setText(StaticVariables.prodcutInstr);
-            tv_address1.setText(address1);
-            tv_address2.setText(address2);
-            tv_address3.setText(address3);
-            customer_contact.setText(StaticVariables.customerName);
-            tv_state.setText(state);
-            tv_city.setText(city);
-            tv_zipcode.setText(zipcode);
-            pickup_date.setText(StaticVariables.pickupDate);
+        address2 = getIntent().getExtras().getString("address2");
+        address3 = getIntent().getExtras().getString("address3");
+        city = getIntent().getExtras().getString("city");
+        state = getIntent().getExtras().getString("state");
+        address_id = getIntent().getExtras().getString("address_id");
+        zipcode = getIntent().getExtras().getString("zipcode");
+
+        str_instr.setText(StaticVariables.prodcutInstr);
+        tv_address1.setText(address1);
+        tv_address2.setText(address2);
+        tv_address3.setText(address3);
+        customer_contact.setText(StaticVariables.customerName);
+        tv_state.setText(state);
+        tv_city.setText(city);
+        tv_zipcode.setText(zipcode);
+        pickup_date.setText(StaticVariables.pickupDate);
 
 
-        try {
-            dbhelp.DatabaseHelper2 dbhelp = new dbhelp.DatabaseHelper2(OrderConfirmDetails.this);
-            dbhelp.getReadableDatabase();
-            database = dbhelp.getdatabase();
-            dbhelp.close();
-            Log.d("id", database.get(0).getId());
-            Log.d("email",database.get(0).getEmail());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.v("expected_pickup",StaticVariables.pickedDateTIme);
+        Log.v("expected_pickup", StaticVariables.pickedDateTIme);
 
         total_no.setText(String.valueOf(StaticVariables.garmentTypeList.size()));
         company.setText(StaticVariables.companyName);
         orderType.setText(StaticVariables.orderType);
         delivery.setText(StaticVariables.deliveryDate);
-       // total_item.setText(StaticVariables.value + "");
+        // total_item.setText(StaticVariables.value + "");
 
-        Integer total=0;
-        for (int i=0;i<=StaticVariables.garmentTypeList.size()-1;i++){
-            total=total+Integer.parseInt(StaticVariables.editQuantityList.get(i));
+        Integer total = 0;
+        for (int i = 0; i <= StaticVariables.garmentTypeList.size() - 1; i++) {
+            total = total + Integer.parseInt(StaticVariables.editQuantityList.get(i));
         }
+
         total_item.setText(String.valueOf(total));
 
         listview.setAdapter(new OrderConfirmDetailsAdapter(thisActivity));
@@ -132,11 +117,10 @@ public class OrderConfirmDetails extends AppCompatActivity {
     }
 
     public void confirmOrderRequest() {
-          PDialog.show(thisActivity);
-      //  String url= "http://purplefront.net/motherland_dev/home/purchase_order_submit.php?id=4&email=test@test.com&password=aaa&customer_contact_id=5&customer_contact_address_id=6&garment_type_json="+jsonGarmentId+"&quantity_json="+jsonQuantity+"&wash_type_id_json="+jsonWashTypeId+"&style_number_json="+jsonStyle+"&wash_instructions_type=no&expected_pick_up=2016-02-18 02:15:52&expected_delivery=2016-02-18 02:15:52&order_type_id=2&instructions_json="+jsonInstr+"";
+        PDialog.show(thisActivity);
+        //  String url= "http://purplefront.net/motherland_dev/home/purchase_order_submit.php?id=4&email=test@test.com&password=aaa&customer_contact_id=5&customer_contact_address_id=6&garment_type_json="+jsonGarmentId+"&quantity_json="+jsonQuantity+"&wash_type_id_json="+jsonWashTypeId+"&style_number_json="+jsonStyle+"&wash_instructions_type=no&expected_pick_up=2016-02-18 02:15:52&expected_delivery=2016-02-18 02:15:52&order_type_id=2&instructions_json="+jsonInstr+"";
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "purchase_order_submit.php",
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         PDialog.hide();
@@ -157,7 +141,6 @@ public class OrderConfirmDetails extends AppCompatActivity {
                                     }
                                 });
                         builder.show();
-
 
 
                         try {
@@ -191,13 +174,12 @@ public class OrderConfirmDetails extends AppCompatActivity {
                 //StaticVariables.customerContact=StaticVariables.contactId;
                 String expected_pickup = StaticVariables.pickedDateTIme;
                 String expected_delivery = StaticVariables.deliveryDateTIme;
-                String jsonStyle=gson.toJson(StaticVariables.garmentStyle);
-                String jsonWashTypeId=gson.toJson(StaticVariables.garmentWashTypeId);
-                String jsonGarmentId=gson.toJson(StaticVariables.garmentIdList);
-                String jsonQuantity=gson.toJson(StaticVariables.editQuantityList);
-                String jsonInstr=gson.toJson(StaticVariables.garmentInstr);
+                String jsonStyle = gson.toJson(StaticVariables.garmentStyle);
+                String jsonWashTypeId = gson.toJson(StaticVariables.garmentWashTypeId);
+                String jsonGarmentId = gson.toJson(StaticVariables.garmentIdList);
+                String jsonQuantity = gson.toJson(StaticVariables.editQuantityList);
+                String jsonInstr = gson.toJson(StaticVariables.garmentInstr);
 
-                //  String jsonQuantity=StaticVariables.editQuantityList.toString();
                 Log.d("jsonInstr", jsonInstr);
                 Log.d("expected_pickup", expected_pickup);
                 Log.d("expected_delivery", expected_delivery);
@@ -208,23 +190,21 @@ public class OrderConfirmDetails extends AppCompatActivity {
                 Log.d("contact", StaticVariables.customerContact);
                 Log.d("address_id", address_id);
 
-//        StaticVariables.customerContact=7+"";
-                ///Log.d("customer_contact_id",StaticVariables.contactId);
 
-                params.put("id","4");
-                params.put("email","test@test.com");
-                params.put("password","aaa");
-                params.put("customer_contact_id",StaticVariables.customerContact);
-                params.put("customer_contact_address_id",address_id);
-                params.put("garment_type_json",jsonGarmentId);
-                params.put("quantity_json",jsonQuantity);
-                params.put("wash_type_id_json",jsonWashTypeId);
-                params.put("style_number_json",jsonStyle);
-                params.put("wash_instructions_type",StaticVariables.prodcutInstr);
-                params.put("expected_pick_up",expected_pickup);
-                params.put("expected_delivery",expected_delivery);
-                params.put("order_type_id",StaticVariables.orderTypeId);
-                params.put("instructions_json",jsonInstr);
+                params.put("id", StaticVariables.database.get(0).getId());
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("customer_contact_id", StaticVariables.customerContact);
+                params.put("customer_contact_address_id", address_id);
+                params.put("garment_type_json", jsonGarmentId);
+                params.put("quantity_json", jsonQuantity);
+                params.put("wash_type_id_json", jsonWashTypeId);
+                params.put("style_number_json", jsonStyle);
+                params.put("wash_instructions_type", StaticVariables.prodcutInstr);
+                params.put("expected_pick_up", expected_pickup);
+                params.put("expected_delivery", expected_delivery);
+                params.put("order_type_id", StaticVariables.orderTypeId);
+                params.put("instructions_json", jsonInstr);
 
                 return params;
             }
@@ -243,16 +223,12 @@ public class OrderConfirmDetails extends AppCompatActivity {
 
                 return true;
             case R.id.next_button:
-               // Toast.makeText(thisActivity, "confirm", Toast.LENGTH_SHORT).show();
                 if (StaticVariables.isNetworkConnected(thisActivity)) {
                     confirmOrderRequest();
-                  //  Toast.makeText(thisActivity,"This feature is under construction",Toast.LENGTH_SHORT).show();
 
+                } else {
+                    Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    Toast.makeText(thisActivity,"Please check the network connection",Toast.LENGTH_SHORT).show();
-                }
-
 
 
                 return true;

@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.model.Response_Model;
+import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
@@ -34,16 +35,15 @@ import java.util.List;
 import java.util.Map;
 
 public class CreateAddress extends AppCompatActivity {
-    EditText contactName,businessName,siteName,mobileNo,email,address1,address2,address3,city,pincode;
+    EditText email, address1, address2, address3, city, pincode;
 
     Activity thisActivity = this;
-    String data_receive = "string_req_recieve";
-    List<Response_Model> response_model;
-    ArrayList<String> stateList= new ArrayList<>();;
-    ArrayList<String> stateIdList= new ArrayList<>();;
+    ArrayList<String> stateList = new ArrayList<>();
+    ArrayList<String> stateIdList = new ArrayList<>();
     Spinner stateSpinner;
     ArrayAdapter<String> dataAdapter;
-    String strAddress1,strAddress2,strAddress3,strPincode,strState,strStateId,strCity,stateId;
+    String data_receive = "string_req_recieve", strAddress1, strAddress2, strAddress3, strPincode, strCity, stateId;
+    List<Response_Model> feedlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,16 +56,24 @@ public class CreateAddress extends AppCompatActivity {
         city = (EditText) findViewById(R.id.state);
         pincode = (EditText) findViewById(R.id.pincode);
 
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            dbhelp.DatabaseHelper2 dbhelp = new dbhelp.DatabaseHelper2(thisActivity);
+            dbhelp.getReadableDatabase();
+            StaticVariables.database = dbhelp.getdatabase();
+            dbhelp.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (StaticVariables.isNetworkConnected(thisActivity)) {
             getStateList();
-        }
-        else {
-            Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_access), Toast.LENGTH_LONG).show();
         }
 
 
-        dataAdapter = new ArrayAdapter<String>(this,
+        dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, stateList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -73,7 +81,7 @@ public class CreateAddress extends AppCompatActivity {
         stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                 stateId=stateIdList.get(position).toString();
+                stateId = String.valueOf(stateIdList.get(position));
             }
 
             @Override
@@ -81,48 +89,55 @@ public class CreateAddress extends AppCompatActivity {
 
             }
         });
-        try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
-    public void submitAddress(){
-        strAddress1=address1.getText().toString();
-        strAddress2=address2.getText().toString();
-        strAddress3=address3.getText().toString();
-        strCity=city.getText().toString();
-        strPincode=pincode.getText().toString();
+    public void submitAddress() {
+        strAddress1 = String.valueOf(address1.getText());
+        strAddress2 = String.valueOf(address2.getText());
+        strAddress3 = String.valueOf(address3.getText());
+        strCity = String.valueOf(city.getText());
+        strPincode = String.valueOf(pincode.getText());
 
 
-        if (strAddress1.equals("")){
+        if (strAddress1.equals("")) {
             address1.setError("Please enter the address");
-        }
-        else if (strCity.equals("")){
+        } else if (strCity.equals("")) {
             city.setError("Please enter the city");
-        }
-        else if (strPincode.equals("")){
+        } else if (strPincode.equals("")) {
             pincode.setError("please enter pincode");
-        }
-        else {
+        } else {
             if (StaticVariables.isNetworkConnected(thisActivity)) {
-                createAdddress();
-            }
-            else {
+                createAddress();
+            } else {
                 Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    public void createAdddress() {
-        PDialog.show(thisActivity);
-        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_address_create.php?",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        PDialog.hide();
+    public void updatedisplay() {
+        PDialog.hide();
+        if (feedlist != null) {
 
+            for (final Response_Model flower : feedlist) {
+                String success = flower.getId();
+                switch (success) {
+                    case "Error": {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                        builder.setTitle("Error")
+                                .setMessage("Unknown Error")
+                                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        break;
+                    }
+
+                    default:
                         AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
                         builder.setCancelable(false)
                                 .setTitle("Success")
@@ -130,7 +145,6 @@ public class CreateAddress extends AppCompatActivity {
                                 .setNegativeButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
                                         Intent intent = new Intent(thisActivity, SelectAddress.class);
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -139,29 +153,37 @@ public class CreateAddress extends AppCompatActivity {
                                     }
                                 });
                         builder.show();
+
+                }
+            }
+        } else {
+            Toast.makeText(thisActivity, getResources().getString(R.string.error_occurred1), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void createAddress() {
+        PDialog.show(thisActivity);
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_address_create.php?",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        PDialog.hide();
+
+
                         Log.v("response", response + "");
                         try {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
 
-                            for (int i = 0; i < ar.length(); i++) {
-                                JSONObject parentObject = ar.getJSONObject(i);
-
-
-                                Log.v("name", parentObject.getString("name"));
-
-                                //Log.d("success", parentObject.getString("success"));
-                            }
+                            feedlist = Response_JSONParser.parserFeed(response);
+                            updatedisplay();
 
 
                         } catch (JSONException e) {
                             PDialog.hide();
-                            //Log.d("response", response);
-                            //Log.d("error in json", "l " + e);
 
                         } catch (Exception e) {
                             PDialog.hide();
-//                            Log.d("json connection", "No internet access" + e);
                         }
                     }
                 },
@@ -179,9 +201,9 @@ public class CreateAddress extends AppCompatActivity {
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("customer_id", "5");
-                params.put("id", "4");
+                params.put("id", StaticVariables.database.get(0).getId());
+                params.put("customer_id", StaticVariables.database.get(0).getCustomer_id());
+                params.put("email", StaticVariables.database.get(0).getEmail());
                 params.put("address_lin1", strAddress1);
                 params.put("address_lin2", strAddress2);
                 params.put("address_lin3", strAddress3);
@@ -189,18 +211,15 @@ public class CreateAddress extends AppCompatActivity {
                 params.put("state_id", stateId);
                 params.put("zip", strPincode);
 
-                Log.v("zipcode",strPincode);
+                Log.v("zipcode", strPincode);
 
-                //id=4&email=test@test.com&address_lin1=121westparallel&address_lin2=kartiknager&address_lin3=abcd&city=bangalore&state_id=1&customer_id=5
-
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(request, data_receive);
         Log.v("request", request + "");
     }
+
     public void getStateList() {
         PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "state_list.php?",
@@ -212,26 +231,22 @@ public class CreateAddress extends AppCompatActivity {
                         try {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
-                           // response_model= Response_JSONParser.parserFeed(response);
 
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
 
-                               stateList.add(parentObject.getString("name"));
-                               stateIdList.add(parentObject.getString("id"));
-
+                                stateList.add(parentObject.getString("name"));
+                                stateIdList.add(parentObject.getString("id"));
 
                             }
-                         stateSpinner.setAdapter(dataAdapter);
+                            stateSpinner.setAdapter(dataAdapter);
 
                         } catch (JSONException e) {
                             PDialog.hide();
-                            //Log.d("response", response);
-                            //Log.d("error in json", "l " + e);
 
                         } catch (Exception e) {
                             PDialog.hide();
-//                            Log.d("json connection", "No internet access" + e);
+
                         }
                     }
                 },
@@ -245,15 +260,7 @@ public class CreateAddress extends AppCompatActivity {
                     }
                 }) {
 
-            @Override
-            protected Map<String, String> getParams() {
 
-                Map<String, String> params = new HashMap<>();
-
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
-                return params;
-            }
         };
         AppController.getInstance().addToRequestQueue(request, data_receive);
         Log.v("request", request + "");
@@ -271,22 +278,17 @@ public class CreateAddress extends AppCompatActivity {
 
         super.onBackPressed();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
-        overridePendingTransition(R.anim.left_right, R.anim.right_left);
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-            super.onBackPressed();
+                super.onBackPressed();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
                 return true;
             case R.id.save_button:
-              //  Toast.makeText(thisActivity, "Save", Toast.LENGTH_SHORT).show();
                 submitAddress();
                 return true;
 

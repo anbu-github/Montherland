@@ -1,8 +1,11 @@
 package com.dev.montherland;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +25,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.dev.montherland.model.Response_Model;
+import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
@@ -33,22 +38,29 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EditOrderDetails extends AppCompatActivity {
 
 
     Activity thisActivity=this;
-    ArrayList<String> washTypeList=new ArrayList<>();
-    ArrayList<String> garmentWashIdList=new ArrayList<>();
-    ArrayList<String> statusTypeList=new ArrayList<>();
-    ArrayList<String> statusIdList=new ArrayList<>();
-    ArrayAdapter<String> dataAdapter, dataAdapter2;
-    String line_id, garment_id, wash_id, status_id, get_date,Instrction;
+
+    ArrayList<String> washTypeList = new ArrayList<>();
+    ArrayList<String> washIdList = new ArrayList<>();
+
+    ArrayList<String> statusTypeList = new ArrayList<>();
+    ArrayList<String> statusIdList = new ArrayList<>();
+
+    String line_id, garment_id, wash_id, status_id, get_date;
+
     Spinner order_type,status;
+
     TextView item,date;
+
     Calendar myCalendar = Calendar.getInstance();
-   String myFormat1 = "yyyy-MM-dd HH:mm:ss";
+
+    String myFormat1 = "yyyy-MM-dd HH:mm:ss";
 
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat1);
     SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
@@ -56,6 +68,9 @@ public class EditOrderDetails extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener  calender_date;
     EditText quantity,style,instr;
     TimePickerDialog.OnTimeSetListener time;
+
+    List<Response_Model> respones;
+    ArrayAdapter<String> dataAdapter2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,27 +86,59 @@ public class EditOrderDetails extends AppCompatActivity {
         date=(TextView)findViewById(R.id.date_id);
 
 
+        washIdList.add("Select");
+        washTypeList.add("Select");
+        if(StaticVariables.isNetworkConnected(EditOrderDetails.this)) {
 
+            getWashTypes();
+        } else {
+            Toast.makeText(EditOrderDetails.this,getResources().getString(R.string.no_internet_connection),Toast.LENGTH_LONG).show();
+        }
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
+                R.layout.spinner_layout, washTypeList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        order_type.setAdapter(dataAdapter);
+        order_type.setFocusableInTouchMode(true);
         order_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    wash_id= String.valueOf(garmentWashIdList.get(position));
+                wash_id = String.valueOf(washIdList.get(position));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                wash_id = "";
             }
         });
+
+        statusIdList.add("Select");
+        statusTypeList.add("Select");
+        if(StaticVariables.isNetworkConnected(EditOrderDetails.this)) {
+            getStatusList();
+        } else {
+            Toast.makeText(EditOrderDetails.this,getResources().getString(R.string.no_internet_connection),Toast.LENGTH_LONG).show();
+        }
+
+
+        dataAdapter2 = new ArrayAdapter<>(this,
+                R.layout.spinner_layout, statusTypeList);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        status.setAdapter(dataAdapter);
+        status.setFocusableInTouchMode(true);
         status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    status_id= String.valueOf(statusIdList.get(position));
+                try {
+                    status_id = String.valueOf(statusIdList.get(position));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                status_id = "";
             }
         });
 
@@ -118,7 +165,6 @@ public class EditOrderDetails extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -139,24 +185,14 @@ public class EditOrderDetails extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //getPurchseOrder();
-        getWashTypes();
-        getStatusList();
 
-        dataAdapter = new ArrayAdapter<String>(this,
-               R.layout.spinner_layout, washTypeList);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        dataAdapter2 = new ArrayAdapter<String>(this,
-                R.layout.spinner_layout, statusTypeList);
-        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
     public void updateDate() {
         //In which you need put here
 
         date.setText(sdf.format(myCalendar.getTime()));
-       get_date=sdf1.format(myCalendar.getTime());
+        get_date = sdf1.format(myCalendar.getTime());
         Log.v("currentTime", myCalendar.getTime() + "");
         Log.v("pickedDateTIme", StaticVariables.pickedDateTIme);
 
@@ -168,6 +204,33 @@ public class EditOrderDetails extends AppCompatActivity {
 
     }
 
+    void update_display() {
+        if(respones != null) {
+            for(Response_Model flower: respones) {
+                if(flower.getId().equals("Success")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                    builder.setCancelable(false)
+                            .setTitle("Success")
+                            .setMessage("Successfully saved")
+                            .setNegativeButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(EditOrderDetails.this,PurchaseOrderDetails.class);
+                                    thisActivity.finish();
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                                }
+                            });
+                    builder.show();
+                } else {
+                    Toast.makeText(EditOrderDetails.this,getResources().getString(R.string.error_occurred2),Toast.LENGTH_LONG).show();
+                }
+            }
+        } else {
+            Toast.makeText(EditOrderDetails.this,getResources().getString(R.string.error_occurred1),Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void saveOrder() {
         PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "master_purchase_order_edit.php",
@@ -177,14 +240,8 @@ public class EditOrderDetails extends AppCompatActivity {
                     public void onResponse(String response) {
                         PDialog.hide();
                         Log.v("response", response);
-                        try {
-                            PDialog.hide();
-                            JSONArray ar = new JSONArray(response);
-
-
-                        } catch (Exception e) {
-                            PDialog.hide();
-                        }
+                        respones = Response_JSONParser.parserFeed(response);
+                        update_display();
                     }
                 },
 
@@ -193,7 +250,7 @@ public class EditOrderDetails extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
                         PDialog.hide();
-
+                        Toast.makeText(thisActivity,getResources().getString(R.string.no_internet_access),Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -207,9 +264,9 @@ public class EditOrderDetails extends AppCompatActivity {
                     String instru = instr.getText().toString();
                     String style_no = style.getText().toString();
 
-                    params.put("email", "test@test.com");
-                    params.put("password", "aa");
-                    params.put("id", "4");
+                    params.put("email", StaticVariables.database.get(0).getEmail());
+                    params.put("password", StaticVariables.database.get(0).getPassword());
+                    params.put("id", StaticVariables.database.get(0).getId());
                     params.put("order_line_id", line_id);
                     params.put("garment_id", garment_id);
                     params.put("quantity", quantity_str);
@@ -233,8 +290,7 @@ public class EditOrderDetails extends AppCompatActivity {
 
     public void getWashTypes() {
 
-      //  PDialog.show(thisActivity);
-        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "wash_type_list.php?",
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "wash_type_list.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -244,21 +300,27 @@ public class EditOrderDetails extends AppCompatActivity {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
 
+                            washIdList.clear();
+                            washTypeList.clear();
+
+                            washIdList.add("Select");
+                            washTypeList.add("Select");
+
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 washTypeList.add(parentObject.getString("name"));
-                                garmentWashIdList.add(parentObject.getString("id"));
+                                washIdList.add(parentObject.getString("id"));
 
                                 Log.v("name", parentObject.getString("name"));
-                                //Log.d("success", parentObject.getString("success"));
                             }
 
-                            order_type.setAdapter(dataAdapter);
+                            ArrayAdapter<String> adapter3 = new ArrayAdapter<>(EditOrderDetails.this, android.R.layout.simple_spinner_dropdown_item, washTypeList);
+                            adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            order_type.setAdapter(adapter3);
                             getPurchseOrder();
 
                         } catch (Exception e) {
                             PDialog.hide();
-//                            Log.d("json connection", "No internet access" + e);
                         }
                     }
                 },
@@ -276,21 +338,20 @@ public class EditOrderDetails extends AppCompatActivity {
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(request, "data_receive");
-        Log.v("request", request + "");
     }
 
 
     public void getPurchseOrder() {
 
        PDialog.show(thisActivity);
-        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "master_purchase_order_view.php?",
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "master_purchase_order_view.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -309,6 +370,7 @@ public class EditOrderDetails extends AppCompatActivity {
                                 instr.setText(parentObject.getString("instructions"));
                                 garment_id=parentObject.getString("garment_id");
 
+                                get_date = parentObject.getString("expected_delivery_date");
 
                             if (parentObject.getString("expected_delivery_date").contains("null")) {
 
@@ -321,15 +383,22 @@ public class EditOrderDetails extends AppCompatActivity {
 
                             }
 
-                                order_type.setSelection(Integer.parseInt(parentObject.getString("wash_id"))-1);
-                                status.setSelection(Integer.parseInt(parentObject.getString("status_id"))-1);
+                            if(!parentObject.getString("wash_id").equals("") && !parentObject.getString("wash_id").equals("null")) {
+                                order_type.setSelection(Integer.parseInt(parentObject.getString("wash_id")));
+                            }
+
+                            if(!parentObject.getString("status_id").equals("") && !parentObject.getString("status_id").equals("null")) {
 
 
 
-
+                                Log.d("status do get",parentObject.getString("status"));
+                                    int spinnerPosition = dataAdapter2.getPosition(parentObject.getString("status"));
+                                    status.setSelection(spinnerPosition);
+                            }
 
                         } catch (Exception e) {
                             PDialog.hide();
+                            e.printStackTrace();
                         }
                     }
                 },
@@ -339,7 +408,7 @@ public class EditOrderDetails extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
                         PDialog.hide();
-
+                        Toast.makeText(EditOrderDetails.this,getResources().getString(R.string.no_internet_access),Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -347,24 +416,20 @@ public class EditOrderDetails extends AppCompatActivity {
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
                 params.put("order_line_id", line_id);
-                params.put("order_id", line_id);
-
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
+                params.put("order_id", StaticVariables.order_id);
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(request, "data_receive");
-        Log.v("request", request + "");
     }
     public void getStatusList() {
 
          PDialog.show(thisActivity);
-        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "status_list.php?",
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "status_item_list.php?",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -374,6 +439,11 @@ public class EditOrderDetails extends AppCompatActivity {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
 
+                            statusIdList.clear();
+                            statusTypeList.clear();
+
+                            statusIdList.add("Select");
+                            statusTypeList.add("Select");
 
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
@@ -384,9 +454,9 @@ public class EditOrderDetails extends AppCompatActivity {
                                 //Log.d("success", parentObject.getString("success"));
                             }
 
+                            dataAdapter2 = new ArrayAdapter<>(EditOrderDetails.this, android.R.layout.simple_spinner_dropdown_item, statusTypeList);
+                            dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             status.setAdapter(dataAdapter2);
-
-
                         } catch (Exception e) {
                             PDialog.hide();
 //                            Log.d("json connection", "No internet access" + e);
@@ -431,17 +501,32 @@ public class EditOrderDetails extends AppCompatActivity {
             case android.R.id.home:
                 super.onBackPressed();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
                 return true;
             case R.id.next_button:
-                // Toast.makeText(thisActivity, "confirm", Toast.LENGTH_SHORT).show();
-                if (StaticVariables.isNetworkConnected(thisActivity)) {
-                    saveOrder();
-//                    Toast.makeText(thisActivity, "This feature is under construction", Toast.LENGTH_SHORT).show();
 
-                }
-                else {
-                    Toast.makeText(thisActivity,"Please check the network connection",Toast.LENGTH_SHORT).show();
+                String quantity_str = quantity.getText().toString();
+                String instru = instr.getText().toString();
+                String style_no = style.getText().toString();
+
+
+                if(quantity_str.trim().equals("")) {
+                    Toast.makeText(thisActivity,getResources().getString(R.string.enter_quantity),Toast.LENGTH_LONG).show();
+                } else if(wash_id.equals("") || wash_id.equals("Select")) {
+                    Toast.makeText(thisActivity,getResources().getString(R.string.select_wash_type),Toast.LENGTH_LONG).show();
+                } else if(style_no.trim().equals("")) {
+                    Toast.makeText(thisActivity,getResources().getString(R.string.select_style_code),Toast.LENGTH_LONG).show();
+                } else if(get_date.equals("null") || get_date.equals("") || get_date.equals("0000-00-00 00:00:00")) {
+                    Toast.makeText(thisActivity,getResources().getString(R.string.expected_delivery_time),Toast.LENGTH_LONG).show();
+                } else if(status_id.equals("") || status_id.equals("Select")) {
+                    Toast.makeText(thisActivity,getResources().getString(R.string.select_status),Toast.LENGTH_LONG).show();
+                } else if (instru.trim().equals("") || instru.equals("null")) {
+                    Toast.makeText(thisActivity,getResources().getString(R.string.enter_instructions),Toast.LENGTH_LONG).show();
+                } else {
+                    if (StaticVariables.isNetworkConnected(thisActivity)) {
+                        saveOrder();
+                    } else {
+                        Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
 

@@ -114,12 +114,10 @@ public class SelectAddress extends AppCompatActivity {
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("customer_id", "5");
-                params.put("id", "4");
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("customer_id", StaticVariables.customerContact);
+                params.put("id", StaticVariables.database.get(0).getId());
                 return params;
             }
         };

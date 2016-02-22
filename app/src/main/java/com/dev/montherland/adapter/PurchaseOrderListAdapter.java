@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.dev.montherland.OrderConfirmDetails;
 import com.dev.montherland.PurchaseOrderDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.model.Purchase_Order_Model;
@@ -24,34 +23,22 @@ import com.dev.montherland.util.StaticVariables;
 import java.util.List;
 
 public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrderListAdapter.MyViewHolder> {
+
     List<Purchase_Order_Model> persons;
     String date,contact,company,id;
     Context context;
-    Integer cbPos=0,selctedPos=0;
 
 
     public PurchaseOrderListAdapter(List<Purchase_Order_Model> persons,Context context) {
         this.persons = persons;
         this.context=context;
     }
-    public PurchaseOrderListAdapter(Context context,List<Purchase_Order_Model> persons){
-        this.persons = persons;
-        Intent intent=new Intent(context, OrderConfirmDetails.class);
-
-        cbPos= StaticVariables.cbpos;
-        intent.putExtra("company",persons.get(cbPos).getCustomer_company());
-        intent.putExtra("date",persons.get(cbPos).getDate());
-        intent.putExtra("contact",persons.get(cbPos).getCustomer_contact());
-        context.startActivity(intent);
-
-    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         PDialog.hide();
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.purchase_order_adapter, parent, false);
-        MyViewHolder myViewHolder = new MyViewHolder(v);
-        return myViewHolder;
+        return new MyViewHolder(v);
     }
 
     @Override
@@ -66,8 +53,8 @@ public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrder
         holder.contact.setText(contact);
         holder.company.setText(company);
         holder.id.setText(id);
+
         holder.order_type.setText(persons.get(position).getOrder_type());
-        StaticVariables.purchaseOrderType=persons.get(position).getOrder_type();
         holder.total.setText(persons.get(position).getQuantity());
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
@@ -75,13 +62,8 @@ public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrder
             public void onClick(View v) {
 
                 Intent in=new Intent(context, PurchaseOrderDetails.class);
-                in.putExtra("id",id);
-                StaticVariables.value=2;
-                StaticVariables.count=position;
+                StaticVariables.order_id = persons.get(position).getId();
                 context.startActivity(in);
-
-
-               //Toast.makeText(context, persons.get(position).getId().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 

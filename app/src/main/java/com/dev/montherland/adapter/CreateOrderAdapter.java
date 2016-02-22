@@ -15,23 +15,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.dev.montherland.AppController;
 import com.dev.montherland.R;
 import com.dev.montherland.model.GarmentListModel;
 import com.dev.montherland.model.Response_Model;
-import com.dev.montherland.util.PDialog;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.ViewHolder> {
     private Context context;
@@ -79,7 +68,7 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
 
         void garmentStyle(String style, int i);
 
-        void washType(String type, int i,int spinPosition);
+        void washType(String type, int i, int spinPosition);
         void garmentInstr(String type, int i);
     }
 

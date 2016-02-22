@@ -4,12 +4,8 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,20 +26,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.adapter.CreateOrderAdapter;
 import com.dev.montherland.model.GarmentListModel;
-import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.parsers.Garment_JSONParer;
-import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,15 +54,14 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
     ArrayList<String> orderTypeIdList = new ArrayList<>();
     ArrayList<String> garmentWashIdList = new ArrayList<>();
     ArrayList<String> garmentWashTypeList = new ArrayList<>();
-    ArrayList<String> garmentStyleList = new ArrayList<>();
     ArrayList<String> washTypeList = new ArrayList<>();
+
     Spinner customerList, Companylist, orderType;
 
-    ArrayAdapter<String> dataAdapter, dataAdapter2, orderTypeAdapter, dataAdapter4,washTypeAdapter;
-    List<Response_Model> response_model = new ArrayList<>();
+    ArrayAdapter<String> dataAdapter, dataAdapter2, orderTypeAdapter, dataAdapter4, washTypeAdapter;
     List<GarmentListModel> garment_model;
-    String companyId, customerId, contactId, companyName, customerName, order_type,pro_instr;
-    LinearLayout dateLayout, timeLayout;
+    String companyId, customerId, companyName, customerName, order_type;
+    LinearLayout dateLayout;
     DatePickerDialog.OnDateSetListener date, pickup_date;
     Calendar myCalendar = Calendar.getInstance();
     TextView dateText, timeText, pickupTime;
@@ -79,10 +70,8 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
 
     String myFormat = "dd-MM-yyyy";
     String myFormat1 = "yyyy-MM-dd HH:mm:ss";
-    DateFormat fmtDateAndTime = DateFormat.getDateTimeInstance();
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
     SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
-    DatePickerDialog dateDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +87,14 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
         dateText = (TextView) findViewById(R.id.expect_del_date);
         productInstr = (EditText) findViewById(R.id.instruction);
 
-        getOrderTypeList();
+
+        if (StaticVariables.isNetworkConnected(thisActivity)) {
+            getCompanyList();
+            getGarmentTypes();
+            getOrderTypeList();
+        } else {
+            Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_access), Toast.LENGTH_LONG).show();
+        }
 
 
         date = new DatePickerDialog.OnDateSetListener() {
@@ -140,14 +136,10 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
             @Override
             public void onClick(View v) {
 
-                // dateLayout.setBackgroundColor(Color.parseColor("#0bc6a0"));
 
-                 new DatePickerDialog(thisActivity, date, myCalendar
+                new DatePickerDialog(thisActivity, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-
-                //  dateText.setTextColor(Color.parseColor("#ffffff"));
-                //  dateLayout.setBackgroundColor(Color.parseColor("#ffffff"));
 
 
             }
@@ -156,17 +148,9 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
         timeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // dateLayout.setBackgroundColor(Color.parseColor("#0bc6a0"));
-
-
                 new DatePickerDialog(thisActivity, pickup_date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-
-
-                //  dateText.setTextColor(Color.parseColor("#ffffff"));
-                //  dateLayout.setBackgroundColor(Color.parseColor("#ffffff"));
 
 
             }
@@ -194,39 +178,29 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
         });
 
 
-        // The number of Columns
-
-
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if (StaticVariables.isNetworkConnected(thisActivity)) {
-            getCompanyList();
-            getGarmentTypes();
-        } else {
-            Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
-        }
 
-
-        dataAdapter = new ArrayAdapter<String>(this,
+        dataAdapter = new ArrayAdapter<>(this,
                 R.layout.spinner_layout, customerLIst);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        dataAdapter2 = new ArrayAdapter<String>(this,
+        dataAdapter2 = new ArrayAdapter<>(this,
                 R.layout.spinner_layout, companyList);
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        dataAdapter4 = new ArrayAdapter<String>(this,
+        dataAdapter4 = new ArrayAdapter<>(this,
                 R.layout.spinner_layout, garmentList);
         dataAdapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        orderTypeAdapter = new ArrayAdapter<String>(this,
+        orderTypeAdapter = new ArrayAdapter<>(this,
                 R.layout.spinner_layout, orderTypeList);
         orderTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        washTypeAdapter = new ArrayAdapter<String>(thisActivity,
+        washTypeAdapter = new ArrayAdapter<>(thisActivity,
                 android.R.layout.simple_spinner_item, washTypeList);
         washTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -236,9 +210,11 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 try {
-                    customerId = customerLIst.get(position);
-                    StaticVariables.customerContact = customerIdList.get(position).toString();
+                   StaticVariables.customerId=customerId;
+                    StaticVariables.customerContact = customerIdList.get(position-1).toString();
                     customerName = customerList.getSelectedItem().toString();
+
+                    Toast.makeText(thisActivity, StaticVariables.customerContact,Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -258,9 +234,8 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                 try {
                     companyId = position + "";
                     customerLIst.clear();
-                    companyName = Companylist.getSelectedItem().toString();
+                    companyName = String.valueOf(Companylist.getSelectedItem());
                     StaticVariables.companyName = companyName;
-
                     if (StaticVariables.isNetworkConnected(thisActivity)) {
                         getCustomerList();
                     } else {
@@ -305,7 +280,7 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
 
         dateText.setText(sdf.format(myCalendar.getTime()));
         StaticVariables.deliveryDate = sdf.format(myCalendar.getTime());
-        StaticVariables.deliveryDateTIme=sdf1.format(myCalendar .getTime());
+        StaticVariables.deliveryDateTIme = sdf1.format(myCalendar.getTime());
 
         Log.v("currentTime", myCalendar.getTime() + "");
         Log.v("pickedDateTIme", StaticVariables.pickedDateTIme);
@@ -318,11 +293,10 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
         String pick_date = sdf.format(myCalendar.getTime()) + "";
         StaticVariables.pickupDate = pick_date;
 
-        StaticVariables.pickedDateTIme=sdf1.format(myCalendar.getTime());
+        StaticVariables.pickedDateTIme = sdf1.format(myCalendar.getTime());
 
 
         Log.v("currentTime", StaticVariables.pickedDateTIme);
-
 
 
     }
@@ -349,22 +323,18 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                             customerLIst.add("Select Contact");
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
-                                customerLIst.add(parentObject.getString("name"));
-                                customerIdList.add(parentObject.getString("id"));
-                                // StaticVariables.customerContact=parentObject.getString("id");
-                                StaticVariables.customerName = parentObject.getString("name");
-
-                                //StaticVariables.contactId=parentObject.getString("id");
-
-                                Log.v("name", parentObject.getString("name"));
-                                //Log.d("success", parentObject.getString("success"));
+                                if (!parentObject.getString("name").equals("NO Data")) {
+                                    customerLIst.add(parentObject.getString("name"));
+                                    customerIdList.add(parentObject.getString("id"));
+                                    StaticVariables.customerName = parentObject.getString("name");
+                                    Log.v("name", parentObject.getString("name"));
+                                }
                             }
                             customerList.setAdapter(dataAdapter);
 
 
                         } catch (Exception e) {
                             PDialog.hide();
-//                            Log.d("json connection", "No internet access" + e);
                         }
                     }
                 },
@@ -382,13 +352,10 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
+                params.put("email", StaticVariables.database.get(0).getEmail());
                 params.put("customer_id", companyId);
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
-
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
                 return params;
             }
         };
@@ -440,12 +407,9 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
-
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
                 return params;
             }
         };
@@ -459,10 +423,8 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // PDialog.hide();
                         Log.v("response", response + "");
                         try {
-                            //PDialog.hide();
                             JSONArray ar = new JSONArray(response);
                             companyList.add("Select Company");
                             for (int i = 0; i < ar.length(); i++) {
@@ -471,14 +433,12 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                                 companyIdList.add(parentObject.getString("id"));
 
                                 Log.v("company_name", parentObject.getString("name"));
-                                //Log.d("success", parentObject.getString("success"));
                             }
                             Companylist.setAdapter(dataAdapter2);
 
 
                         } catch (Exception e) {
                             PDialog.hide();
-//                            Log.d("json connection", "No internet access" + e);
                         }
                     }
                 },
@@ -496,12 +456,10 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
 
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
                 return params;
             }
         };
@@ -510,7 +468,6 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
     }
 
     public void getGarmentTypes() {
-        //   PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "garment_type_list.php?",
                 new Response.Listener<String>() {
                     @Override
@@ -523,10 +480,8 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                             garment_model = Garment_JSONParer.parserFeed(response);
                             Log.v("garment size", garment_model.size() + "");
 
-
                         } catch (Exception e) {
                             PDialog.hide();
-//                            Log.d("json connection", "No internet access" + e);
                         }
                     }
                 },
@@ -544,12 +499,11 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
 
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
+
                 return params;
             }
         };
@@ -593,16 +547,13 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                 } else if (customerName.equals("Select Contact")) {
                     Toast.makeText(thisActivity, "Please select contact", Toast.LENGTH_SHORT).show();
 
-                }
-                else if (order_type.equals("Select Order Type")) {
+                } else if (order_type.equals("Select Order Type")) {
                     Toast.makeText(thisActivity, "Please select order type", Toast.LENGTH_SHORT).show();
 
-                }
-                else if (timeText.getText().toString().equals("DD-MM-YYYY")) {
+                } else if (timeText.getText().toString().equals("DD-MM-YYYY")) {
                     Toast.makeText(thisActivity, "Please set estimated pickup date", Toast.LENGTH_SHORT).show();
 
-                }
-                else if (dateText.getText().toString().equals("DD-MM-YYYY")) {
+                } else if (dateText.getText().toString().equals("DD-MM-YYYY")) {
                     Toast.makeText(thisActivity, "Please set estimated delivery date", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -617,7 +568,7 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                             if (garment_model.get(i).getGarmentQuantity().equals("")) {
 
                                 no++;
-                                // Toast.makeText(thisActivity,"Please enter the quantity of" +garment_model.get(i).getGarmentType(),Toast.LENGTH_SHORT).show();
+
                             } else {
 
                                 Boolean isValidNo = StaticVariables.checkIfNumber(garment_model.get(i).getGarmentQuantity());
@@ -629,7 +580,6 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                                     garment_quantity.add(garment_model.get(i).getGarmentQuantity());
                                     garment_type.add(garment_model.get(i).getGarmentType());
                                     garment_id.add(garment_model.get(i).getGarmentTypeId());
-                                    //  garmentStyleList.add(garment_model.get(i).getGarmentStyle());
                                     garmentWashTypeList.add(garment_model.get(i).getGarmentWashType());
                                     garmentWashIdList.add(garment_model.get(i).getGarmentTypeId());
                                 }
@@ -640,22 +590,12 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                         }
 
                     }
-                    StaticVariables.prodcutInstr=productInstr.getText().toString();
+                    StaticVariables.prodcutInstr = productInstr.getText().toString();
 
 
                     Log.v("quantity no", garment_model.get(0).getGarmentQuantity().toString());
-                     Intent in = new Intent(CreatePurchaseOrder.this, GarmentsDataActivity.class);
-                        startActivity(in);
-
-/*
-
-                    StaticVariables.editQuantityList = garment_quantity;
-                    StaticVariables.garmentTypeList = garment_type;
-                    StaticVariables.garmentIdList = garment_id;
-                    //StaticVariables.garmentStyle = garmentStyleList;
-                    StaticVariables.garmentWashtype = garmentWashTypeList;
-                  ///  StaticVariables.garmentWashTypeId = garmentWashIdList;
-*/
+                    Intent in = new Intent(CreatePurchaseOrder.this, GarmentsDataActivity.class);
+                    startActivity(in);
 
 
                 }
@@ -685,12 +625,12 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
     }
 
     @Override
-    public void washType(String type, int i,int pos) {
+    public void washType(String type, int i, int pos) {
         try {
 
 
-           // garment_model.get(i).setGarmentWashType(type);
-          //  garment_model.get(i).setGarmentWashId(i + "");
+            // garment_model.get(i).setGarmentWashType(type);
+            //  garment_model.get(i).setGarmentWashId(i + "");
         } catch (Exception e) {
             e.printStackTrace();
         }

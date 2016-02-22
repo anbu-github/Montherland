@@ -74,6 +74,7 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
                 Intent in=new Intent(context, EditOrderDetails.class);
                 in.putExtra("id",person.get(position).getId());
                 context.startActivity(in);
+
             }
         });
 

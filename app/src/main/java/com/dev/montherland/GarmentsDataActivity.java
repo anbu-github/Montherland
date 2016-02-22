@@ -2,8 +2,8 @@ package com.dev.montherland;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -124,12 +124,10 @@ public class GarmentsDataActivity extends AppCompatActivity implements CreateOrd
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
 
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
                 return params;
             }
         };
@@ -166,16 +164,16 @@ public class GarmentsDataActivity extends AppCompatActivity implements CreateOrd
                     public void onErrorResponse(VolleyError arg0) {
                         PDialog.hide();
 
-                    }
+                      }
                 }) {
 
             @Override
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
 
                 //Log.d("params", database.get(0).getId());
                 //Log.d("service_id", StaticVariables.service_id);
@@ -218,7 +216,6 @@ public class GarmentsDataActivity extends AppCompatActivity implements CreateOrd
 
                                 no++;
 
-                                // Toast.makeText(thisActivity,"Please enter the quantity of" +garment_model.get(i).getGarmentType(),Toast.LENGTH_SHORT).show();
                             } else {
 
                                 Boolean isValidNo = StaticVariables.checkIfNumber(garment_model.get(i).getGarmentQuantity());

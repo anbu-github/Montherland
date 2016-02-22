@@ -31,7 +31,7 @@ public class OrderConfirmDetailsAdapter  extends BaseAdapter{
         this.adapter = adapter;
         this.layoutInflater = LayoutInflater.from(context);
 
-        Log.v("count",StaticVariables.editQuantityList.size()+"");
+        Log.v("count", StaticVariables.editQuantityList.size()+"");
     }
     @Override
     public int getCount() {

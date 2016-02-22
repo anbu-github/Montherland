@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,28 +22,17 @@ import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 public class CustomerHomeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
     private RecyclerView recyclerView;
     private List<Response_Model> persons;
     StaggeredGridLayoutManager mLayoutManager;
     String data_receive = "string_req_recieve",id,email,password;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    // TODO: Rename and change types and number of parameters
 
     public CustomerHomeFragment() {
         // Required empty public constructor
@@ -56,29 +46,18 @@ public class CustomerHomeFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         PDialog.hide();
-                        Log.v("response", response + "");
-                        try {
-
-                            JSONArray ar = new JSONArray(response);
-                            persons= Response_JSONParser.parserFeed(response);
-                            recyclerView.setAdapter(new RecyclerViewAdapter(persons));
-
-                        } catch (JSONException e) {
-                            //Log.d("response", response);
-                            //Log.d("error in json", "l " + e);
-
-                        } catch (Exception e) {
-//                            Log.d("json connection", "No internet access" + e);
-                        }
+                        Log.v("response", response);
+                        persons = Response_JSONParser.parserFeed(response);
+                        update_display();
                     }
-                },
+                    },
 
                 new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
                         PDialog.hide();
-
+                        Toast.makeText(getActivity(),getResources().getString(R.string.no_internet_access),Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -86,17 +65,13 @@ public class CustomerHomeFragment extends Fragment {
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
-                params.put("email", "test@test.com");
-                params.put("password", "e48900ace570708079d07244154aa64a");
-                params.put("id", "4");
-
-                //Log.d("params", database.get(0).getId());
-                //Log.d("service_id", StaticVariables.service_id);
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(request, data_receive);
-        Log.v("request", request + "");
     }
 
 
@@ -122,7 +97,13 @@ public class CustomerHomeFragment extends Fragment {
         ActionBar mActionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
         mActionBar.setTitle("Customer List");
 
-        getMasterList();
+        if (StaticVariables.isNetworkConnected(getActivity())) {
+            getMasterList();
+        }
+        else {
+            Toast.makeText(getActivity(),getResources().getString(R.string.no_internet_connection),Toast.LENGTH_LONG).show();
+
+        }
         recyclerView = (RecyclerView)view.findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
         mLayoutManager=new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -132,7 +113,13 @@ public class CustomerHomeFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+        void update_display() {
+        if(persons != null) {
+            recyclerView.setAdapter(new RecyclerViewAdapter(persons));
+        } else {
+            Toast.makeText(getActivity(),getResources().getString(R.string.no_customer_found),Toast.LENGTH_LONG).show();
+        }
+    }
 
 
 }

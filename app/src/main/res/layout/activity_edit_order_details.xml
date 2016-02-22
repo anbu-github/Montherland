@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="  Medium Text"
+            android:text=""
             android:id="@+id/item"
             android:layout_alignTop="@+id/textView19"
             android:layout_toRightOf="@+id/textView22"
@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:hint="Medium Text"
+            android:hint="@string/enter_quantity2"
             android:id="@+id/quantity"
             android:layout_below="@+id/item"
             android:inputType="number"
@@ -105,13 +105,13 @@
     android:layout_alignStart="@+id/style"
     android:layout_marginLeft="5dp"
     android:layout_marginTop="8dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="YYYY-MM-DD"
             android:gravity="center"
-            android:maxLength="11"
             android:id="@+id/date_id" />
 </LinearLayout>
 
@@ -132,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:hint="Style code"
+            android:hint="@string/enter_style_code"
             android:id="@+id/style"
             android:maxLength="11"
             android:layout_below="@+id/order_type"
@@ -235,7 +235,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Instruction"
+            android:text="@string/enter_instruction"
             android:id="@+id/instr"
             android:layout_below="@+id/textView13"
             android:layout_alignLeft="@+id/textView19"

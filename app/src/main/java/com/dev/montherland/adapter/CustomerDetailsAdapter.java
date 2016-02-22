@@ -1,112 +1,103 @@
 package com.dev.montherland.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dev.montherland.PurchaseOrderDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.model.Customer_Details_Model;
-import com.dev.montherland.model.GarmentListModel1;
+import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by pf-05 on 2/13/2016.
  */
-public class CustomerDetailsAdapter extends BaseAdapter{
+public class CustomerDetailsAdapter extends RecyclerView.Adapter<CustomerDetailsAdapter.MyViewHolder> {
 
-    private Context context;
+
     private LayoutInflater layoutInflater;
-    private int count;
     private ArrayAdapter<String> adapter;
-    List<Customer_Details_Model> person;
-    ArrayList<String> editQuantityList = new ArrayList<>();
-    ArrayList<String> editQuantityList1 = new ArrayList<>();
+    List<Customer_Details_Model> persons;
+    String date,contact,company,id;
+    Context context;
+
     public  CustomerDetailsAdapter(Context context,List<Customer_Details_Model> person) {
         this.context = context;
-        this.person=person;
+        this.persons=person;
         this.adapter = adapter;
         this.layoutInflater = LayoutInflater.from(context);
 
         Log.v("count", StaticVariables.editQuantityList.size() + "");
     }
     @Override
-    public int getCount() {
-        return person.size();
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        PDialog.hide();
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.purchase_order_adapter, parent, false);
+        return new MyViewHolder(v);
     }
 
     @Override
-    public String getItem(int position) {
-        return "";
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+
+        date=persons.get(position).getDate();
+        contact=persons.get(position).getName();
+        //company=persons.get(position).getCustomer_company();
+        //id=persons.get(position).getId();
+
+        //holder.date.setText(date);
+        holder.contact.setText(contact);
+        //holder.company.setText(company);
+        //holder.id.setText(id);
+
+       // holder.order_type.setText(persons.get(position).getOrder_type());
+        //holder.total.setText(persons.get(position).getQuantity());
+
+        holder.cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               Toast.makeText(context,"it goes",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public int getItemCount() {
+        return persons.size();
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        // if (convertView == null) {
-        final ViewHolder holder;
-        convertView = layoutInflater.inflate(R.layout.customer_details_adapter, null);
-            /*ViewHolder viewHolder = new ViewHolder(convertView);
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
+        CardView cv;
+        TextView date,contact,company;
+        CheckBox cb;
+        TextView city,id,order_type,total;
 
-            convertView.setTag(viewHolder);
-*/
-        holder = new ViewHolder();
+        public MyViewHolder(View itemView){
+            super(itemView);
+            cv = (CardView)itemView.findViewById(R.id.select_address);
+            date = (TextView)itemView.findViewById(R.id.date);
+            contact = (TextView)itemView.findViewById(R.id.contact);
+            company = (TextView)itemView.findViewById(R.id.item);
+            order_type = (TextView)itemView.findViewById(R.id.order_type);
+            id = (TextView)itemView.findViewById(R.id.id);
+            total = (TextView)itemView.findViewById(R.id.total);
 
-        try {
-
-            holder.name = (TextView) convertView.findViewById(R.id.name);
-            holder.date = (TextView) convertView.findViewById(R.id.date);
-            holder.name.setText(person.get(position).getName());
-            holder.date.setText(person.get(position).getDate());
-
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context,person.get(position).getId(),Toast.LENGTH_SHORT).show();
-
-                    Intent in=new Intent(context, PurchaseOrderDetails.class);
-                    StaticVariables.value=2;
-                    StaticVariables.count=position;
-                    context.startActivity(in);
-                    //overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
-                }
-            });
         }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return convertView;
-    }
-
-    private void initializeViews(String object, ViewHolder holder) {
-        //TODO implement
-    }
-
-    /**
-     * This class contains all butterknife-injected Views & Layouts from layout file 'inflate_assignmentlist.xml'
-     * for easy to all layout elements.
-     *
-     * @author ButterKnifeZelezny, plugin for Android Studio by Avast Developers (http://github.com/avast)
-     */
-
-    private class ViewHolder {
-        TextView name,date;
     }
 
 }

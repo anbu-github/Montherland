@@ -1,9 +1,5 @@
 package com.dev.montherland;
 
-/**
- * Created by pf-05 on 2/17/2016.
- */
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -28,12 +24,10 @@ public class dbhelp {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_PHONE = "phone";
-    private static final String KEY_PROFILE = "prifile_id";
-    private static final String KEY_BUSINESS_ID = "business_id";
+    private static final String KEY_PROFILE = "profile_id";
     private static final String KEY_ROLE_ID = "role_id";
-    private static final String KEY_NODE_ID = "node_id";
-    private static final String KEY_PERMISSION_ID = "permission_id";
-    private static final String KEY_LEVEL_ID = "customer_id";
+    private static final String KEY_CUSTOMER_ID = "customer_id";
+
     private final Context ourctx;
     private SQLiteDatabase ourdb;
     private DatabaseHelper2 ourhelper;
@@ -71,8 +65,8 @@ public class dbhelp {
         ourdb.update(DATABASE_TABLE, cv5, KEY_ID + "=" + id, null);
     }
 
-    public void createuser(String id, String name, String email, String password, String phone,
-                           String business_id, String profile_id, String node_id, String role_id, String permission_id, String level_id) {
+    public void createuser(String id, String name, String email, String password, String phone, String customer_id, String profile_id, String role_id) {
+
         ourdb.delete(DATABASE_TABLE, null, null);
         ContentValues cv = new ContentValues();
         cv.put(KEY_ID, id);
@@ -81,31 +75,21 @@ public class dbhelp {
         cv.put(KEY_PASSWORD, password);
         cv.put(KEY_PHONE, phone);
         cv.put(KEY_PROFILE, profile_id);
-        cv.put(KEY_BUSINESS_ID, business_id);
-        if (node_id.equals("null") || node_id.equals("")) {
-            cv.put(KEY_NODE_ID, "");
-        } else {
-            cv.put(KEY_NODE_ID, node_id);
-        }
+
         if (role_id.equals("null") || role_id.equals("")) {
             cv.put(KEY_ROLE_ID, "");
         } else {
             cv.put(KEY_ROLE_ID, role_id);
         }
-        if (permission_id.equals("null") || permission_id.equals("")) {
-            cv.put(KEY_PERMISSION_ID, "");
+        if (customer_id.equals("") || customer_id.equals("")) {
+            cv.put(KEY_CUSTOMER_ID,"");
         } else {
-            cv.put(KEY_PERMISSION_ID, permission_id);
+            cv.put(KEY_CUSTOMER_ID,customer_id);
         }
-        cv.put(KEY_LEVEL_ID, "");
-
-//        if (level_id.equals("null") || level_id.equals("")) {
-//            cv.put(KEY_LEVEL_ID,"");
-//        } else {
-//            cv.put(KEY_LEVEL_ID,level_id);
-//        }
         ourdb.insert(DATABASE_TABLE, null, cv);
+
     }
+
 
     public void updatepassword(String id, String password) {
         ContentValues cv4 = new ContentValues();
@@ -129,11 +113,8 @@ public class dbhelp {
                     KEY_PASSWORD + " TEXT NOT NULL, " +
                     KEY_PHONE + " TEXT NOT NULL, " +
                     KEY_PROFILE + " TEXT NOT NULL, " +
-                    KEY_BUSINESS_ID + " TEXT NOT NULL, " +
-                    KEY_ROLE_ID + " TEXT NOT NULL, " +
-                    KEY_NODE_ID + " TEXT NOT NULL, " +
-                    KEY_PERMISSION_ID + " TEXT NOT NULL, " +
-                    KEY_LEVEL_ID + " TEXT NOT NULL);");
+                    KEY_CUSTOMER_ID + " TEXT NOT NULL, " +
+                    KEY_ROLE_ID + " TEXT NOT NULL);");
         }
 
         @Override
@@ -144,34 +125,34 @@ public class dbhelp {
         }
 
         public List<Database> getdatabase() {
-            List<Database> databases = new ArrayList<>();
-            SQLiteDatabase db = this.getReadableDatabase();
-            String query2 = "Select * from " + DATABASE_TABLE;
-            String query = "Select * from user_master";
-            //Log.d("query2", query2);
-            // Log.d("query", query);
-            Cursor c = db.rawQuery(query, null);
 
-            if (c != null) {
-                c.moveToFirst();
-                Database td = new Database();
-                //Log.d("id", c.getString(c.getColumnIndex("id")));
-                td.setId(c.getString(c.getColumnIndex(KEY_ID)));
-                Log.d("id", c.getString(c.getColumnIndex(KEY_ID)));
-                td.setName(c.getString(c.getColumnIndex(KEY_NAME)));
-                td.setEmail(c.getString(c.getColumnIndex(KEY_EMAIL)));
-                td.setPhone(c.getString(c.getColumnIndex(KEY_PHONE)));
-                td.setPassword(c.getString(c.getColumnIndex(KEY_PASSWORD)));
-                td.setProfile_id(c.getString(c.getColumnIndex(KEY_PROFILE)));
-                td.setBusiness_id(c.getString(c.getColumnIndex(KEY_BUSINESS_ID)));
-                td.setRole_id(c.getString(c.getColumnIndex(KEY_ROLE_ID)));
-                td.setNode_id(c.getString(c.getColumnIndex(KEY_NODE_ID)));
-                td.setPermission_id(c.getString(c.getColumnIndex(KEY_PERMISSION_ID)));
-                td.setLevel_id(c.getString(c.getColumnIndex(KEY_LEVEL_ID)));
-                databases.add(td);
-                c.close();
+            try {
+                List<Database> databases = new ArrayList<>();
+                SQLiteDatabase db = this.getReadableDatabase();
+                String query = "Select * from " + DATABASE_TABLE;
+                //String query = "Select * from user_master";
+                Cursor c = db.rawQuery(query, null);
+
+                if (c != null) {
+                    c.moveToFirst();
+                    Database td = new Database();
+                    td.setId(c.getString(c.getColumnIndex(KEY_ID)));
+                    Log.d("id", c.getString(c.getColumnIndex(KEY_ID)));
+                    td.setName(c.getString(c.getColumnIndex(KEY_NAME)));
+                    td.setEmail(c.getString(c.getColumnIndex(KEY_EMAIL)));
+                    td.setPhone(c.getString(c.getColumnIndex(KEY_PHONE)));
+                    td.setPassword(c.getString(c.getColumnIndex(KEY_PASSWORD)));
+                    td.setProfile_id(c.getString(c.getColumnIndex(KEY_PROFILE)));
+                    td.setCustomer_id(c.getString(c.getColumnIndex(KEY_CUSTOMER_ID)));
+                    td.setRole_id(c.getString(c.getColumnIndex(KEY_ROLE_ID)));
+                    databases.add(td);
+                    c.close();
+                }
+                return databases;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
             }
-            return databases;
         }
 
     }

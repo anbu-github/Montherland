@@ -1,6 +1,5 @@
 package com.dev.montherland;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 
 import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.util.PDialog;
@@ -21,7 +19,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(List<Response_Model> persons) {
         this.persons = persons;
     }
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         PDialog.hide();
@@ -56,7 +53,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         CardView cv;
         TextView personName;
-        TextView city;
 
         public MyViewHolder(View itemView){
             super(itemView);

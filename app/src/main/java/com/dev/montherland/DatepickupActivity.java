@@ -1,12 +1,9 @@
 package com.dev.montherland;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import com.dev.montherland.util.StaticVariables;
 
 public class DatepickupActivity extends AppCompatActivity {
 
@@ -42,7 +39,6 @@ public class DatepickupActivity extends AppCompatActivity {
 
                 return true;
             case R.id.next_button:
-                // Toast.makeText(thisActivity, "confirm", Toast.LENGTH_SHORT).show();
 
                 super.onBackPressed();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
