@@ -17,7 +17,7 @@
         android:layout_marginTop="10dp">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Review Order"
@@ -26,6 +26,18 @@
             android:id="@+id/textView17"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Edit"
+            android:gravity="end"
+            android:visibility="gone"
+            android:id="@+id/edit_order"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:textColor="#ffffff" />
     </LinearLayout>
 
     <RelativeLayout
@@ -212,6 +224,20 @@
             android:layout_marginEnd="67dp"
             android:layout_marginTop="5dp"
             android:textColor="#ffffff" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Edit"
+            android:gravity="end"
+            android:id="@+id/textView18"
+            android:visibility="gone"
+            android:textColor="#ffffff"
+            android:layout_alignTop="@+id/textView27"
+            android:layout_toRightOf="@+id/textView27"
+            android:layout_toEndOf="@+id/textView27"
+            android:layout_marginRight="5dp" />
     </RelativeLayout>
 
     <com.dev.montherland.adapter.ExpandableListView
@@ -229,7 +255,7 @@
         android:layout_marginTop="10dp" >
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Address for Pickup"
@@ -238,6 +264,21 @@
             android:id="@+id/textView31"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Edit"
+            android:gravity="end"
+            android:visibility="gone"
+            android:id="@+id/textView23"
+            android:textColor="#ffffff"
+            android:layout_alignTop="@+id/textView27"
+            android:layout_toRightOf="@+id/textView27"
+            android:layout_toEndOf="@+id/textView27"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -305,7 +346,7 @@
             android:layout_marginTop="10dp" >
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Instructions"
@@ -314,6 +355,21 @@
                 android:id="@+id/textView35"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Edit"
+                android:gravity="end"
+                android:id="@+id/textView26"
+                android:textColor="#ffffff"
+                android:visibility="gone"
+                android:layout_alignTop="@+id/textView27"
+                android:layout_toRightOf="@+id/textView27"
+                android:layout_toEndOf="@+id/textView27"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp" />
         </LinearLayout>
 
         <TextView

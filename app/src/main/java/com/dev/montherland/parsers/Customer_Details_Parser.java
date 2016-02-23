@@ -24,7 +24,10 @@ public class Customer_Details_Parser {
                 StaticVariables.quantityList.add(parentObject.getString("id"));
                 flower.setName(parentObject.getString("name"));
                 flower.setDate(parentObject.getString("DATE"));
-                //Log.d("success", parentObject.getString("success"));
+                flower.setCompany_name(parentObject.getString("order_type"));
+                flower.setOrder_type(parentObject.getString("order_type"));
+                flower.setQuanity(parentObject.getString("quantity"));
+                //Log.d("set", parentObject.getString("success"));
                 respnse.add(flower);
             }
 

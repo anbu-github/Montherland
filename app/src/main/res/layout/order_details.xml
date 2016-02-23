@@ -33,7 +33,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="EDIT"
                 android:textColor="@android:color/white"
-                android:id="@+id/edit"
+                android:id="@+id/edit_order"
                 android:layout_alignTop="@+id/textView17"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -360,18 +360,29 @@
             android:layout_height="match_parent"
             android:weightSum="1">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:src="@drawable/map"
-                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:src="@drawable/map"
+                    android:layout_height="20dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/imageView4"
+                    android:layout_marginTop="1dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Add1"
                 android:id="@+id/add1"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="15dp" />
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/imageView4"
+                android:layout_toEndOf="@+id/imageView4" />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -380,7 +391,7 @@
                 android:text="Add2"
                 android:id="@+id/add2"
                 android:layout_marginTop="8dp"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="18dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -389,7 +400,7 @@
                 android:text="Add3"
                 android:id="@+id/add3"
                 android:layout_marginTop="8dp"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="18dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -397,7 +408,7 @@
                 android:text="State"
                 android:id="@+id/state"
                 android:layout_marginTop="8dp"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="18dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -405,7 +416,7 @@
                 android:text="city"
                 android:id="@+id/city"
                 android:layout_marginTop="8dp"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="18dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -413,7 +424,7 @@
                 android:text="zipcode"
                 android:id="@+id/zipcode"
                 android:layout_marginTop="8dp"
-                android:layout_marginLeft="15dp" />
+                android:layout_marginLeft="18dp" />
 
             <RelativeLayout
                 android:orientation="horizontal"

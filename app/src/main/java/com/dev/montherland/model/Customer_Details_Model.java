@@ -8,6 +8,33 @@ public class Customer_Details_Model {
     String id;
     String date;
     String name;
+    String order_type;
+    String company_name;
+    String quanity;
+
+    public String getOrder_type() {
+        return order_type;
+    }
+
+    public void setOrder_type(String order_type) {
+        this.order_type = order_type;
+    }
+
+    public String getCompany_name() {
+        return company_name;
+    }
+
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
+    }
+
+    public String getQuanity() {
+        return quanity;
+    }
+
+    public void setQuanity(String quanity) {
+        this.quanity = quanity;
+    }
 
     public String getName() {
         return name;

@@ -1,6 +1,7 @@
 package com.dev.montherland.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dev.montherland.PurchaseOrderDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.model.Customer_Details_Model;
 import com.dev.montherland.util.PDialog;
@@ -51,22 +53,26 @@ public class CustomerDetailsAdapter extends RecyclerView.Adapter<CustomerDetails
 
         date=persons.get(position).getDate();
         contact=persons.get(position).getName();
-        //company=persons.get(position).getCustomer_company();
-        //id=persons.get(position).getId();
+        company=persons.get(position).getCompany_name();
+        id=persons.get(position).getId();
 
-        //holder.date.setText(date);
+        holder.date.setText(date);
         holder.contact.setText(contact);
-        //holder.company.setText(company);
-        //holder.id.setText(id);
+        holder.company.setVisibility(View.INVISIBLE);
+        holder.id.setText(id);
 
-       // holder.order_type.setText(persons.get(position).getOrder_type());
-        //holder.total.setText(persons.get(position).getQuantity());
+        holder.order_type.setText(persons.get(position).getOrder_type());
+        holder.total.setText(persons.get(position).getQuanity());
 
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-               Toast.makeText(context,"it goes",Toast.LENGTH_SHORT).show();
+                Intent in=new Intent(context, PurchaseOrderDetails.class);
+                StaticVariables.value=2;
+                StaticVariables.order_id=persons.get(position).getId();
+                StaticVariables.count=position;
+                context.startActivity(in);
             }
         });
 

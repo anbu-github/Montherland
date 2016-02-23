@@ -1,10 +1,13 @@
 package com.dev.montherland;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,8 @@ import com.dev.montherland.util.StaticVariables;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +40,8 @@ public class PurchaseOrderDetails extends AppCompatActivity {
     StaggeredGridLayoutManager mLayoutManager;
     com.dev.montherland.adapter.ExpandableListView listview;
 
-    TextView cusName,cusCompany,add1,add2,add3,state,city,zipcode,date,pickup_date,delivery_date,status,order_type,instr;
-
+    TextView cusName,cusCompany,add1,add2,add3,state,city,zipcode,date,pickup_date,edit_order,status,order_type,instr;
+    Activity thisActivity=this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +61,32 @@ public class PurchaseOrderDetails extends AppCompatActivity {
         order_type=(TextView)findViewById(R.id.order_type);
         instr=(TextView)findViewById(R.id.instr);
         zipcode=(TextView)findViewById(R.id.zipcode);
+        edit_order = (TextView) findViewById(R.id.edit_order);
+
+
+        edit_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent orderIntent=new Intent(thisActivity,CreatePurchaseOrder.class);
+                Bundle args = new Bundle();
+              //  orderIntent.putExtra("edit_order",ArrayList<PurchaseOrderDetaFilsModel>);
+                args.putSerializable("edit_order", (Serializable)feedlist);
+                orderIntent.putExtra("BUNDLE",args);
+                orderIntent.putExtra("order_details","order_details");
+                orderIntent.putExtra("order_id",feedlist.get(0).getId());
+
+                startActivity(orderIntent);
+
+            }
+        });
+
 
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mLayoutManager.setOrientation(mLayoutManager.VERTICAL);
         listview = (com.dev.montherland.adapter.ExpandableListView) findViewById(R.id.listView);
 
-        getJobsList();
+        getOrderDetails();
     }
 
     private void update_display(String response) {
@@ -113,7 +138,7 @@ public class PurchaseOrderDetails extends AppCompatActivity {
         }
     }
 
-    public void getJobsList(){
+    public void getOrderDetails(){
 
         PDialog.show(PurchaseOrderDetails.this);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "master_purchase_order_details.php",

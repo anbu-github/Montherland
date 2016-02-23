@@ -1,6 +1,7 @@
 package com.dev.montherland;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.adapter.PurchaseOrderListAdapter;
+import com.dev.montherland.model.PurchaseOrderDetailsModel;
 import com.dev.montherland.model.Purchase_Order_Model;
 import com.dev.montherland.parsers.Purchase_Order_JSONParser;
 import com.dev.montherland.util.PDialog;
@@ -22,6 +24,7 @@ import com.dev.montherland.util.StaticVariables;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +51,14 @@ public class PurchaseOrderActivity extends AppCompatActivity {
 
         if (StaticVariables.isNetworkConnected(thisActivity)) {
             getPurchaseOrderLIst();
+
+            Intent intent = getIntent();
+            Bundle args = intent.getBundleExtra("BUNDLE");
+            ArrayList<PurchaseOrderDetailsModel> feedlist = (ArrayList<PurchaseOrderDetailsModel>) args.getSerializable("edit_order");
+
+
+            Toast.makeText(thisActivity,  feedlist.get(0).getName(), Toast.LENGTH_SHORT).show();
+
 
         }
         else {

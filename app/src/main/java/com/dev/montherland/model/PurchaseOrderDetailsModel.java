@@ -1,9 +1,11 @@
 package com.dev.montherland.model;
 
+import java.io.Serializable;
+
 /**
  * Created by pf-05 on 2/12/2016.
  */
-public class PurchaseOrderDetailsModel {
+public class PurchaseOrderDetailsModel implements Serializable{
 
     String id;
     String success;

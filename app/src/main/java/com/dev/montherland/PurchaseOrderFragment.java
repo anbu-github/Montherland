@@ -115,9 +115,15 @@ public class PurchaseOrderFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("email", StaticVariables.database.get(0).getEmail());
-                params.put("password", StaticVariables.database.get(0).getPassword());
-                params.put("id", StaticVariables.database.get(0).getId());
+                try {
+                    params.put("email", StaticVariables.database.get(0).getEmail());
+                    params.put("password", StaticVariables.database.get(0).getPassword());
+                    params.put("id", StaticVariables.database.get(0).getId());
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 return params;
             }
         };

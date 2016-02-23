@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ public class OrderConfirmDetails extends AppCompatActivity {
 
     String address1, address2, address3, city, state, address_id, zipcode;
     TextView tv_address1, tv_address2, tv_address3, tv_city, tv_state, total_item, customer_contact, tv_zipcode;
-    TextView str_instr, company, orderType, delivery, total_no, pickup_date;
+    TextView str_instr, company, orderType, delivery, total_no, pickup_date,edit_order;
     Activity thisActivity = this;
     com.dev.montherland.adapter.ExpandableListView listview;
 
@@ -56,6 +57,8 @@ public class OrderConfirmDetails extends AppCompatActivity {
         delivery = (TextView) findViewById(R.id.date);
         total_no = (TextView) findViewById(R.id.total_no);
         total_item = (TextView) findViewById(R.id.total_quantity);
+        edit_order = (TextView) findViewById(R.id.edit_order);
+
 
         customer_contact = (TextView) findViewById(R.id.quantity);
         // total_item = (TextView) findViewById(R.id.total_item_no);
