@@ -69,8 +69,8 @@ public class PurchaseOrderDetails extends AppCompatActivity {
         edit_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(thisActivity,CreateAddress.class);
-                intent.putExtra("edit_address","edit_address");
+                Intent intent=new Intent(thisActivity,SelectAddress.class);
+                intent.putExtra("change_address","change_address");
                 startActivity(intent);
             }
         });

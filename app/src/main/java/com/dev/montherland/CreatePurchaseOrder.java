@@ -45,7 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrderAdapter.DataFromAdapterToActivity {
+public class CreatePurchaseOrder extends AppCompatActivity {
 
     Activity thisActivity = this;
     String data_receive = "string_req_recieve";
@@ -355,7 +355,9 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                      //  PDialog.hide();
+                      //
+                      //
+                      // PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             PDialog.hide();
@@ -420,7 +422,7 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                       // PDialog.hide();
+                        PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             JSONArray ar = new JSONArray(response);
@@ -479,7 +481,7 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                       // PDialog.hide();
+                        PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             PDialog.hide();
@@ -532,7 +534,7 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                       // PDialog.hide();
+                        PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             JSONArray ar = new JSONArray(response);
@@ -686,51 +688,16 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
         } else if (deliveryDate.getText().toString().equals("DD-MM-YYYY")) {
             Toast.makeText(thisActivity, "Please set estimated delivery date", Toast.LENGTH_SHORT).show();
 
-        } else {
-            ArrayList<String> garment_type = new ArrayList<>();
-            ArrayList<String> garment_quantity = new ArrayList<>();
-            ArrayList<String> garment_id = new ArrayList<>();
-            int no = 0;
-
-            for (int i = 0; i <= garment_model.size(); i++) {
-
-                try {
-                    if (garment_model.get(i).getGarmentQuantity().equals("")) {
-
-                        no++;
-
-                    } else {
-
-                        Boolean isValidNo = StaticVariables.checkIfNumber(garment_model.get(i).getGarmentQuantity());
-
-                        if (!isValidNo) {
-                            Toast.makeText(thisActivity, "Please enter valid number", Toast.LENGTH_SHORT).show();
-                        } else {
-
-                            garment_quantity.add(garment_model.get(i).getGarmentQuantity());
-                            garment_type.add(garment_model.get(i).getGarmentType());
-                            garment_id.add(garment_model.get(i).getGarmentTypeId());
-                            garmentWashTypeList.add(garment_model.get(i).getGarmentWashType());
-                            garmentWashIdList.add(garment_model.get(i).getGarmentTypeId());
-                        }
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-            StaticVariables.prodcutInstr = productInstr.getText().toString();
+        }  StaticVariables.prodcutInstr = productInstr.getText().toString();
 
 
-            Log.v("quantity no", garment_model.get(0).getGarmentQuantity().toString());
             Intent in = new Intent(CreatePurchaseOrder.this, GarmentsDataActivity.class);
             startActivity(in);
 
 
         }
 
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -748,10 +715,6 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                 }else {
                     nextPage();
                 }
-
-
-
-
                 return true;
 
             default:
@@ -759,37 +722,6 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
         }
     }
 
-    @Override
-    public void garmentQuantity(String quantity, int i) {
-        garment_model.get(i).setGarmentQuantity(quantity);
-        Log.v("quantity", quantity + "");
-
-    }
-
-    @Override
-    public void garmentStyle(String style, int i) {
-        //  garment_model.get(i).setGarmentStyle(style);
-        StaticVariables.garmentStyle.add(style);
-        Log.v("garmentStyle", style);
 
 
-    }
-
-    @Override
-    public void washType(String type, int i, int pos) {
-        try {
-
-
-            // garment_model.get(i).setGarmentWashType(type);
-            //  garment_model.get(i).setGarmentWashId(i + "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void garmentInstr(String type, int i) {
-
-    }
 }
