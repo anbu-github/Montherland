@@ -28,7 +28,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.adapter.CreateOrderAdapter;
 import com.dev.montherland.model.GarmentListModel;
+import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.parsers.Garment_JSONParer;
+import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 import com.google.gson.Gson;
@@ -247,6 +249,7 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
 
                     Toast.makeText(thisActivity, StaticVariables.customerContact,Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
+
                     e.printStackTrace();
                 }
             }
@@ -274,6 +277,7 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                     }
 
                 } catch (Exception e) {
+                    PDialog.hide();
                     e.printStackTrace();
                 }
             }
@@ -295,6 +299,8 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
 
 
                 } catch (Exception e) {
+                    PDialog.hide();
+
                     e.printStackTrace();
                 }
             }
@@ -328,13 +334,15 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
 
 
         Log.v("currentTime", StaticVariables.pickedDateTIme);
+
+
     }
 
 
     private void updateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-        pickupTime.setText(sdf.format(myCalendar.getTime()));
+        pickupTime.setText(sdf.format(myCalendar1.getTime()));
 
         StaticVariables.pickedDateTIme = sdf1.format(myCalendar1.getTime());
 
@@ -347,12 +355,11 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
+                      //  PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
-
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 if (!parentObject.getString("status_id").equals("NO Data")) {
@@ -408,15 +415,14 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
 
     public void getCustomerList() {
 
-        // PDialog.show(thisActivity);
+         PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_company_list.php?",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
+                       // PDialog.hide();
                         Log.v("response", response + "");
                         try {
-                            PDialog.hide();
                             JSONArray ar = new JSONArray(response);
 
                             customerLIst.add("Select Contact");
@@ -431,16 +437,6 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                                 if (menuTitle.contains("Save")){
                                     getEditOrderDetails();
                                 }
-
-                                Log.v("customerId",contactId);
-                                int pos=0;
-
-                                for (String s : customerIdList) {
-                                    pos = s.indexOf(contactId);
-                                    Log.v("pos",pos+"");
-                                }
-                                customerList.setSelection(1);
-
 
                             }
                             customerList.setAdapter(dataAdapter);
@@ -478,12 +474,12 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
 
     public void getOrderTypeList() {
 
-        // PDialog.show(thisActivity);
+       //  PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "order_type_list.php?",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
+                       // PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             PDialog.hide();
@@ -536,6 +532,7 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                       // PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             JSONArray ar = new JSONArray(response);
@@ -588,12 +585,29 @@ public class CreatePurchaseOrder extends AppCompatActivity implements CreateOrde
                     @Override
                     public void onResponse(String response) {
                         PDialog.hide();
-                        Log.v("response", response);
-
-
                         try {
-                            PDialog.hide();
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                            builder.setCancelable(false)
+                                    .setTitle("Success")
+                                    .setMessage("Successfully Saved")
+                                    .setNegativeButton("ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            Intent intent = new Intent(thisActivity, NavigataionActivity.class);
+                                            startActivity(intent);
+                                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                                        }
+                                    });
+                            builder.show();
+
                             JSONArray ar = new JSONArray(response);
+
+
+
+
 
 
                         } catch (Exception e) {

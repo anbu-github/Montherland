@@ -40,8 +40,9 @@ public class PurchaseOrderDetails extends AppCompatActivity {
     StaggeredGridLayoutManager mLayoutManager;
     com.dev.montherland.adapter.ExpandableListView listview;
 
-    TextView cusName,cusCompany,add1,add2,add3,state,city,zipcode,date,pickup_date,edit_order,status,order_type,instr;
+    TextView cusName,cusCompany,add1,add2,add3,state,city,zipcode,date,pickup_date,edit_order,status,order_type,instr,edit_address;
     Activity thisActivity=this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +63,17 @@ public class PurchaseOrderDetails extends AppCompatActivity {
         instr=(TextView)findViewById(R.id.instr);
         zipcode=(TextView)findViewById(R.id.zipcode);
         edit_order = (TextView) findViewById(R.id.edit_order);
+        edit_address = (TextView) findViewById(R.id.edit_address);
 
+
+        edit_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(thisActivity,CreateAddress.class);
+                intent.putExtra("edit_address","edit_address");
+                startActivity(intent);
+            }
+        });
 
         edit_order.setOnClickListener(new View.OnClickListener() {
             @Override
