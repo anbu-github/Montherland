@@ -5,7 +5,7 @@
         <item android:id="@+id/customer" android:icon="@drawable/customer"
             android:title="Customers" />
         <item android:id="@+id/purchase_order" android:icon="@drawable/order"
-            android:title="Purchase Order" />
+            android:title="Orders" />
       <!--  <item android:id="@+id/nav_slideshow" android:icon="@android:drawable/ic_menu_slideshow"
             android:title="Slideshow" />
         <item android:id="@+id/nav_manage" android:icon="@android:drawable/ic_menu_manage"

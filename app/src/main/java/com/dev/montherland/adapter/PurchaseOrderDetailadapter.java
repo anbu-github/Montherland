@@ -111,19 +111,17 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
                 holder.style.setText("");
 
             }else {
+
                 holder.style.setText(person.get(position).getStyleNumber());
 
             }
 
             if (person.get(position).getExpectedDelivery().contains("null")) {
 
-                DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-                Calendar cal = Calendar.getInstance();
-                holder.date.setText(dateFormat.format(cal.getTime()));
             }
-        else {
+        else
+            {
                 holder.date.setText(person.get(position).getExpectedDelivery());
-
             }
             holder.garment_instruction.setText(person.get(position).getGarmentInstruction());
 

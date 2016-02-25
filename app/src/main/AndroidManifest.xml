@@ -42,6 +42,7 @@
             android:name=".CustomerDetails"
             android:label="@string/customer_details_title" >
         </activity>
+
         <activity
             android:name=".CreatePurchaseOrder"
             android:label="@string/Create_order_title"

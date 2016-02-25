@@ -86,10 +86,6 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
     }
 
 
-
-
-
-
     public void changeAddressRequest() {
         PDialog.show(mContext);
         StringRequest request = new StringRequest(Request.Method.POST, mContext.getResources().getString(R.string.url_motherland) + "master_purchase_order_address_update.php?",
@@ -105,7 +101,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
+                                        StaticVariables.cbpos=-1;
                                         Intent intent = new Intent(mContext, PurchaseOrderDetails.class);
                                         mContext.startActivity(intent);
                                         ((Activity)mContext).finish();

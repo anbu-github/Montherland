@@ -186,7 +186,7 @@ public class SelectAddress extends AppCompatActivity {
                 return true;
             case R.id.next_button:
 
-                if (StaticVariables.cbpos==0){
+                if (StaticVariables.cbpos==-1){
 
                     Toast.makeText(thisActivity, "Please select any address", Toast.LENGTH_SHORT).show();
 

@@ -36,8 +36,9 @@
     <string name="order_typet">Order Type</string>
     <string name="Garment_Type">Garment</string>
     <string name="Garment_Quantity">Quantity</string>
-    <string name="delivery_date">Expected Delivery Date</string>
+    <string name="delivery_date">Expected Delivery Date/Time</string>
     <string name="expected_pickup">Expected pickup Date/Time</string>
+    <string name="Select">Select</string>
 
     // Edit purchase order
 

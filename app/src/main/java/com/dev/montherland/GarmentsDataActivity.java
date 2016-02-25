@@ -220,15 +220,18 @@ public class GarmentsDataActivity extends AppCompatActivity implements CreateOrd
                     for (int i = 0; i <= garment_model.size(); i++) {
 
                         try {
-                            if (garment_model.get(i).getGarmentQuantity().equals("")) {
+                            if (garment_model.get(i).getGarmentQuantity().equals("")||garment_model.get(i).getGarmentStyle().equals("")||garment_model.get(i).getGarmentInstr().equals("")) {
 
                                 no++;
 
-                            } else {
+                            }
+
+                            else {
 
                                 Boolean isValidNo = StaticVariables.checkIfNumber(garment_model.get(i).getGarmentQuantity());
+                                Log.v("wash Tylpe",garment_model.get(i).getGarmentWashType());
 
-                                if (!isValidNo) {
+                                 if (!isValidNo) {
                                     Toast.makeText(thisActivity, "Please enter valid number", Toast.LENGTH_SHORT).show();
                                 } else {
 
@@ -249,9 +252,15 @@ public class GarmentsDataActivity extends AppCompatActivity implements CreateOrd
                     }
                     Log.v("quantity no", garment_model.get(0).getGarmentQuantity().toString());
                 if (no==garment_model.size()){
-                    Toast.makeText(thisActivity, "Please enter at least one of the items", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(thisActivity, "Please fill atleast one garment item details", Toast.LENGTH_SHORT).show();
 
                 }
+
+                else if (garment_model.get(0).getGarmentWashType().equals("Select wash type")){
+                    Toast.makeText(thisActivity, "Please select wash type", Toast.LENGTH_SHORT).show();
+
+                }
+
                 else {
                     Intent in = new Intent(thisActivity, SelectAddress.class);
                     startActivity(in);

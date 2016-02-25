@@ -17,7 +17,7 @@ public class StaticVariables {
     public static String id="";
     public static String email="";
     public static String password="";
-    public static Integer cbpos=0;
+    public static Integer cbpos=-1;
     public static Integer count=0;
     public static Integer value=0;
     public static String customerContact;     //create purchase order spinner customerContact

@@ -27,14 +27,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.dev.montherland.adapter.CreateOrderAdapter;
-import com.dev.montherland.model.GarmentListModel;
-import com.dev.montherland.model.Response_Model;
-import com.dev.montherland.parsers.Garment_JSONParer;
-import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,7 +39,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CreatePurchaseOrder extends AppCompatActivity {
@@ -60,20 +53,18 @@ public class CreatePurchaseOrder extends AppCompatActivity {
     ArrayList<String> garmentList = new ArrayList<>();
     ArrayList<String> orderTypeList = new ArrayList<>();
     ArrayList<String> orderTypeIdList = new ArrayList<>();
-    ArrayList<String> garmentWashIdList = new ArrayList<>();
-    ArrayList<String> garmentWashTypeList = new ArrayList<>();
     ArrayList<String> washTypeList = new ArrayList<>();
 
     Spinner customerList, Companylist, orderType;
 
     ArrayAdapter<String> dataAdapter, dataAdapter2, orderTypeAdapter, dataAdapter4, washTypeAdapter;
-    List<GarmentListModel> garment_model;
+
     String companyId, customerId, companyName, customerName, order_type, menuTitle, order_id, statusId;
     LinearLayout dateLayout;
     DatePickerDialog.OnDateSetListener date, pickup_date;
     Calendar myCalendar = Calendar.getInstance();
     Calendar myCalendar1 = Calendar.getInstance();
-    TextView deliveryDate, pickupDate, pickupTime;
+    TextView deliveryDate, pickupDate, pickupTime, deliveryTime;
     EditText productInstr;
     TimePickerDialog.OnTimeSetListener time;
     String contactId,editCustomerContactId;
@@ -83,26 +74,27 @@ public class CreatePurchaseOrder extends AppCompatActivity {
     SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
     LinearLayout instr_layout;
     ScrollView scrollview;
-    String finalPicdate,finaldelDate;
+    String finalPicdate,finaldelDate,selectedTime;
+    Date pDate,dDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         setContentView(R.layout.activity_create_purchase_order);
         customerList = (Spinner) findViewById(R.id.customer_company_list);
         Companylist = (Spinner) findViewById(R.id.customer_list);
         orderType = (Spinner) findViewById(R.id.order_type);
         Companylist.requestFocus();
-        dateLayout = (LinearLayout) findViewById(R.id.date_layout);
         pickupDate = (TextView) findViewById(R.id.expect_pickup_date);
         pickupTime = (TextView) findViewById(R.id.expect_pickup_time);
         deliveryDate = (TextView) findViewById(R.id.expect_del_date);
+        deliveryTime = (TextView) findViewById(R.id.expect_del_time);
         productInstr = (EditText) findViewById(R.id.instruction);
         instr_layout = (LinearLayout) findViewById(R.id.instr_layout);
         scrollview = (ScrollView) findViewById(R.id.scrollview);
 
-        scrollview.fullScroll(View.FOCUS_UP);
 
         menuTitle = "Next";
 
@@ -176,7 +168,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         };
 
 
-        dateLayout.setOnClickListener(new View.OnClickListener() {
+        deliveryDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -220,6 +212,21 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                         myCalendar.get(Calendar.HOUR_OF_DAY),
                         myCalendar.get(Calendar.MINUTE),
                         true).show();
+                selectedTime="pickedTime";
+            }
+        });
+
+
+        deliveryTime.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new TimePickerDialog(thisActivity,
+                        time,
+                        myCalendar.get(Calendar.HOUR_OF_DAY),
+                        myCalendar.get(Calendar.MINUTE),
+                        true).show();
+                selectedTime = "deliveryTime";
             }
         });
 
@@ -259,7 +266,9 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                     StaticVariables.customerContact = customerIdList.get(position).toString();
                     Log.v("customer_id", StaticVariables.customerContact);
                     customerName = customerList.getSelectedItem().toString();
-                   // Toast.makeText(thisActivity, StaticVariables.customerContact, Toast.LENGTH_SHORT).show();
+
+                    customerLIst.remove(0);
+
                 } catch (Exception e) {
 
                     e.printStackTrace();
@@ -288,6 +297,8 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                         Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
                     }
 
+                    companyList.remove(0);
+
                 } catch (Exception e) {
                    // PDialog.hide();
                     e.printStackTrace();
@@ -309,7 +320,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                     StaticVariables.orderType = order_type;
                     StaticVariables.orderTypeId = orderTypeIdList.get(position - 1);
 
-
+                    orderTypeList.remove(0);
                 } catch (Exception e) {
                    // PDialog.hide();
 
@@ -344,19 +355,22 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
         StaticVariables.pickedDateTIme = sdf1.format(myCalendar1.getTime());
 
-
         Log.v("currentTime", StaticVariables.pickedDateTIme);
 
-
     }
-
 
     private void updateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-        pickupTime.setText(sdf.format(myCalendar1.getTime()));
+        if (selectedTime.contains("pickedTime")) {
+            pickupTime.setText(sdf.format(myCalendar1.getTime()));
+            StaticVariables.pickedDateTIme = sdf1.format(myCalendar1.getTime());
+        }
+        if (selectedTime.contains("deliveryTime")) {
+            deliveryTime.setText(sdf.format(myCalendar1.getTime()));
 
-        StaticVariables.pickedDateTIme = sdf1.format(myCalendar1.getTime());
+        }
+
 
     }
 
@@ -394,21 +408,21 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                                     String start_dt = parentObject.getString("expected_pick_up_date");
                                     String toDeliveryDate = parentObject.getString("expected_delivery_date");
 
-                                    finaldelDate=toDeliveryDate;
-                                    finalPicdate=start_dt;
-
                                     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                     Date date = formatter.parse(start_dt);
                                     SimpleDateFormat newFormat = new SimpleDateFormat("HH:mm");
                                     SimpleDateFormat newFormat1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-                                    String time = newFormat.format(date);
+                                    String pickTime = newFormat.format(date);
+
                                     String pickup_date = newFormat1.format(date);
 
                                     Date date1 = formatter.parse(toDeliveryDate);
                                     String delivery_date = newFormat1.format(date1);
+                                    String delTime = newFormat.format(date1);
 
                                     deliveryDate.setText(delivery_date);
-                                    pickupTime.setText(time);
+                                    deliveryTime.setText(delTime);
+                                    pickupTime.setText(pickTime);
                                     pickupDate.setText(pickup_date);
 
                                     Date pd = newFormat1.parse(String.valueOf(pickupDate.getText()));
@@ -618,6 +632,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                     }
                 }) {
 
+
             @Override
             protected Map<String, String> getParams() {
 
@@ -634,8 +649,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
     }
 
     public void saveOrderRequest() {
-        Log.v("deldate",StaticVariables.deliveryDateTIme);
-        Log.v("Picdate", StaticVariables.pickedDateTIme);
 
         if (StaticVariables.pickedDateTIme.isEmpty()){
             Log.v("Picdate", "empty");
@@ -643,9 +656,10 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         }
 
         if (StaticVariables.deliveryDateTIme.isEmpty()){
-            Log.v("Picdate", "empty");
+            Log.v("Deldate", "empty");
             StaticVariables.deliveryDateTIme=finaldelDate;
         }
+
         PDialog.show(thisActivity);
         //  String url= "http://purplefront.net/motherland_dev/home/purchase_order_submit.php?id=4&email=test@test.com&password=aaa&customer_contact_id=5&customer_contact_address_id=6&garment_type_json="+jsonGarmentId+"&quantity_json="+jsonQuantity+"&wash_type_id_json="+jsonWashTypeId+"&style_number_json="+jsonStyle+"&wash_instructions_type=no&expected_pick_up=2016-02-18 02:15:52&expected_delivery=2016-02-18 02:15:52&order_type_id=2&instructions_json="+jsonInstr+"";
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "edit_order_details_edit.php",
@@ -744,7 +758,13 @@ public class CreatePurchaseOrder extends AppCompatActivity {
     }
 
     public void nextPage() {
-        Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+             pDate = formatter.parse(String.valueOf(pickupDate.getText()));
+             dDate = formatter.parse(String.valueOf(deliveryDate.getText()));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         if (companyName.equals("Select Company")) {
 
@@ -764,7 +784,12 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         } else if (deliveryDate.getText().toString().equals("DD-MM-YYYY")) {
             Toast.makeText(thisActivity, "Please set estimated delivery date", Toast.LENGTH_SHORT).show();
 
-        } else {
+        }else if (pDate.after(dDate)){
+            Toast.makeText(thisActivity, "Delivery date should be greater than pickup date", Toast.LENGTH_SHORT).show();
+
+        }
+
+        else {
             StaticVariables.prodcutInstr = productInstr.getText().toString();
 
 
@@ -801,6 +826,14 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
                     if (menuTitle.contains("Save")) {
 
+                        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        try {
+                            pDate = formatter.parse(String.valueOf(pickupDate.getText()));
+                            dDate = formatter.parse(String.valueOf(deliveryDate.getText()));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
                         if (customerName.equals("Select Contact")) {
                             Toast.makeText(thisActivity, "Please select contact", Toast.LENGTH_SHORT).show();
 
@@ -816,7 +849,12 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                         } else if (deliveryDate.getText().toString().equals("DD-MM-YYYY")) {
                             Toast.makeText(thisActivity, "Please set estimated delivery date", Toast.LENGTH_SHORT).show();
 
-                        } else {
+                        }
+                        else if (pDate.after(dDate)){
+                            Toast.makeText(thisActivity, "Delivery date should be greater than pickup date", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else {
                             saveOrderRequest();
                         }
 
