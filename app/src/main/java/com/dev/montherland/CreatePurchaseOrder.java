@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -38,9 +39,11 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,23 +68,27 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
     ArrayAdapter<String> dataAdapter, dataAdapter2, orderTypeAdapter, dataAdapter4, washTypeAdapter;
     List<GarmentListModel> garment_model;
-    String companyId, customerId, companyName, customerName, order_type,menuTitle,order_id,statusId;
+    String companyId, customerId, companyName, customerName, order_type, menuTitle, order_id, statusId;
     LinearLayout dateLayout;
     DatePickerDialog.OnDateSetListener date, pickup_date;
     Calendar myCalendar = Calendar.getInstance();
-    Calendar myCalendar1= Calendar.getInstance();
+    Calendar myCalendar1 = Calendar.getInstance();
     TextView deliveryDate, pickupDate, pickupTime;
     EditText productInstr;
     TimePickerDialog.OnTimeSetListener time;
-    String contactId;
+    String contactId,editCustomerContactId;
     String myFormat = "dd-MM-yyyy";
     String myFormat1 = "yyyy-MM-dd HH:mm:ss";
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
     SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
     LinearLayout instr_layout;
+    ScrollView scrollview;
+    String finalPicdate,finaldelDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_create_purchase_order);
         customerList = (Spinner) findViewById(R.id.customer_company_list);
         Companylist = (Spinner) findViewById(R.id.customer_list);
@@ -93,28 +100,30 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         deliveryDate = (TextView) findViewById(R.id.expect_del_date);
         productInstr = (EditText) findViewById(R.id.instruction);
         instr_layout = (LinearLayout) findViewById(R.id.instr_layout);
+        scrollview = (ScrollView) findViewById(R.id.scrollview);
 
-        menuTitle="Next";
+        scrollview.fullScroll(View.FOCUS_UP);
 
-        StaticVariables.pickedDateTIme=String.valueOf(pickupDate.getText());
-        StaticVariables.deliveryDateTIme=String.valueOf(deliveryDate.getText());
+        menuTitle = "Next";
+
+        customerLIst.add("Select Contact");
+        customerIdList.add("Select Contact");
 
 
-        getOrderTypeList();
 
         try {
-        if (!(getIntent().getExtras().getString("order_details")==null)){
+            if (!(getIntent().getExtras().getString("order_details") == null)) {
 
                 getSupportActionBar().setTitle("Edit Order Details");
                 Intent intent = getIntent();
-             //   Bundle args = intent.getBundleExtra("BUNDLE");
-                order_id=intent.getExtras().getString("order_id");
-                menuTitle="Save";
-               Log.v("order_id", order_id);
-               instr_layout.setVisibility(View.GONE);
-               Companylist.setClickable(false);
+                //   Bundle args = intent.getBundleExtra("BUNDLE");
+                order_id = intent.getExtras().getString("order_id");
+                menuTitle = "Save";
+                Log.v("order_id", order_id);
+                instr_layout.setVisibility(View.GONE);
+                Companylist.setClickable(false);
 
-        }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,7 +131,8 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         if (StaticVariables.isNetworkConnected(thisActivity)) {
 
 
-                getCompanyList();
+            getCompanyList();
+            getOrderTypeList();
 
 
         } else {
@@ -147,6 +157,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
             }
 
         };
+
         pickup_date = new DatePickerDialog.OnDateSetListener() {
 
             @Override
@@ -190,6 +201,8 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         });
 
 
+
+
         time = new TimePickerDialog.OnTimeSetListener() {
             public void onTimeSet(TimePicker view, int hourOfDay,
                                   int minute) {
@@ -217,7 +230,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
         dataAdapter = new ArrayAdapter<>(this,
                 R.layout.spinner_layout, customerLIst);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -243,11 +255,11 @@ public class CreatePurchaseOrder extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 try {
-                   StaticVariables.customerId=customerId;
-                    StaticVariables.customerContact = customerIdList.get(position - 1).toString();
+                    StaticVariables.customerId = customerId;
+                    StaticVariables.customerContact = customerIdList.get(position).toString();
+                    Log.v("customer_id", StaticVariables.customerContact);
                     customerName = customerList.getSelectedItem().toString();
-
-                    Toast.makeText(thisActivity, StaticVariables.customerContact,Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(thisActivity, StaticVariables.customerContact, Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
 
                     e.printStackTrace();
@@ -277,7 +289,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
-                    PDialog.hide();
+                   // PDialog.hide();
                     e.printStackTrace();
                 }
             }
@@ -299,7 +311,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
 
                 } catch (Exception e) {
-                    PDialog.hide();
+                   // PDialog.hide();
 
                     e.printStackTrace();
                 }
@@ -350,38 +362,71 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
     public void getEditOrderDetails() {
 
-         PDialog.show(thisActivity);
+        //PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "edit_order_details_view.php?",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                      //
-                      //
-                      // PDialog.hide();
+                        //
+
+                        // PDialog.hide();
                         Log.v("response", response + "");
                         try {
-                            PDialog.hide();
                             JSONArray ar = new JSONArray(response);
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 if (!parentObject.getString("status_id").equals("NO Data")) {
-                                    //customerList.setSelection(parentObject.getString("customer_contact_id"));
-                                       statusId=parentObject.getString("status_id");
-                                        deliveryDate.setText(parentObject.getString("expected_delivery_date"));
-                                        pickupDate.setText(parentObject.getString("expected_pick_up_date"));
-                                        orderType.setSelection(Integer.parseInt(parentObject.getString("order_type_id")));
-                                        Log.v("order_typeId", (parentObject.getString("order_type_id")));
-                                        Companylist.setSelection(Integer.parseInt(parentObject.getString("customer_id")));
 
-                                       contactId=parentObject.getString("customer_id");
+                                    editCustomerContactId=(parentObject.getString("customer_contact_id"));
+                                    statusId = parentObject.getString("status_id");
+                                    orderType.setSelection(Integer.parseInt(parentObject.getString("order_type_id")));
+                                    Companylist.setSelection(Integer.parseInt(parentObject.getString("customer_id")));
+                                    contactId = parentObject.getString("customer_id");
+
+                                    Log.v("editCustomerContactId",editCustomerContactId);
+
+                                    for (int in=0;in<customerIdList.size();in++){
+                                        if (customerIdList.get(in).equals(editCustomerContactId)){
+                                            customerList.setSelection(in);
+                                        }
+                                    }
+
+                                    String start_dt = parentObject.getString("expected_pick_up_date");
+                                    String toDeliveryDate = parentObject.getString("expected_delivery_date");
+
+                                    finaldelDate=toDeliveryDate;
+                                    finalPicdate=start_dt;
+
+                                    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    Date date = formatter.parse(start_dt);
+                                    SimpleDateFormat newFormat = new SimpleDateFormat("HH:mm");
+                                    SimpleDateFormat newFormat1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                    String time = newFormat.format(date);
+                                    String pickup_date = newFormat1.format(date);
+
+                                    Date date1 = formatter.parse(toDeliveryDate);
+                                    String delivery_date = newFormat1.format(date1);
+
+                                    deliveryDate.setText(delivery_date);
+                                    pickupTime.setText(time);
+                                    pickupDate.setText(pickup_date);
+
+                                    Date pd = newFormat1.parse(String.valueOf(pickupDate.getText()));
+                                    Date dd = newFormat1.parse(String.valueOf(deliveryDate.getText()));
+
+                                    StaticVariables.pickedDateTIme = formatter.format(pd);
+                                    StaticVariables.deliveryDateTIme = formatter.format(dd);
+
+                                     StaticVariables.deliveryDateTIme=toDeliveryDate;
+                                     StaticVariables.pickedDateTIme=start_dt;
 
 
+                                   // PDialog.hide();
 
 
 
                                 }
                             }
-                            customerList.setAdapter(dataAdapter);
 
 
                         } catch (Exception e) {
@@ -417,17 +462,23 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
     public void getCustomerList() {
 
-         PDialog.show(thisActivity);
+       // PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_company_list.php?",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
+                       // PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             JSONArray ar = new JSONArray(response);
 
+                            customerIdList.clear();
+                            customerLIst.clear();
+
                             customerLIst.add("Select Contact");
+                            customerIdList.add("Select Contact");
+
+
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 if (!parentObject.getString("name").equals("NO Data")) {
@@ -436,9 +487,13 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                                     StaticVariables.customerName = parentObject.getString("name");
                                     Log.v("name", parentObject.getString("name"));
                                 }
-                                if (menuTitle.contains("Save")){
+                                if (menuTitle.contains("Save")) {
                                     getEditOrderDetails();
                                 }
+                                else{
+                                    PDialog.hide();
+                                }
+
 
                             }
                             customerList.setAdapter(dataAdapter);
@@ -476,15 +531,14 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
     public void getOrderTypeList() {
 
-       //  PDialog.show(thisActivity);
+        //  PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "order_type_list.php?",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
+                       // PDialog.hide();
                         Log.v("response", response + "");
                         try {
-                            PDialog.hide();
                             JSONArray ar = new JSONArray(response);
 
                             orderTypeList.add("Select Order Type");
@@ -499,7 +553,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
 
                         } catch (Exception e) {
-                            PDialog.hide();
+                          //  PDialog.hide();
 //                            Log.d("json connection", "No internet access" + e);
                         }
                     }
@@ -509,7 +563,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
-                        PDialog.hide();
+                        //PDialog.hide();
 
                     }
                 }) {
@@ -534,7 +588,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
+                        //PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             JSONArray ar = new JSONArray(response);
@@ -550,7 +604,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
 
                         } catch (Exception e) {
-                            PDialog.hide();
+                          //  PDialog.hide();
                         }
                     }
                 },
@@ -559,7 +613,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
-                        PDialog.hide();
+                       // PDialog.hide();
 
                     }
                 }) {
@@ -580,6 +634,18 @@ public class CreatePurchaseOrder extends AppCompatActivity {
     }
 
     public void saveOrderRequest() {
+        Log.v("deldate",StaticVariables.deliveryDateTIme);
+        Log.v("Picdate", StaticVariables.pickedDateTIme);
+
+        if (StaticVariables.pickedDateTIme.isEmpty()){
+            Log.v("Picdate", "empty");
+            StaticVariables.pickedDateTIme=finalPicdate;
+        }
+
+        if (StaticVariables.deliveryDateTIme.isEmpty()){
+            Log.v("Picdate", "empty");
+            StaticVariables.deliveryDateTIme=finaldelDate;
+        }
         PDialog.show(thisActivity);
         //  String url= "http://purplefront.net/motherland_dev/home/purchase_order_submit.php?id=4&email=test@test.com&password=aaa&customer_contact_id=5&customer_contact_address_id=6&garment_type_json="+jsonGarmentId+"&quantity_json="+jsonQuantity+"&wash_type_id_json="+jsonWashTypeId+"&style_number_json="+jsonStyle+"&wash_instructions_type=no&expected_pick_up=2016-02-18 02:15:52&expected_delivery=2016-02-18 02:15:52&order_type_id=2&instructions_json="+jsonInstr+"";
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "edit_order_details_edit.php",
@@ -588,17 +654,17 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                     public void onResponse(String response) {
                         PDialog.hide();
                         try {
-
                             AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
                             builder.setCancelable(false)
                                     .setTitle("Success")
-                                    .setMessage("Successfully Saved")
+                                    .setMessage("Order detail has saved successfully ")
                                     .setNegativeButton("ok", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
 
-                                            Intent intent = new Intent(thisActivity, NavigataionActivity.class);
+                                            Intent intent = new Intent(thisActivity, PurchaseOrderDetails.class);
                                             startActivity(intent);
+                                            finish();
                                             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
                                         }
@@ -606,11 +672,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                             builder.show();
 
                             JSONArray ar = new JSONArray(response);
-
-
-
-
-
 
                         } catch (Exception e) {
                             PDialog.hide();
@@ -639,10 +700,12 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                 params.put("password", StaticVariables.database.get(0).getPassword());
                 params.put("customer_contact_id", StaticVariables.customerContact);
                 params.put("order_id", order_id);
-                params.put("status_id",statusId );
-                params.put("expected_delivery_date",StaticVariables.deliveryDateTIme);
+                params.put("status_id", statusId);
+                params.put("expected_delivery_date", StaticVariables.deliveryDateTIme);
                 params.put("expected_pick_up_date", StaticVariables.pickedDateTIme);
-                params.put("order_type_id",  StaticVariables.orderTypeId);
+                params.put("order_type_id", StaticVariables.orderTypeId);
+                Log.v("deldate", StaticVariables.deliveryDateTIme);
+                Log.v("Picdate", StaticVariables.pickedDateTIme);
                 return params;
             }
         };
@@ -650,7 +713,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         Log.v("request", request + "");
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -663,14 +725,25 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
     public void onBackPressed() {
 
-        super.onBackPressed();
-        Intent in = new Intent(thisActivity, NavigataionActivity.class);
-        startActivity(in);
-        finish();
-        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        //super.onBackPressed();
+
+        if (menuTitle.contains("Save")) {
+
+            Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
+            startActivity(in);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+        } else {
+            Intent in = new Intent(thisActivity, NavigataionActivity.class);
+            startActivity(in);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+
     }
 
-    public void nextPage(){
+    public void nextPage() {
         Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
 
         if (companyName.equals("Select Company")) {
@@ -685,35 +758,73 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         } else if (pickupDate.getText().toString().equals("DD-MM-YYYY")) {
             Toast.makeText(thisActivity, "Please set estimated pickup date", Toast.LENGTH_SHORT).show();
 
+        } else if (pickupTime.getText().toString().equals("HH-MM")) {
+            Toast.makeText(thisActivity, "Please set estimated pickup time", Toast.LENGTH_SHORT).show();
+
         } else if (deliveryDate.getText().toString().equals("DD-MM-YYYY")) {
             Toast.makeText(thisActivity, "Please set estimated delivery date", Toast.LENGTH_SHORT).show();
 
-        }  StaticVariables.prodcutInstr = productInstr.getText().toString();
+        } else {
+            StaticVariables.prodcutInstr = productInstr.getText().toString();
 
 
             Intent in = new Intent(CreatePurchaseOrder.this, GarmentsDataActivity.class);
             startActivity(in);
 
-
         }
 
-
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(thisActivity, NavigataionActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                if (menuTitle.contains("Save")) {
+
+                    Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
+                    startActivity(in);
+                    finish();
+                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                } else {
+                    Intent in = new Intent(thisActivity, NavigataionActivity.class);
+                    startActivity(in);
+                    finish();
+                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                }
 
                 return true;
             case R.id.next_button:
 
-                if (menuTitle.contains("Save")){
-                    saveOrderRequest();
-                }else {
-                    nextPage();
+                try {
+
+
+                    if (menuTitle.contains("Save")) {
+
+                        if (customerName.equals("Select Contact")) {
+                            Toast.makeText(thisActivity, "Please select contact", Toast.LENGTH_SHORT).show();
+
+                        } else if (order_type.equals("Select Order Type")) {
+                            Toast.makeText(thisActivity, "Please select order type", Toast.LENGTH_SHORT).show();
+
+                        } else if (pickupDate.getText().toString().equals("DD-MM-YYYY")) {
+                            Toast.makeText(thisActivity, "Please set estimated pickup date", Toast.LENGTH_SHORT).show();
+
+                        } else if (pickupTime.getText().toString().equals("HH-MM")) {
+                            Toast.makeText(thisActivity, "Please set estimated pickup time", Toast.LENGTH_SHORT).show();
+
+                        } else if (deliveryDate.getText().toString().equals("DD-MM-YYYY")) {
+                            Toast.makeText(thisActivity, "Please set estimated delivery date", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            saveOrderRequest();
+                        }
+
+                    } else {
+                        nextPage();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 return true;
 
@@ -721,7 +832,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                 return true;
         }
     }
-
 
 
 }

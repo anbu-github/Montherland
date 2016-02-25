@@ -20,6 +20,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".SplashActivity"
@@ -63,7 +64,8 @@
         <activity
             android:name=".NavigataionActivity"
             android:label="Motherland"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:configChanges="orientation|screenSize"
+        android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".PurchaseOrderActivity"
@@ -72,7 +74,7 @@
         <activity
             android:name=".PurchaseOrderDetails"
             android:noHistory="true"
-            android:label="Purchase Order Details" >
+            android:label="Order Details" >
         </activity>
         <activity android:name=".DatepickupActivity" >
         </activity>

@@ -88,8 +88,33 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
             holder.date = (TextView) convertView.findViewById(R.id.date);
             holder.quantity.setText(person.get(position).getGarmentQuantity());
             holder.garment_type.setText(person.get(position).getGarmentName());
-            holder.wash_type.setText(person.get(position).getWashType());
+           // holder.wash_type.setText(person.get(position).getWashType());
             holder.style.setText(person.get(position).getStyleNumber());
+            holder.wash.setText(person.get(position).getStatus());
+
+        if (person.get(position).getWashType().contains("null")){
+            holder.wash_type.setText("");
+
+        }else {
+            holder.wash_type.setText(person.get(position).getWashType());
+
+        }
+       if (person.get(position).getStatus().contains("null")){
+            holder.wash.setText("");
+
+        }else {
+            holder.wash.setText(person.get(position).getStatus());
+
+        }
+
+        if (person.get(position).getStyleNumber().contains("null")){
+                holder.style.setText("");
+
+            }else {
+                holder.style.setText(person.get(position).getStyleNumber());
+
+            }
+
             if (person.get(position).getExpectedDelivery().contains("null")) {
 
                 DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");

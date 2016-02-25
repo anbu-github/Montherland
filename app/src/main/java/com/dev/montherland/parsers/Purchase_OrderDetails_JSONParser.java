@@ -35,6 +35,8 @@ public class Purchase_OrderDetails_JSONParser {
                 flower.setInstruction(parentObject.getString("instructions"));
                 flower.setStatus(parentObject.getString("status"));
                 flower.setOrder_type(parentObject.getString("order_type"));
+                flower.setCustomerId(parentObject.getString("customer_contact_id"));
+
                 respnse.add(flower);
             }
 

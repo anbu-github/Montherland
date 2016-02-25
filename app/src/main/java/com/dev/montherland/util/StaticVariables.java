@@ -32,6 +32,8 @@ public class StaticVariables {
     public static String pickedDateTIme="";     //create purchase order spinner customerContact
     public static String deliveryDateTIme="";     //create purchase order spinner customerContact
     public static String purchaseOrderType="";     //create purchase order spinner customerContact
+    public static String addressId="";     //create purchase order spinner customerContact
+    public static String status="";     //create purchase order spinner customerContact
 
     //create order adapter
     public static ArrayList<String> editQuantityList = new ArrayList<>();

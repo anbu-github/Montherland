@@ -23,6 +23,16 @@ public class PurchaseOrderDetailsModel implements Serializable{
     String order_type;
     String instruction;
 
+    public String getCustomerId() {
+        return CustomerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        CustomerId = customerId;
+    }
+
+    String CustomerId;
+
     public String getOrder_type() {
         return order_type;
     }

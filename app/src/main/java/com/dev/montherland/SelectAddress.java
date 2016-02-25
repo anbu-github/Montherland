@@ -37,12 +37,18 @@ public class SelectAddress extends AppCompatActivity {
     private List<Create_Address_Model> persons;
     StaggeredGridLayoutManager mLayoutManager;
     Activity thisActivity = this;
+    String menuTitle="Next";
     ArrayList<String> editQuantityList = new ArrayList<>();
-
+    ImageButton ig;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_address);
+         ig = (ImageButton) findViewById(R.id.btn_add_address);
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Create Order");
 
         if (StaticVariables.isNetworkConnected(thisActivity)) {
             getAddressList();
@@ -56,15 +62,25 @@ public class SelectAddress extends AppCompatActivity {
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(mLayoutManager);
         try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Create Order");
+
+            if (!(getIntent().getExtras().getString("change_address")==null)){
+
+                getSupportActionBar().setTitle("Change Address");
+                StaticVariables.status="Save";
+                ig.setVisibility(View.INVISIBLE);
+                //getAddressList();
+                menuTitle="Save";
+
+            }
+
+
+
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        ImageButton ig = (ImageButton) findViewById(R.id.btn_add_address);
         ig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,11 +98,12 @@ public class SelectAddress extends AppCompatActivity {
                     public void onResponse(String response) {
                         PDialog.hide();
                         Log.v("response", response + "");
+
                         try {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
                             persons = Create_Address_JSONParser.parserFeed(response);
-                            recyclerView.setAdapter(new AddressCreateAdapter(persons));
+                            recyclerView.setAdapter(new AddressCreateAdapter(persons,thisActivity));
                             // response_model= Response_JSONParser.parserFeed(response);
 
                         } catch (JSONException e) {
@@ -112,11 +129,11 @@ public class SelectAddress extends AppCompatActivity {
 
             @Override
             protected Map<String, String> getParams() {
-
                 Map<String, String> params = new HashMap<>();
                 params.put("email", StaticVariables.database.get(0).getEmail());
                 params.put("password", StaticVariables.database.get(0).getPassword());
-                params.put("customer_id", StaticVariables.customerContact);
+               // params.put("customer_id", "1");
+                 params.put("customer_id", StaticVariables.customerContact);
                 params.put("id", StaticVariables.database.get(0).getId());
                 return params;
             }
@@ -125,34 +142,63 @@ public class SelectAddress extends AppCompatActivity {
         Log.v("request", request + "");
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action barenu
         getMenuInflater().inflate(R.menu.menu_next, menu);
+        MenuItem item = menu.findItem(R.id.next_button);
+        item.setTitle(menuTitle);
         return true;
     }
 
     public void onBackPressed() {
+        if (menuTitle.contains("Save")){
+            Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
+            startActivity(in);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+        else {
+            super.onBackPressed();
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
 
-        super.onBackPressed();
-        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
-        overridePendingTransition(R.anim.left_right, R.anim.right_left);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-            super.onBackPressed();
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                if (menuTitle.contains("Save")){
+
+                    Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
+                    startActivity(in);
+                    finish();
+                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                }else {
+                    super.onBackPressed();
+                    finish();
+                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                }
 
                 return true;
             case R.id.next_button:
-                Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
-                new AddressCreateAdapter(thisActivity,persons);
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
-                return true;
+                if (StaticVariables.cbpos==0){
+
+                    Toast.makeText(thisActivity, "Please select any address", Toast.LENGTH_SHORT).show();
+
+
+                }
+                else {
+                    new AddressCreateAdapter(thisActivity,persons);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+                }
+
+               return true;
 
             default:
                 return true;

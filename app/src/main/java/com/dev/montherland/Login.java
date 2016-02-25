@@ -81,7 +81,6 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
             }
 
-
         }
 
     }
@@ -206,9 +205,9 @@ public class Login extends AppCompatActivity {
                             Log.d("id database", StaticVariables.database.get(0).getId());
                             Log.d("email database", StaticVariables.database.get(0).getEmail());
 
-
                             Intent in=new Intent(thisActivity,NavigataionActivity.class);
                             startActivity(in);
+                            finish();
                         } catch (Exception e) {
                             Log.d("error in database",e+"");
                             e.printStackTrace();

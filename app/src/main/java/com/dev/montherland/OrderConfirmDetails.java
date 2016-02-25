@@ -119,6 +119,7 @@ public class OrderConfirmDetails extends AppCompatActivity {
         return true;
     }
 
+
     public void confirmOrderRequest() {
         PDialog.show(thisActivity);
         //  String url= "http://purplefront.net/motherland_dev/home/purchase_order_submit.php?id=4&email=test@test.com&password=aaa&customer_contact_id=5&customer_contact_address_id=6&garment_type_json="+jsonGarmentId+"&quantity_json="+jsonQuantity+"&wash_type_id_json="+jsonWashTypeId+"&style_number_json="+jsonStyle+"&wash_instructions_type=no&expected_pick_up=2016-02-18 02:15:52&expected_delivery=2016-02-18 02:15:52&order_type_id=2&instructions_json="+jsonInstr+"";
@@ -131,7 +132,7 @@ public class OrderConfirmDetails extends AppCompatActivity {
                         AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
                         builder.setCancelable(false)
                                 .setTitle("Success")
-                                .setMessage("Successfully Ordered")
+                                .setMessage("Order has been placed successfully")
                                 .setNegativeButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -222,6 +223,7 @@ public class OrderConfirmDetails extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 super.onBackPressed();
+                finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
                 return true;
@@ -245,6 +247,7 @@ public class OrderConfirmDetails extends AppCompatActivity {
 
         super.onBackPressed();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        finish();
 
         overridePendingTransition(R.anim.left_right, R.anim.right_left);
     }

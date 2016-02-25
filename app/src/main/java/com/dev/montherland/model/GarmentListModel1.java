@@ -9,6 +9,15 @@ public class GarmentListModel1 {
     String garmentQuantity;
     String garmentName;
     String washType;
+    String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getExpectedDelivery() {
         return expectedDelivery;

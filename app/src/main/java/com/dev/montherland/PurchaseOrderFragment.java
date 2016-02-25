@@ -77,7 +77,6 @@ public class PurchaseOrderFragment extends Fragment {
         return view;
     }
 
-
     public void getPurchaseOrderLIst() {
         PDialog.show(getActivity());
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "master_purchase_order.php",

@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -71,6 +72,8 @@ public class EditOrderDetails extends AppCompatActivity {
 
     List<Response_Model> respones;
     ArrayAdapter<String> dataAdapter2;
+    RelativeLayout layout;
+    String wash_test="",status_test="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,12 +88,16 @@ public class EditOrderDetails extends AppCompatActivity {
         item=(TextView)findViewById(R.id.item);
         date=(TextView)findViewById(R.id.date_id);
 
+        layout=(RelativeLayout)findViewById(R.id.layout);
+
 
         washIdList.add("Select");
         washTypeList.add("Select");
         if(StaticVariables.isNetworkConnected(EditOrderDetails.this)) {
 
             getWashTypes();
+            getStatusList();
+
         } else {
             Toast.makeText(EditOrderDetails.this,getResources().getString(R.string.no_internet_connection),Toast.LENGTH_LONG).show();
         }
@@ -114,11 +121,6 @@ public class EditOrderDetails extends AppCompatActivity {
 
         statusIdList.add("Select");
         statusTypeList.add("Select");
-        if(StaticVariables.isNetworkConnected(EditOrderDetails.this)) {
-            getStatusList();
-        } else {
-            Toast.makeText(EditOrderDetails.this,getResources().getString(R.string.no_internet_connection),Toast.LENGTH_LONG).show();
-        }
 
 
         dataAdapter2 = new ArrayAdapter<>(this,
@@ -211,7 +213,7 @@ public class EditOrderDetails extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
                     builder.setCancelable(false)
                             .setTitle("Success")
-                            .setMessage("Successfully saved")
+                            .setMessage("Order detail has saved successfully")
                             .setNegativeButton("ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -289,15 +291,15 @@ public class EditOrderDetails extends AppCompatActivity {
 
 
     public void getWashTypes() {
-
+        PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "wash_type_list.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
+                       // PDialog.hide();
                         Log.v("response", response + "");
                         try {
-                            PDialog.hide();
+                            //PDialog.hide();
                             JSONArray ar = new JSONArray(response);
 
                             washIdList.clear();
@@ -317,7 +319,9 @@ public class EditOrderDetails extends AppCompatActivity {
                             ArrayAdapter<String> adapter3 = new ArrayAdapter<>(EditOrderDetails.this, android.R.layout.simple_spinner_dropdown_item, washTypeList);
                             adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             order_type.setAdapter(adapter3);
-                            getPurchseOrder();
+
+                            wash_test = "data recieved";
+                            update_display2();
 
                         } catch (Exception e) {
                             PDialog.hide();
@@ -347,30 +351,45 @@ public class EditOrderDetails extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(request, "data_receive");
     }
 
+    public void update_display2() {
+        if(!wash_test .equals("") && !status_test.equals("")) {
+            getPurchseOrder();
+        }
+    }
 
     public void getPurchseOrder() {
 
-       PDialog.show(thisActivity);
+
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "master_purchase_order_view.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
+
                         Log.v("response", response + "");
                         try {
-                            PDialog.hide();
+
                             JSONArray ar = new JSONArray(response);
+
+                             layout.setVisibility(View.VISIBLE);
 
                                 JSONObject parentObject = ar.getJSONObject(0);
 
                                 //Log.d("success", parentObject.getString("success"));
                                 item.setText(parentObject.getString("garment"));
                                 quantity.setText(parentObject.getString("quantity"));
-                                style.setText(parentObject.getString("style_number"));
+                               // style.setText(parentObject.getString("style_number"));
                                 instr.setText(parentObject.getString("instructions"));
                                 garment_id=parentObject.getString("garment_id");
 
                                 get_date = parentObject.getString("expected_delivery_date");
+
+                            if (parentObject.getString("style_number").contains("null")){
+                                style.setText("");
+
+                            }else {
+                                style.setText(parentObject.getString("style_number"));
+                            }
+
 
                             if (parentObject.getString("expected_delivery_date").contains("null")) {
 
@@ -396,6 +415,7 @@ public class EditOrderDetails extends AppCompatActivity {
                                     status.setSelection(spinnerPosition);
                             }
 
+                            PDialog.hide();
                         } catch (Exception e) {
                             PDialog.hide();
                             e.printStackTrace();
@@ -428,15 +448,15 @@ public class EditOrderDetails extends AppCompatActivity {
     }
     public void getStatusList() {
 
-         PDialog.show(thisActivity);
+         //PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "status_item_list.php?",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
+                        //PDialog.hide();
                         Log.v("response", response + "");
                         try {
-                            PDialog.hide();
+                           // PDialog.hide();
                             JSONArray ar = new JSONArray(response);
 
                             statusIdList.clear();
@@ -457,6 +477,10 @@ public class EditOrderDetails extends AppCompatActivity {
                             dataAdapter2 = new ArrayAdapter<>(EditOrderDetails.this, android.R.layout.simple_spinner_dropdown_item, statusTypeList);
                             dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             status.setAdapter(dataAdapter2);
+
+                            status_test = "data recieved";
+                            update_display2();
+
                         } catch (Exception e) {
                             PDialog.hide();
 //                            Log.d("json connection", "No internet access" + e);
@@ -485,6 +509,7 @@ public class EditOrderDetails extends AppCompatActivity {
         Log.v("request", request + "");
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action barenu
@@ -494,12 +519,22 @@ public class EditOrderDetails extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+
+        Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
+        startActivity(in);
+        finish();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
+                 Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
+                startActivity(in);
+                finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 return true;
             case R.id.next_button:
@@ -508,14 +543,13 @@ public class EditOrderDetails extends AppCompatActivity {
                 String instru = instr.getText().toString();
                 String style_no = style.getText().toString();
 
-
                 if(quantity_str.trim().equals("")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.enter_quantity),Toast.LENGTH_LONG).show();
                 } else if(wash_id.equals("") || wash_id.equals("Select")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.select_wash_type),Toast.LENGTH_LONG).show();
                 } else if(style_no.trim().equals("")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.select_style_code),Toast.LENGTH_LONG).show();
-                } else if(get_date.equals("null") || get_date.equals("") || get_date.equals("0000-00-00 00:00:00")) {
+                } else if(String.valueOf(date).equals("null") || String.valueOf(date).equals("") || String.valueOf(date).equals("0000-00-00 00:00:00")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.expected_delivery_time),Toast.LENGTH_LONG).show();
                 } else if(status_id.equals("") || status_id.equals("Select")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.select_status),Toast.LENGTH_LONG).show();

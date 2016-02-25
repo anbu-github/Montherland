@@ -2,6 +2,7 @@ package com.dev.montherland;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -42,9 +44,9 @@ public class CreateAddress extends AppCompatActivity {
     ArrayList<String> stateIdList = new ArrayList<>();
     Spinner stateSpinner;
     ArrayAdapter<String> dataAdapter;
-    String data_receive = "string_req_recieve", strAddress1, strAddress2, strAddress3, strPincode, strCity, stateId;
+    String data_receive = "string_req_recieve", strAddress1, strAddress2, strAddress3, strPincode, strCity, stateId,strState;
     List<Response_Model> feedlist;
-
+    String action="",addressId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,25 @@ public class CreateAddress extends AppCompatActivity {
         city = (EditText) findViewById(R.id.state);
         pincode = (EditText) findViewById(R.id.pincode);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         try {
+
+
+            if (getIntent().getExtras().getString("edit_address").contains("edit_address")){
+
+                getSupportActionBar().setTitle("Edit Address");
+                action="edit_address";
+
+                address1.setText(getIntent().getExtras().getString("address1"));
+                address2.setText(getIntent().getExtras().getString("address2"));
+                address3.setText(getIntent().getExtras().getString("address3"));
+                city.setText(getIntent().getExtras().getString("city"));
+                pincode.setText(getIntent().getExtras().getString("zipcode"));
+                addressId=getIntent().getExtras().getString("address_id");
+                strState=getIntent().getExtras().getString("state");
+
+            }
+
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             dbhelp.DatabaseHelper2 dbhelp = new dbhelp.DatabaseHelper2(thisActivity);
             dbhelp.getReadableDatabase();
@@ -82,6 +102,13 @@ public class CreateAddress extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 stateId = String.valueOf(stateIdList.get(position));
+
+                View view1 = getCurrentFocus();
+                if (view1 != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+
             }
 
             @Override
@@ -99,7 +126,6 @@ public class CreateAddress extends AppCompatActivity {
         strCity = String.valueOf(city.getText());
         strPincode = String.valueOf(pincode.getText());
 
-
         if (strAddress1.equals("")) {
             address1.setError("Please enter the address");
         } else if (strCity.equals("")) {
@@ -107,8 +133,14 @@ public class CreateAddress extends AppCompatActivity {
         } else if (strPincode.equals("")) {
             pincode.setError("please enter pincode");
         } else {
+
             if (StaticVariables.isNetworkConnected(thisActivity)) {
-                createAddress();
+
+                if (action.contains("edit_address")){
+                    editAddress();
+                }else {
+                    createAddress();
+                }
             } else {
                 Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
             }
@@ -161,14 +193,31 @@ public class CreateAddress extends AppCompatActivity {
         }
     }
 
-    public void createAddress() {
+    public void editAddress() {
         PDialog.show(thisActivity);
-        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_address_create.php?",
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_address_edit.php?",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         PDialog.hide();
+                        Toast.makeText(thisActivity,"address saved",Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                        builder.setCancelable(false)
+                                .setTitle("Success")
+                                .setMessage("Address has saved successfully")
+                                .setNegativeButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(thisActivity, SelectAddress.class);
+                                        intent.putExtra("change_address","change_address");
+                                        startActivity(intent);
+                                        finish();
+                                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
+
+                                    }
+                                });
+                        builder.show();
 
                         Log.v("response", response + "");
                         try {
@@ -201,8 +250,86 @@ public class CreateAddress extends AppCompatActivity {
             protected Map<String, String> getParams() {
 
                 Map<String, String> params = new HashMap<>();
+
                 params.put("id", StaticVariables.database.get(0).getId());
-                params.put("customer_id", StaticVariables.database.get(0).getCustomer_id());
+                params.put("address_id", addressId);
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("address_line1", strAddress1);
+                params.put("address_line2", strAddress2);
+                params.put("address_line3", strAddress3);
+                params.put("city", strCity);
+                params.put("state_id", stateId);
+                params.put("zipcode", strPincode);
+
+
+                Log.v("address_id", addressId);
+
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(request, data_receive);
+        Log.v("request", request + "");
+    }
+
+
+    public void createAddress() {
+        PDialog.show(thisActivity);
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_address_create.php?",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        PDialog.hide();
+                        Toast.makeText(thisActivity,"address saved",Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                        builder.setCancelable(false)
+                                .setTitle("Success")
+                                .setMessage("Address has saved successfully")
+                                .setNegativeButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(thisActivity, SelectAddress.class);
+                                        startActivity(intent);
+                                        finish();
+                                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+
+                                    }
+                                });
+                        builder.show();
+
+                        Log.v("response", response + "");
+                        try {
+                            PDialog.hide();
+                            JSONArray ar = new JSONArray(response);
+
+                            feedlist = Response_JSONParser.parserFeed(response);
+                            updatedisplay();
+
+                        } catch (JSONException e) {
+                            PDialog.hide();
+
+                        } catch (Exception e) {
+                            PDialog.hide();
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError arg0) {
+                        PDialog.hide();
+
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("id", StaticVariables.database.get(0).getId());
+                params.put("customer_id", StaticVariables.customerContact);
                 params.put("email", StaticVariables.database.get(0).getEmail());
                 params.put("address_lin1", strAddress1);
                 params.put("address_lin2", strAddress2);
@@ -228,6 +355,7 @@ public class CreateAddress extends AppCompatActivity {
                     public void onResponse(String response) {
                         PDialog.hide();
                         Log.v("response", response + "");
+
                         try {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
@@ -240,6 +368,15 @@ public class CreateAddress extends AppCompatActivity {
 
                             }
                             stateSpinner.setAdapter(dataAdapter);
+
+                            if (action.contains("edit_address")){
+                             for (int i=0;i<stateList.size();i++) {
+
+                                 if (strState.equals(stateList.get(i))){
+                                     stateSpinner.setSelection(i);
+                                 }
+                             }
+                            }
 
                         } catch (JSONException e) {
                             PDialog.hide();
@@ -276,19 +413,37 @@ public class CreateAddress extends AppCompatActivity {
 
     public void onBackPressed() {
 
-        super.onBackPressed();
-        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        if (action.contains("edit_address")){
+            Intent intent = new Intent(thisActivity, SelectAddress.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+        else {
+            super.onBackPressed();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                if (action.contains("edit_address")){
+                    Intent intent = new Intent(thisActivity, SelectAddress.class);
+                    startActivity(intent);
+                    finish();
+                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                }
+                else {
+                    super.onBackPressed();
+                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                }
 
                 return true;
             case R.id.save_button:
+
                 submitAddress();
                 return true;
 

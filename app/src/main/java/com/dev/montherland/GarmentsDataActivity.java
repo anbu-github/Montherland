@@ -53,7 +53,7 @@ public class GarmentsDataActivity extends AppCompatActivity implements CreateOrd
         mLayoutManager = new GridLayoutManager(thisActivity, 1);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-
+        StaticVariables.status="next";
 
         try {
 
@@ -75,7 +75,7 @@ public class GarmentsDataActivity extends AppCompatActivity implements CreateOrd
     }
     public void getWashTypes() {
 
-         PDialog.show(thisActivity);
+        // PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "wash_type_list.php?",
                 new Response.Listener<String>() {
                     @Override
@@ -140,7 +140,7 @@ public class GarmentsDataActivity extends AppCompatActivity implements CreateOrd
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
+                       // PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             PDialog.hide();
@@ -193,12 +193,20 @@ public class GarmentsDataActivity extends AppCompatActivity implements CreateOrd
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(thisActivity, NavigataionActivity.class);
-                startActivity(intent);
+                super.onBackPressed();
+                finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
 
                 return true;
             case R.id.next_button:

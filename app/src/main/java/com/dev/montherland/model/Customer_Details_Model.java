@@ -12,6 +12,16 @@ public class Customer_Details_Model {
     String company_name;
     String quanity;
 
+    public String getCustomerId() {
+        return CustomerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        CustomerId = customerId;
+    }
+
+    String CustomerId;
+
     public String getOrder_type() {
         return order_type;
     }
