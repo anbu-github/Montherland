@@ -268,9 +268,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                     Log.v("customer_id", StaticVariables.customerContact);
                     customerName = customerList.getSelectedItem().toString();
 
-                    if (customerLIst.get(0).contains("Select Company")){
-                        customerLIst.remove(0);
-                    }
 
 
                 } catch (Exception e) {
@@ -301,7 +298,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                         Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
                     }
 
-                    companyList.remove(0);
 
                 } catch (Exception e) {
                    // PDialog.hide();
@@ -324,7 +320,6 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                     StaticVariables.orderType = order_type;
                     StaticVariables.orderTypeId = orderTypeIdList.get(position - 1);
 
-                    orderTypeList.remove(0);
                 } catch (Exception e) {
                    // PDialog.hide();
 
