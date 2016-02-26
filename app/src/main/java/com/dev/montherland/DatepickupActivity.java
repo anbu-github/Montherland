@@ -1,11 +1,12 @@
 package com.dev.montherland;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
-public class DatepickupActivity extends AppCompatActivity {
+public class DatepickupActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -13,7 +14,9 @@ public class DatepickupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_datepickup);
 
         try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            getActionBar().setHomeButtonEnabled(true);
+            getActionBar().setIcon(R.drawable.pf);
         }
         catch (Exception e){
             e.printStackTrace();

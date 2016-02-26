@@ -1,9 +1,7 @@
 package com.dev.montherland;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -11,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -94,8 +93,8 @@ public class CustomerHomeFragment extends Fragment {
             e.printStackTrace();
         }
 
-        ActionBar mActionBar=((AppCompatActivity) getActivity()).getSupportActionBar();
-        mActionBar.setTitle("Customer List");
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getActivity().getActionBar().setTitle("Customer List");
 
         if (StaticVariables.isNetworkConnected(getActivity())) {
             getMasterList();

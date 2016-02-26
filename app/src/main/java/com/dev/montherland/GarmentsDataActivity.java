@@ -3,12 +3,12 @@ package com.dev.montherland;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GarmentsDataActivity extends AppCompatActivity implements CreateOrderAdapter.DataFromAdapterToActivity {
+public class GarmentsDataActivity extends Activity implements CreateOrderAdapter.DataFromAdapterToActivity {
 
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
@@ -57,7 +57,9 @@ public class GarmentsDataActivity extends AppCompatActivity implements CreateOrd
 
         try {
 
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            getActionBar().setHomeButtonEnabled(true);
+            getActionBar().setIcon(R.drawable.pf);
 
             washTypeAdapter = new ArrayAdapter<String>(thisActivity,
                     android.R.layout.simple_spinner_item, washTypeList);

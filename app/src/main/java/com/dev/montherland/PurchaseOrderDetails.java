@@ -3,11 +3,11 @@ package com.dev.montherland;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PurchaseOrderDetails extends AppCompatActivity {
+public class PurchaseOrderDetails extends Activity {
 
     List<GarmentListModel1> persons;
     List<PurchaseOrderDetailsModel> feedlist;
@@ -49,7 +49,10 @@ public class PurchaseOrderDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_details);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setIcon(R.drawable.pf);
 
         cusName=(TextView)findViewById(R.id.quantity);
         cusCompany=(TextView)findViewById(R.id.item);

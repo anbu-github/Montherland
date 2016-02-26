@@ -7,11 +7,11 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EditOrderDetails extends AppCompatActivity {
+public class EditOrderDetails extends Activity {
 
 
     Activity thisActivity=this;
@@ -180,7 +180,9 @@ public class EditOrderDetails extends AppCompatActivity {
         };
         try {
             line_id=getIntent().getExtras().getString("id");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            getActionBar().setHomeButtonEnabled(true);
+            getActionBar().setIcon(R.drawable.pf);
 
         }
         catch (Exception e){

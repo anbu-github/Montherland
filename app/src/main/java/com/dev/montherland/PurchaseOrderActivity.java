@@ -3,7 +3,6 @@ package com.dev.montherland;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -29,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PurchaseOrderActivity extends AppCompatActivity {
+public class PurchaseOrderActivity extends Activity {
 
     private RecyclerView recyclerView;
     private List<Purchase_Order_Model> persons;

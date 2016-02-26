@@ -2,12 +2,12 @@ package com.dev.montherland;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomerDetails extends AppCompatActivity {
+public class CustomerDetails extends Activity {
 
     List<Customer_Details_Model> person;
     TextView name,website,mobile;
@@ -54,7 +54,9 @@ public class CustomerDetails extends AppCompatActivity {
         mLayoutManager.setOrientation(mLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(new LinearLayoutManager(thisActivity));
         try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            getActionBar().setHomeButtonEnabled(true);
+            getActionBar().setIcon(R.drawable.pf);
             id=getIntent().getExtras().getString("id");
         }
         catch (Exception e){

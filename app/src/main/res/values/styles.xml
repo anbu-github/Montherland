@@ -1,19 +1,20 @@
 <resources>
 
+    <!--Splash Screen theme -->
+    <style name="AppTheme_noactionbar" parent="Theme.AppCompat.NoActionBar">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <!-- Main theme for all the Application-->
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="contentInsetStart">0dp</item>
-        <item name="contentInsetEnd">0dp</item>
-        <!--<item name="android:logo">@android:color/transparent</item>-->
-
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
     </style>
 
     <style name="layout2" parent="AppTheme">
@@ -301,60 +302,13 @@
         <item name="android:textColor">#000000</item>
         <item name="android:layout_marginTop">20dp</item>
     </style>
+
     <!-- Button theme Mobile-->
-
-    <style name="Button_style">
-        <item name="android:textColor">#FFFFFF</item>
-        <!-- <item name="android:background">#f2f2f2</item>-->
-        <item name="android:background">@drawable/button_shadow_red</item>
-        <item name="android:layout_marginTop">20dp</item>
-    </style>
-
-    <style name="Button_style_blue">
-        <item name="android:textColor">#000000</item>
-        <item name="android:background">@drawable/button_shadow_blue</item>
-        <item name="android:layout_marginTop">20dp</item>
-    </style>
-
-    <style name="Button_style_green">
-        <item name="android:textColor">#000000</item>
-        <item name="android:background">@drawable/button_shadow</item>
-        <item name="android:layout_marginTop">20dp</item>
-    </style>
-
-    <style name="Button_style_white">
-        <item name="android:textColor">#000000</item>
-        <item name="android:background">@drawable/button_shadow_white</item>
-        <item name="android:layout_marginTop">20dp</item>
-    </style>
-
-    <style name="Button_style2">
-        <item name="android:textColor">#000000</item>
-        <item name="android:background">@drawable/button_shadow2</item>
-        <item name="android:layout_marginTop">10dp</item>
-    </style>
-
-    <style name="Button_style2_size">
-        <item name="android:textColor">#000000</item>
-        <item name="android:background">@drawable/button_shadow2</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_width">200dp</item>
-        <item name="android:layout_height">50dp</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginBottom">10dp</item>
-    </style>
 
     <style name="Button_subscribe">
         <item name="android:textColor">#000000</item>
         <item name="android:background">#9f90ad</item>
         <item name="android:layout_marginTop">20dp</item>
-    </style>
-
-    <style name="Button_style_large">
-        <item name="android:textColor">#000000</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:background">@drawable/button_shadow2</item>
-        <item name="android:layout_marginTop">10dp</item>
     </style>
 
     <style name="SimpleTextviewStyle_space">
@@ -436,62 +390,11 @@
 
     <!--  Tablet style Button-->
 
-    <style name="Button_style_tab">
-        <item name="android:textColor">#000000</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:background">@drawable/button_shadow2</item>
-        <item name="android:layout_marginTop">20dp</item>
-    </style>
-
-    <style name="Button_style_tab_green">
-        <item name="android:textColor">#000000</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:background">@drawable/button_shadow</item>
-        <item name="android:layout_marginTop">20dp</item>
-    </style>
-    <style name="Button_style_tab_blue">
-        <item name="android:textColor">#000000</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:background">@drawable/button_shadow_blue</item>
-        <item name="android:layout_marginTop">20dp</item>
-    </style>
-
-    <style name="Button_style_tab_white">
-        <item name="android:textColor">#000000</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:background">@drawable/button_shadow_white</item>
-        <item name="android:layout_marginTop">20dp</item>
-    </style>
-
     <style name="Button_subscribe_Tab">
         <item name="android:textColor">#000000</item>
         <item name="android:textSize">25sp</item>
         <item name="android:background">#9f90ad</item>
         <item name="android:layout_marginTop">20dp</item>
-    </style>
-
-    <style name="Button_style2_Tab">
-        <item name="android:textColor">#000000</item>
-        <!-- <item name="android:background">#f2f2f2</item>-->
-        <item name="android:textSize">25sp</item>
-        <item name="android:background">@drawable/button_shadow2</item>
-        <item name="android:layout_marginTop">10dp</item>
-    </style>
-    <style name="Button_style_red">
-        <item name="android:textColor">#000000</item>
-        <item name="android:background">@drawable/button_shadow_red</item>
-        <item name="android:layout_marginTop">20dp</item>
-    </style>
-
-    <style name="Button_style2_Tab_size">
-        <item name="android:textColor">#000000</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:background">@drawable/button_shadow2</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_width">250dp</item>
-        <item name="android:layout_height">60dp</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginBottom">10dp</item>
     </style>
 
     <style name="Button_white_transparent" parent="Base.Widget.AppCompat.Button.Borderless">
@@ -501,10 +404,6 @@
     <style name="WindowTitleBackground">
         <item name="android:actionBarItemBackground">@color/colorPrimary</item>
         <item name="android:background">#FF0000</item>
-    </style>
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

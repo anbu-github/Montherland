@@ -6,11 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CreateAddress extends AppCompatActivity {
+public class CreateAddress extends Activity {
     EditText email, address1, address2, address3, city, pincode;
 
     Activity thisActivity = this;
@@ -47,6 +47,7 @@ public class CreateAddress extends AppCompatActivity {
     String data_receive = "string_req_recieve", strAddress1, strAddress2, strAddress3, strPincode, strCity, stateId,strState;
     List<Response_Model> feedlist;
     String action="",addressId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,13 +59,14 @@ public class CreateAddress extends AppCompatActivity {
         city = (EditText) findViewById(R.id.state);
         pincode = (EditText) findViewById(R.id.pincode);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setIcon(R.drawable.pf);
+
         try {
-
-
             if (getIntent().getExtras().getString("edit_address").contains("edit_address")){
 
-                getSupportActionBar().setTitle("Edit Address");
+                getActionBar().setTitle("Edit Address");
                 action="edit_address";
 
                 address1.setText(getIntent().getExtras().getString("address1"));
@@ -77,7 +79,6 @@ public class CreateAddress extends AppCompatActivity {
 
             }
 
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             dbhelp.DatabaseHelper2 dbhelp = new dbhelp.DatabaseHelper2(thisActivity);
             dbhelp.getReadableDatabase();
             StaticVariables.database = dbhelp.getdatabase();

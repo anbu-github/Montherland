@@ -5,11 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OrderConfirmDetails extends AppCompatActivity {
+public class OrderConfirmDetails extends Activity {
 
     String address1, address2, address3, city, state, address_id, zipcode;
     TextView tv_address1, tv_address2, tv_address3, tv_city, tv_state, total_item, customer_contact, tv_zipcode;
@@ -65,8 +64,11 @@ public class OrderConfirmDetails extends AppCompatActivity {
         listview = (com.dev.montherland.adapter.ExpandableListView) findViewById(R.id.listView);
 
         try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Create Order");
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            getActionBar().setHomeButtonEnabled(true);
+            getActionBar().setIcon(R.drawable.pf);
+
+            getActionBar().setTitle("Create Order");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,7 +140,7 @@ public class OrderConfirmDetails extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
 
                                         Intent intent = new Intent(thisActivity, NavigataionActivity.class);
-                                        intent.putExtra("from", "backtohome");
+                                        intent.putExtra("redirection","Order");
                                         startActivity(intent);
                                         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 

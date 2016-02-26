@@ -2,7 +2,6 @@ package com.dev.montherland;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -24,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends Activity {
     private RecyclerView recyclerView;
     private List<Response_Model> persons;
     StaggeredGridLayoutManager mLayoutManager;

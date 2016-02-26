@@ -13,7 +13,6 @@
     <string name="btn_sign_up">NEXT</string>
     <string name="btn_login">LOGIN</string>
     <string name="btn_signup">SIGNUP</string>
-    <string name="drawer_open">Open navigation drawer</string>
     <string name="action_websearch">Web search</string>
     <string name="title_activity_login">Login</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
@@ -65,8 +64,12 @@
 
 
 
+    <!-- Main Activity-->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
     <string-array name="planets_array">
-        <item>Home</item>
+        <item>Customers</item>
+        <item>Order</item>
         <item>View/Edit Profile</item>
         <item>Change Password</item>
         <item>LogOut</item>

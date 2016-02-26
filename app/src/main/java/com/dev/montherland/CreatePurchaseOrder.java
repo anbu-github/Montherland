@@ -7,11 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -41,7 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CreatePurchaseOrder extends AppCompatActivity {
+public class CreatePurchaseOrder extends Activity {
 
     Activity thisActivity = this;
     String data_receive = "string_req_recieve";
@@ -106,7 +106,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         try {
             if (!(getIntent().getExtras().getString("order_details") == null)) {
 
-                getSupportActionBar().setTitle("Edit Order Details");
+                getActionBar().setTitle("Edit Order Details");
                 Intent intent = getIntent();
                 //   Bundle args = intent.getBundleExtra("BUNDLE");
                 order_id = intent.getExtras().getString("order_id");
@@ -232,7 +232,9 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
 
         try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            getActionBar().setHomeButtonEnabled(true);
+            getActionBar().setIcon(R.drawable.pf);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -749,6 +751,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
 
         } else {
             Intent in = new Intent(thisActivity, NavigataionActivity.class);
+            in.putExtra("redirection","Order");
             startActivity(in);
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -812,6 +815,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                     overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 } else {
                     Intent in = new Intent(thisActivity, NavigataionActivity.class);
+                    in.putExtra("redirection","Order");
                     startActivity(in);
                     finish();
                     overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
