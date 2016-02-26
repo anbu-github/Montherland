@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -60,8 +61,13 @@ public class CreateAddress extends Activity {
         pincode = (EditText) findViewById(R.id.pincode);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setIcon(R.drawable.pf);
+        if (Build.VERSION.SDK_INT > 19) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeAsUpIndicator(R.drawable.pf);
+        } else {
+            getActionBar().setHomeButtonEnabled(true);
+            getActionBar().setIcon(R.drawable.pf);
+        }
 
         try {
             if (getIntent().getExtras().getString("edit_address").contains("edit_address")){

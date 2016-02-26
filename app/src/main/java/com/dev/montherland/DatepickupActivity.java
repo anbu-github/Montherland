@@ -1,6 +1,7 @@
 package com.dev.montherland;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,8 +16,13 @@ public class DatepickupActivity extends Activity {
 
         try {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-            getActionBar().setHomeButtonEnabled(true);
-            getActionBar().setIcon(R.drawable.pf);
+            if (Build.VERSION.SDK_INT > 19) {
+                getActionBar().setDisplayHomeAsUpEnabled(true);
+                getActionBar().setHomeAsUpIndicator(R.drawable.pf);
+            } else {
+                getActionBar().setHomeButtonEnabled(true);
+                getActionBar().setIcon(R.drawable.pf);
+            }
         }
         catch (Exception e){
             e.printStackTrace();

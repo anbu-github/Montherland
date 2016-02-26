@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -181,8 +182,13 @@ public class EditOrderDetails extends Activity {
         try {
             line_id=getIntent().getExtras().getString("id");
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-            getActionBar().setHomeButtonEnabled(true);
-            getActionBar().setIcon(R.drawable.pf);
+            if (Build.VERSION.SDK_INT > 19) {
+                getActionBar().setDisplayHomeAsUpEnabled(true);
+                getActionBar().setHomeAsUpIndicator(R.drawable.pf);
+            } else {
+                getActionBar().setHomeButtonEnabled(true);
+                getActionBar().setIcon(R.drawable.pf);
+            }
 
         }
         catch (Exception e){

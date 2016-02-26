@@ -2,6 +2,7 @@ package com.dev.montherland;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -48,8 +49,14 @@ public class SelectAddress extends Activity {
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setIcon(R.drawable.pf);
+        if (Build.VERSION.SDK_INT > 19) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeAsUpIndicator(R.drawable.pf);
+        } else {
+            getActionBar().setHomeButtonEnabled(true);
+            getActionBar().setIcon(R.drawable.pf);
+        }
+
 
         getActionBar().setTitle("Create Order");
 

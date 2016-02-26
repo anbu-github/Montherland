@@ -2,6 +2,7 @@ package com.dev.montherland;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +43,15 @@ public class PurchaseOrderActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_order);
+
+        if (Build.VERSION.SDK_INT > 19) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeAsUpIndicator(R.drawable.pf);
+        } else {
+            getActionBar().setHomeButtonEnabled(true);
+            getActionBar().setIcon(R.drawable.pf);
+        }
+
         recyclerView = (RecyclerView)findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);

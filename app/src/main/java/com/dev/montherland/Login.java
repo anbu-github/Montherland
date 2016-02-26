@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -32,7 +31,7 @@ import java.util.Map;
 public class Login extends Activity {
 
     String data_receive = "string_req_recieve";
-    TextInputLayout inputLayoutName, inputLayoutPassword;
+
     EditText username, password;
     String str_username, str_password, id;
     Activity thisActivity = this;
@@ -45,8 +44,6 @@ public class Login extends Activity {
 
         username = (EditText) findViewById(R.id.input_email);
         password = (EditText) findViewById(R.id.input_password);
-        inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
-        inputLayoutPassword = (TextInputLayout) findViewById(R.id.input_layout_password);
 
     }
 
@@ -86,26 +83,19 @@ public class Login extends Activity {
 
     private boolean validateUsername() {
         if (username.getText().toString().trim().isEmpty()) {
-            inputLayoutName.setError(getResources().getString(R.string.enter_email));
+            username.setError(getResources().getString(R.string.enter_email));
             requestFocus(username);
             return false;
-        } else {
-            inputLayoutName.setErrorEnabled(false);
         }
         return true;
     }
 
     private boolean validatePassword() {
         if (password.getText().toString().trim().isEmpty()) {
-            inputLayoutPassword.setError(getResources().getString(R.string.enter_password));
+            password.setError(getResources().getString(R.string.enter_password));
             requestFocus(password);
             return false;
-        } else {
-
-            inputLayoutPassword.setErrorEnabled(false);
         }
-
-
         return true;
     }
 

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -233,8 +234,13 @@ public class CreatePurchaseOrder extends Activity {
 
         try {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-            getActionBar().setHomeButtonEnabled(true);
-            getActionBar().setIcon(R.drawable.pf);
+            if (Build.VERSION.SDK_INT > 19) {
+                getActionBar().setDisplayHomeAsUpEnabled(true);
+                getActionBar().setHomeAsUpIndicator(R.drawable.pf);
+            } else {
+                getActionBar().setHomeButtonEnabled(true);
+                getActionBar().setIcon(R.drawable.pf);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
