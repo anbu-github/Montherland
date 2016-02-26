@@ -257,6 +257,7 @@ public class CreatePurchaseOrder extends AppCompatActivity {
         washTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
+
         customerList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -267,7 +268,10 @@ public class CreatePurchaseOrder extends AppCompatActivity {
                     Log.v("customer_id", StaticVariables.customerContact);
                     customerName = customerList.getSelectedItem().toString();
 
-                    customerLIst.remove(0);
+                    if (customerLIst.get(0).contains("Select Company")){
+                        customerLIst.remove(0);
+                    }
+
 
                 } catch (Exception e) {
 
