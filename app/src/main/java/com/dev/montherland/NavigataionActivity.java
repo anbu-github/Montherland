@@ -70,8 +70,8 @@ public class NavigataionActivity extends Activity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+       // getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setHomeButtonEnabled(true);
 
 //        Log.d("planet","point 5");
 
@@ -83,7 +83,10 @@ public class NavigataionActivity extends Activity {
                 R.mipmap.ic_drawer,  /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
-        ) {
+        )
+
+        {
+
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
@@ -94,8 +97,11 @@ public class NavigataionActivity extends Activity {
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
+
 //        Log.d("planet", "point 6");
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+        getActionBar().setDisplayOptions(getActionBar().DISPLAY_SHOW_CUSTOM | getActionBar().DISPLAY_SHOW_HOME | getActionBar().DISPLAY_HOME_AS_UP);
 
         // Redirecting user to page requested in intent after clicking on menu drawer activity
         String redirection = "";
@@ -234,7 +240,7 @@ public class NavigataionActivity extends Activity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+//        getActionBar().setTitle(mTitle);
     }
 
     /**

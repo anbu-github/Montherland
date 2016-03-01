@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -43,8 +44,9 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
     ArrayList<String> garmentInstrList = new ArrayList<>();
     ArrayList<String> garmentStyleList = new ArrayList<>();
     ArrayList<String> garmentWashTypeIdList = new ArrayList<>();
-    ArrayAdapter<String> washTypeAdapter;
+
     List<GarmentListModel> garment_model;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +68,6 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
                 getActionBar().setHomeButtonEnabled(true);
                 getActionBar().setIcon(R.drawable.pf);
             }
-
-            washTypeAdapter = new ArrayAdapter<String>(thisActivity,
-                    android.R.layout.simple_spinner_item, washTypeList);
-            washTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,8 +92,7 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
 
-
-                            washTypeList.add("Select wash type");
+                            washTypeList.add("Select");
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 washTypeList.add(parentObject.getString("name"));
@@ -106,7 +103,7 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
                             }
 
                             mAdapter = new CreateOrderAdapter(thisActivity
-                                    , garment_model,washTypeAdapter);
+                                    , garment_model,washTypeList);
 
                             mRecyclerView.setAdapter(mAdapter);
 
@@ -158,7 +155,6 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
                             Log.v("garment size", garment_model.size() + "");
                             getWashTypes();
 
-
                         } catch (Exception e) {
                             PDialog.hide();
 //                            Log.d("json connection", "No internet access" + e);
@@ -196,6 +192,17 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action barenu
         getMenuInflater().inflate(R.menu.menu_next, menu);
+        final Menu m = menu;
+        final  MenuItem item = menu.findItem(R.id.next_button);
+
+        item.getActionView().setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                m.performIdentifierAction(item.getItemId(), 0);
+                goNext();
+            }
+        });
 
         return true;
     }
@@ -205,6 +212,82 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    public void goNext(){
+        ArrayList<String> garment_type = new ArrayList<>();
+        ArrayList<String> garment_quantity = new ArrayList<>();
+        ArrayList<String> garment_id = new ArrayList<>();
+
+        Boolean goOrnot = false;
+        int j = 0;
+        if(garment_model != null) {
+            for (int i = 0; i < garment_model.size(); i++) {
+                if (!garment_model.get(i).getGarmentWashType().equals("Select") || !garment_model.get(i).getGarmentStyle().equals("") || !garment_model.get(i).getGarmentQuantity().equals("") || !garment_model.get(i).getGarmentInstr().equals("")) {
+                    if (garment_model.get(i).getGarmentWashType().equals("Select")) {
+                        goOrnot = false;
+                        Toast.makeText(thisActivity, "Please select wash type of" + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
+                        break;
+                    } else if (garment_model.get(i).getGarmentStyle().equals("")) {
+                        goOrnot = false;
+                        Toast.makeText(thisActivity, "Please enter style of" + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
+                        break;
+
+                    } else if (garment_model.get(i).getGarmentQuantity().equals("")) {
+                        goOrnot = false;
+                        Toast.makeText(thisActivity, "Please enter quantity of" + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
+                        break;
+
+                    } else if (garment_model.get(i).getGarmentInstr().equals("")) {
+                        goOrnot = false;
+                        Toast.makeText(thisActivity, "Please enter instruction of" + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
+                        break;
+
+                    } else {
+                        goOrnot = true;
+                        Boolean isValidNo = StaticVariables.checkIfNumber(garment_model.get(i).getGarmentQuantity());
+                        Log.v("wash Tylpe", garment_model.get(i).getGarmentWashType());
+                        j++;
+                        garment_quantity.add(garment_model.get(i).getGarmentQuantity());
+                        garment_type.add(garment_model.get(i).getGarmentType());
+                        garment_id.add(garment_model.get(i).getGarmentTypeId());
+                        garmentStyleList.add(garment_model.get(i).getGarmentStyle());
+                        garmentWashTypeList.add(garment_model.get(i).getGarmentWashType());
+                        garmentWashTypeIdList.add(garment_model.get(i).getGarmentWashId());
+                        garmentInstrList.add(garment_model.get(i).getGarmentInstr());
+
+                    }
+                }
+//                else {
+//                    Toast.makeText(thisActivity,getResources().getString(R.string.enter_product_details),Toast.LENGTH_LONG).show();
+//                    goOrnot = false;
+//                    break;
+//                }
+            }
+        } else {
+            Toast.makeText(thisActivity,getResources().getString(R.string.enter_atleast_one_product),Toast.LENGTH_LONG).show();
+        }
+
+        Log.v("quantity no", garment_model.get(0).getGarmentQuantity().toString());
+        if(j > 0) {
+            if (goOrnot) {
+
+                Intent in = new Intent(thisActivity, SelectAddress.class);
+                StaticVariables.selectAddress = "Create order";
+                startActivity(in);
+
+                StaticVariables.editQuantityList = garment_quantity;
+                StaticVariables.garmentTypeList = garment_type;
+                StaticVariables.garmentIdList = garment_id;
+                StaticVariables.garmentStyle = garmentStyleList;
+                StaticVariables.garmentWashtype = garmentWashTypeList;
+                StaticVariables.garmentWashTypeId = garmentWashTypeIdList;
+                StaticVariables.garmentInstr = garmentInstrList;
+            }
+        }
+        else {
+            Toast.makeText(thisActivity,getResources().getString(R.string.enter_atleast_one_product),Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -218,71 +301,9 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
 
                 return true;
             case R.id.next_button:
-                Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
 
-                    ArrayList<String> garment_type = new ArrayList<>();
-                    ArrayList<String> garment_quantity = new ArrayList<>();
-                    ArrayList<String> garment_id = new ArrayList<>();
-                    int no = 0;
-
-                    for (int i = 0; i <= garment_model.size(); i++) {
-
-                        try {
-                            if (garment_model.get(i).getGarmentQuantity().equals("")||garment_model.get(i).getGarmentStyle().equals("")||garment_model.get(i).getGarmentInstr().equals("")) {
-
-                                no++;
-
-                            }
-
-                            else {
-
-                                Boolean isValidNo = StaticVariables.checkIfNumber(garment_model.get(i).getGarmentQuantity());
-                                Log.v("wash Tylpe",garment_model.get(i).getGarmentWashType());
-
-                                 if (!isValidNo) {
-                                    Toast.makeText(thisActivity, "Please enter valid number", Toast.LENGTH_SHORT).show();
-                                } else {
-
-                                    garment_quantity.add(garment_model.get(i).getGarmentQuantity());
-                                    garment_type.add(garment_model.get(i).getGarmentType());
-                                    garment_id.add(garment_model.get(i).getGarmentTypeId());
-                                    garmentStyleList.add(garment_model.get(i).getGarmentStyle());
-                                    garmentWashTypeList.add(garment_model.get(i).getGarmentWashType());
-                                    garmentWashTypeIdList.add(garment_model.get(i).getGarmentWashId());
-                                    garmentInstrList.add(garment_model.get(i).getGarmentInstr());
-                                }
-
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                    Log.v("quantity no", garment_model.get(0).getGarmentQuantity().toString());
-                if (no==garment_model.size()){
-                    Toast.makeText(thisActivity, "Please fill atleast one garment item details", Toast.LENGTH_SHORT).show();
-
-                }
-
-                else if (garment_model.get(0).getGarmentWashType().equals("Select wash type")){
-                    Toast.makeText(thisActivity, "Please select wash type", Toast.LENGTH_SHORT).show();
-
-                }
-
-                else {
-                    Intent in = new Intent(thisActivity, SelectAddress.class);
-                    startActivity(in);
-
-                }
-
-                    StaticVariables.editQuantityList = garment_quantity;
-                    StaticVariables.garmentTypeList = garment_type;
-                    StaticVariables.garmentIdList = garment_id;
-                    StaticVariables.garmentStyle = garmentStyleList;
-                    StaticVariables.garmentWashtype = garmentWashTypeList;
-                    StaticVariables.garmentWashTypeId = garmentWashTypeIdList;
-                    StaticVariables.garmentInstr = garmentInstrList;
-
+                //goNext();
                 return true;
 
             default:

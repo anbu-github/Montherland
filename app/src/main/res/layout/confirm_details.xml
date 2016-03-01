@@ -294,7 +294,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Add1"
             android:id="@+id/add1"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="3dp"
             android:layout_marginLeft="15dp" />
 
         <TextView
@@ -303,7 +303,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Add2"
             android:id="@+id/add2"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="3dp"
             android:layout_marginLeft="15dp" />
 
         <TextView
@@ -312,7 +312,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Add3"
             android:id="@+id/add3"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="3dp"
             android:layout_marginLeft="15dp" />
         <TextView
             android:layout_width="wrap_content"
@@ -320,7 +320,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="State"
             android:id="@+id/state"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="3dp"
             android:layout_marginLeft="15dp" />
         <TextView
             android:layout_width="wrap_content"
@@ -328,7 +328,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="city"
             android:id="@+id/city"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="3dp"
             android:layout_marginLeft="15dp" />
         <TextView
             android:layout_width="wrap_content"
@@ -336,7 +336,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="zipcode"
             android:id="@+id/zipcode"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="3dp"
             android:layout_marginLeft="15dp" />
 
         <LinearLayout

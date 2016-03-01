@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 public class SelectAddress extends Activity {
     String data_receive = "string_req_recieve";
@@ -73,7 +74,10 @@ public class SelectAddress extends Activity {
         recyclerView.setLayoutManager(mLayoutManager);
         try {
 
-            if (!(getIntent().getExtras().getString("change_address")==null)){
+            if (StaticVariables.selectAddress.contains("Create order")){
+
+            }
+            else if (!(getIntent().getExtras().getString("change_address")==null)){
 
                 getActionBar().setTitle("Change Address");
                 StaticVariables.status="Save";
@@ -156,9 +160,26 @@ public class SelectAddress extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action barenu
-        getMenuInflater().inflate(R.menu.menu_next, menu);
-        MenuItem item = menu.findItem(R.id.next_button);
-        item.setTitle(menuTitle);
+
+        if (menuTitle.contains("Save")){
+            StaticVariables.status="Save";
+            getMenuInflater().inflate(R.menu.menu_save, menu);
+        }
+        else {
+            getMenuInflater().inflate(R.menu.menu_next, menu);
+            final Menu m = menu;
+            final MenuItem item = menu.findItem(R.id.next_button);
+
+            item.getActionView().setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    m.performIdentifierAction(item.getItemId(), 0);
+                    goNext();
+                }
+            });
+        }
+
         return true;
     }
 
@@ -175,6 +196,18 @@ public class SelectAddress extends Activity {
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
 
+    }
+    public void goNext(){
+        if (StaticVariables.cbpos==-1){
+
+            Toast.makeText(thisActivity, "Please select any address", Toast.LENGTH_SHORT).show();
+
+        }
+        else {
+
+            new AddressCreateAdapter(thisActivity, persons);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -195,19 +228,9 @@ public class SelectAddress extends Activity {
 
                 return true;
             case R.id.next_button:
-
-                if (StaticVariables.cbpos==-1){
-
-                    Toast.makeText(thisActivity, "Please select any address", Toast.LENGTH_SHORT).show();
-
-
-                }
-                else {
-                    new AddressCreateAdapter(thisActivity,persons);
-                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
-                }
-
+                goNext();
+            case R.id.save_button:
+                goNext();
                return true;
 
             default:

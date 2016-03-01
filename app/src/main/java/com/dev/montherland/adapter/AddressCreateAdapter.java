@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
     private static CheckBox lastChecked = null;
     private Integer selected_position = -1;
     Context mContext;
+
     public AddressCreateAdapter(List<Create_Address_Model> persons,Context context) {
         this.persons = persons;
         this.mContext=context;
@@ -82,6 +84,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
         else {
 
             changeAddressRequest();
+
         }
     }
 
@@ -94,7 +97,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                     public void onResponse(String response) {
                         PDialog.hide();
                         Log.v("response", response + "");
-                        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,R.style.myDialog));
                         builder.setCancelable(false)
                                 .setTitle("Success")
                                 .setMessage("Successfully Address Changed")
@@ -166,7 +169,6 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                         PDialog.hide();
                         Log.v("response", response);
 
-
                         try {
                             JSONObject ar = new JSONObject(response);
                             String ER=ar.getString("id");
@@ -174,7 +176,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                                 if (ER.contains("Error")){
                                   Toast.makeText(mContext," As this Address has been assigned to one of the orders,unable to delete ",Toast.LENGTH_SHORT).show();
                                 }else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,R.style.myDialog));
                                     builder.setCancelable(false)
                                             .setTitle("Success")
                                             .setMessage("Successfully Deleted")
@@ -288,7 +290,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                 selctedPos = position;
 
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,R.style.myDialog));
                 builder.setCancelable(false)
                         .setTitle("Delete Address")
                         .setMessage("Are you sure want to delete this address?")

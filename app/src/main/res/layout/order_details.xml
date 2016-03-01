@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:id="@+id/layout"
+        android:focusableInTouchMode="true"
         android:layout_height="match_parent"
         android:weightSum="1">
         <RelativeLayout
@@ -238,10 +239,10 @@
                 android:layout_toStartOf="@+id/textView22" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:id="@+id/imageView16"
-                android:src="@drawable/status"
+                android:src="@drawable/status1"
                 android:layout_alignTop="@+id/textView25"
                 android:layout_toLeftOf="@+id/textView25"
                 android:layout_toStartOf="@+id/textView25" />
@@ -346,10 +347,10 @@
         <com.dev.montherland.adapter.ExpandableListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:dividerHeight="2dp"
+            android:dividerHeight="1dp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
-            android:divider="@color/blue_dark"
+            android:divider="@color/divider_grey"
             android:id="@+id/listView" />
 
         <RelativeLayout
@@ -420,7 +421,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Add2"
                 android:id="@+id/add2"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginLeft="18dp" />
 
             <TextView
@@ -429,7 +430,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Add3"
                 android:id="@+id/add3"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginLeft="18dp" />
             <TextView
                 android:layout_width="wrap_content"
@@ -437,7 +438,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="State"
                 android:id="@+id/state"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginLeft="18dp" />
             <TextView
                 android:layout_width="wrap_content"
@@ -445,7 +446,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="city"
                 android:id="@+id/city"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginLeft="18dp" />
             <TextView
                 android:layout_width="wrap_content"
@@ -453,7 +454,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="zipcode"
                 android:id="@+id/zipcode"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="3dp"
                 android:layout_marginLeft="18dp" />
 
             <RelativeLayout
@@ -461,7 +462,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/title_bar_color"
-                android:layout_marginTop="10dp" >
+                android:layout_marginTop="5dp" >
 
                 <TextView
                     android:layout_width="wrap_content"

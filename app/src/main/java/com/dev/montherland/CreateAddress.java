@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -60,6 +62,8 @@ public class CreateAddress extends Activity {
         city = (EditText) findViewById(R.id.state);
         pincode = (EditText) findViewById(R.id.pincode);
 
+        stateList.add("Select");
+        stateIdList.add("Select");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         if (Build.VERSION.SDK_INT > 19) {
             getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -104,11 +108,20 @@ public class CreateAddress extends Activity {
                 android.R.layout.simple_spinner_item, stateList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+       stateSpinner.setOnTouchListener(new View.OnTouchListener() {
+           @Override
+           public boolean onTouch(View v, MotionEvent event) {
+
+               StaticVariables.hideKeyboard(thisActivity);
+               return false;
+           }
+       });
 
         stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 stateId = String.valueOf(stateIdList.get(position));
+
 
                 View view1 = getCurrentFocus();
                 if (view1 != null) {
@@ -288,7 +301,7 @@ public class CreateAddress extends Activity {
                     public void onResponse(String response) {
                         PDialog.hide();
                         Toast.makeText(thisActivity,"address saved",Toast.LENGTH_SHORT).show();
-                        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(new ContextThemeWrapper(thisActivity,R.style.myDialog));
                         builder.setCancelable(false)
                                 .setTitle("Success")
                                 .setMessage("Address has saved successfully")
@@ -364,7 +377,13 @@ public class CreateAddress extends Activity {
                         Log.v("response", response + "");
 
                         try {
-                            PDialog.hide();
+
+                            stateList.clear();
+                            stateIdList.clear();
+
+                            stateList.add("Select");
+                            stateIdList.add("Select");
+
                             JSONArray ar = new JSONArray(response);
 
                             for (int i = 0; i < ar.length(); i++) {

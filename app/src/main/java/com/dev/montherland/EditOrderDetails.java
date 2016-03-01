@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -44,7 +45,6 @@ import java.util.List;
 import java.util.Map;
 
 public class EditOrderDetails extends Activity {
-
 
     Activity thisActivity=this;
 
@@ -91,7 +91,6 @@ public class EditOrderDetails extends Activity {
 
         layout=(RelativeLayout)findViewById(R.id.layout);
 
-
         washIdList.add("Select");
         washTypeList.add("Select");
         if(StaticVariables.isNetworkConnected(EditOrderDetails.this)) {
@@ -108,6 +107,14 @@ public class EditOrderDetails extends Activity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         order_type.setAdapter(dataAdapter);
         order_type.setFocusableInTouchMode(true);
+
+        order_type.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                StaticVariables.hideKeyboard(thisActivity);
+                return false;
+            }
+        });
         order_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -129,10 +136,19 @@ public class EditOrderDetails extends Activity {
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         status.setAdapter(dataAdapter);
         status.setFocusableInTouchMode(true);
+        status.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                StaticVariables.hideKeyboard(thisActivity);
+                return false;
+            }
+        });
         status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
+
+
                     status_id = String.valueOf(statusIdList.get(position));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -200,17 +216,25 @@ public class EditOrderDetails extends Activity {
 
     public void updateDate() {
         //In which you need put here
+        Calendar calc=Calendar.getInstance();
+        calc.set(Calendar.DAY_OF_MONTH, calc.get(Calendar.DAY_OF_MONTH) - 1);
+        if (myCalendar.getTime().before(calc.getTime())){
+            Toast.makeText(thisActivity,"Please select valid date",Toast.LENGTH_SHORT).show();
+        }
+        else {
 
-        date.setText(sdf.format(myCalendar.getTime()));
-        get_date = sdf1.format(myCalendar.getTime());
-        Log.v("currentTime", myCalendar.getTime() + "");
-        Log.v("pickedDateTIme", StaticVariables.pickedDateTIme);
+            date.setText(sdf.format(myCalendar.getTime()));
+            get_date = sdf1.format(myCalendar.getTime());
+            Log.v("currentTime", myCalendar.getTime() + "");
+            Log.v("pickedDateTIme", StaticVariables.pickedDateTIme);
 
-        new TimePickerDialog(thisActivity,
-                time,
-                myCalendar.get(Calendar.HOUR_OF_DAY),
-                myCalendar.get(Calendar.MINUTE),
-                true).show();
+            new TimePickerDialog(thisActivity,
+                    time,
+                    myCalendar.get(Calendar.HOUR_OF_DAY),
+                    myCalendar.get(Calendar.MINUTE),
+                    true).show();
+        }
+
 
     }
 
@@ -521,9 +545,8 @@ public class EditOrderDetails extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action barenu
-        getMenuInflater().inflate(R.menu.menu_next, menu);
-        MenuItem item = menu.findItem(R.id.next_button);
-        item.setTitle("Save");
+        getMenuInflater().inflate(R.menu.menu_save, menu);
+
         return true;
     }
 
@@ -545,7 +568,7 @@ public class EditOrderDetails extends Activity {
                 finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 return true;
-            case R.id.next_button:
+            case R.id.save_button:
 
                 String quantity_str = quantity.getText().toString();
                 String instru = instr.getText().toString();

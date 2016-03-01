@@ -7,8 +7,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import com.dev.montherland.R;
 import com.dev.montherland.model.GarmentListModel;
 import com.dev.montherland.model.Response_Model;
+import com.dev.montherland.util.StaticVariables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +35,16 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
     List<Response_Model> feedList;
     DataFromAdapterToActivity dataFromAdapterToActivity;
     ArrayAdapter<String> dataAdapter;
+    ArrayList<String> arrayList;
 
 
-    public CreateOrderAdapter(Context context, List<GarmentListModel> garment_model, ArrayAdapter<String> dataAdapter) {
+    public CreateOrderAdapter(Context context, List<GarmentListModel> garment_model, ArrayList<String> arrayList) {
         this.context = context;
         this.garment_model = garment_model;
-        this.dataAdapter=dataAdapter;
+        this.arrayList=arrayList;
 
         //getWashTypes();
-        Log.v("washtype",dataAdapter.toString());
+        Log.v("washtype",arrayList.toString());
 
     }
 
@@ -77,8 +82,14 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
 
         dataFromAdapterToActivity = (DataFromAdapterToActivity) context;
 
+        ArrayAdapter<String> washTypeAdapter;
 
-        viewHolder.spinner.setAdapter(dataAdapter);
+        washTypeAdapter = new ArrayAdapter<String>(context,
+                android.R.layout.simple_spinner_item, arrayList);
+        washTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        viewHolder.spinner.setAdapter(washTypeAdapter);
 
 
         viewHolder.garmentType.setText(garment_model.get(position).getGarmentType());
@@ -145,15 +156,25 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
         });
 
         viewHolder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position2, long id) {
-
-                dataFromAdapterToActivity.washType(viewHolder.spinner.getSelectedItem().toString(), position,position2);
-
+                dataFromAdapterToActivity.washType(viewHolder.spinner.getSelectedItem().toString(), position, position2);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        viewHolder.spinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                InputMethodManager imm=(InputMethodManager)context.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(viewHolder.spinner.getWindowToken(), 0);
+                return false;
 
             }
         });

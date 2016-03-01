@@ -94,7 +94,7 @@ public class CustomerHomeFragment extends Fragment {
         }
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        getActivity().getActionBar().setTitle("Customer List");
+      //  getActivity().getActionBar().setTitle("Customer List");
 
         if (StaticVariables.isNetworkConnected(getActivity())) {
             getMasterList();

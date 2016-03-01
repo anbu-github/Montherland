@@ -7,8 +7,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -118,12 +120,32 @@ public class OrderConfirmDetails extends Activity {
         //total_no.setText(StaticVariables.garmentTypeList.size() + "");
     }
 
+    public void save(){
+        if (StaticVariables.isNetworkConnected(thisActivity)) {
+            confirmOrderRequest();
+
+        } else {
+            Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action barenu
-        getMenuInflater().inflate(R.menu.menu_next, menu);
-        MenuItem item = menu.findItem(R.id.next_button);
-        item.setTitle("Submit");
+        getMenuInflater().inflate(R.menu.menu_submit, menu);
+        // item.setTitle("Submit");
+    //    final Menu m = menu;
+    //    final  MenuItem item = menu.findItem(R.id.next_button);
+/*
+        item.getActionView().setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                m.performIdentifierAction(item.getItemId(), 0);
+               // save();
+            }
+        });*/
         return true;
     }
 
@@ -137,7 +159,7 @@ public class OrderConfirmDetails extends Activity {
                     public void onResponse(String response) {
                         PDialog.hide();
                         Log.v("response", response);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(thisActivity,R.style.myDialog));
                         builder.setCancelable(false)
                                 .setTitle("Success")
                                 .setMessage("Order has been placed successfully")
@@ -148,6 +170,8 @@ public class OrderConfirmDetails extends Activity {
                                         Intent intent = new Intent(thisActivity, NavigataionActivity.class);
                                         intent.putExtra("redirection","Order");
                                         startActivity(intent);
+                                        finish();
+                                        StaticVariables.selectAddress=null;
                                         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
                                     }
@@ -236,12 +260,7 @@ public class OrderConfirmDetails extends Activity {
 
                 return true;
             case R.id.next_button:
-                if (StaticVariables.isNetworkConnected(thisActivity)) {
-                    confirmOrderRequest();
-
-                } else {
-                    Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
-                }
+             save();
 
 
                 return true;

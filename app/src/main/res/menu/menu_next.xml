@@ -5,7 +5,8 @@
         android:id="@+id/next_button"
         android:orderInCategory="500"
         android:title="Next"
-        app:showAsAction="always" />
+        android:actionLayout="@layout/menu_save"
+        android:showAsAction="always" />
 
     
 </menu>

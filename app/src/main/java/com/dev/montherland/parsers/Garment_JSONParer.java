@@ -25,6 +25,9 @@ public class Garment_JSONParer {
                 flower.setGarmentTypeId(parentObject.getString("id"));
                 flower.setGarmentType(parentObject.getString("name"));
                 flower.setGarmentQuantity("");
+                flower.setGarmentStyle("");
+                flower.setGarmentInstr("");
+                flower.setGarmentWashType("Select");
                 //Log.d("success", parentObject.getString("success"));
                 respnse.add(flower);
             }

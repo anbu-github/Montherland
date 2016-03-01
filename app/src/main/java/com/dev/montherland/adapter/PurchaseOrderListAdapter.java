@@ -46,11 +46,20 @@ public class PurchaseOrderListAdapter extends RecyclerView.Adapter<PurchaseOrder
 
         date=persons.get(position).getDate();
         contact=persons.get(position).getCustomer_contact();
+
         company=persons.get(position).getCustomer_company();
         id=persons.get(position).getId();
 
         holder.date.setText(date);
         holder.contact.setText(contact);
+
+      /*  if (contact.contains("Lalit Panchal")){
+            holder.contact.setText("Test contact");
+
+        }else {
+            holder.contact.setText(contact);
+        }*/
+
         holder.company.setText(company);
         holder.id.setText(id);
 

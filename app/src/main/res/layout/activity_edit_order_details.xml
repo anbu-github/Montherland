@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="3dp"
-        android:visibility="invisible"
         android:layout_marginBottom="7dp"
         android:id="@+id/layout">
 
@@ -80,6 +79,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:hint="@string/enter_quantity2"
             android:id="@+id/quantity"
+            android:maxLength="6"
             android:layout_below="@+id/item"
             android:inputType="number"
             android:layout_alignLeft="@+id/item"
@@ -92,6 +92,7 @@
             android:layout_height="26dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/order_type"
+            android:spinnerMode="dialog"
             android:entries="@array/planets_array"
             android:layout_alignBaseline="@+id/textView21"
             android:layout_alignBottom="@+id/textView21"
@@ -139,7 +140,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:hint="@string/enter_style_code"
             android:id="@+id/style"
-            android:maxLength="11"
+            android:maxLength="2"
             android:layout_below="@+id/order_type"
             android:layout_alignLeft="@+id/order_type"
             android:layout_alignStart="@+id/order_type"
@@ -163,7 +164,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/status"
             android:entries="@array/planets_array"
-
+            android:spinnerMode="dialog"
             android:layout_below="@+id/imageView15"
             android:layout_alignLeft="@+id/date"
             android:layout_alignStart="@+id/date"
@@ -171,11 +172,11 @@
             android:layout_marginRight="5dp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/imageView11"
-            android:src="@drawable/order_type"
-            android:layout_alignBottom="@+id/textView21"
+            android:src="@drawable/wash_code"
+            android:layout_alignTop="@+id/order_type"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -201,10 +202,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView14"
-            android:src="@drawable/calendar"
-            android:layout_alignTop="@+id/textView24"
-            android:layout_toLeftOf="@+id/textView24"
-            android:layout_toStartOf="@+id/textView24" />
+            android:src="@drawable/style_code"
+            android:layout_alignBottom="@+id/textView24"
+            android:layout_toLeftOf="@+id/textView21"
+            android:layout_toStartOf="@+id/textView21" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -216,10 +217,10 @@
             android:layout_toStartOf="@+id/textView22" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/imageView16"
-            android:src="@drawable/status"
+            android:src="@drawable/status1"
             android:layout_alignTop="@+id/textView25"
             android:layout_toLeftOf="@+id/textView25"
             android:layout_toStartOf="@+id/textView25" />
@@ -248,10 +249,10 @@
             android:layout_marginTop="5dp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/imageView5"
-            android:src="@drawable/status"
+            android:src="@drawable/wash_code"
             android:layout_alignBottom="@+id/textView13"
             android:layout_toLeftOf="@+id/textView21"
             android:layout_toStartOf="@+id/textView21" />

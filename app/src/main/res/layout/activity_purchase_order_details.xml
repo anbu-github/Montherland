@@ -99,7 +99,7 @@
                 android:textColor="@color/title_color"
                 android:textSize="19sp"
                 android:id="@+id/add1"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
                 android:id="@+id/add2"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,7 +121,7 @@
                 android:textColor="@color/title_color"
                 android:textSize="19sp"
                 android:id="@+id/add3"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
                 android:textColor="@color/title_color"
                 android:textSize="19sp"
                 android:id="@+id/state"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
                 android:textColor="@color/title_color"
                 android:textSize="19sp"
                 android:id="@+id/city"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -154,7 +154,7 @@
                 android:textColor="@color/title_color"
                 android:textSize="19sp"
                 android:id="@+id/zipcode"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="5dp" />
 
             <View
                 android:layout_width="fill_parent"
@@ -181,8 +181,6 @@
                 android:id="@+id/listView"
                 android:layout_marginTop="-3dp"
                 android:layout_width="wrap_content"
-                android:divider="#d5d6d9"
-                android:dividerHeight="1dp"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

@@ -3,6 +3,9 @@ package com.dev.montherland.util;
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.dev.montherland.model.Database;
 
@@ -31,9 +34,12 @@ public class StaticVariables {
     public static String prodcutInstr="";     //create purchase order spinner customerContact
     public static String pickedDateTIme="";     //create purchase order spinner customerContact
     public static String deliveryDateTIme="";     //create purchase order spinner customerContact
+    public static String deliveryDefultDate="";     //create purchase order spinner customerContact
+    public static String pickupDefaultDate="";     //create purchase order spinner customerContact
     public static String purchaseOrderType="";     //create purchase order spinner customerContact
     public static String addressId="";     //create purchase order spinner customerContact
     public static String status="";     //create purchase order spinner customerContact
+    public static String selectAddress="";     //create purchase order spinner customerContact
 
     //create order adapter
     public static ArrayList<String> editQuantityList = new ArrayList<>();
@@ -65,5 +71,15 @@ public class StaticVariables {
         }
 
         return true;
+    }
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

@@ -35,8 +35,8 @@
     <string name="order_typet">Order Type</string>
     <string name="Garment_Type">Garment</string>
     <string name="Garment_Quantity">Quantity</string>
-    <string name="delivery_date">Expected Delivery Date/Time</string>
-    <string name="expected_pickup">Expected pickup Date/Time</string>
+    <string name="delivery_date">Exp Delivery Date/Time</string>
+    <string name="expected_pickup">Exp pickup Date/Time</string>
     <string name="Select">Select</string>
 
     // Edit purchase order
@@ -45,6 +45,8 @@
     <string name="item">Item</string>
     <string name="enter_style_code">Enter style code</string>
     <string name="enter_instruction">Enter instruction</string>
+    <string name="enter_atleast_one_product">Please enter details of atleast one garment</string>
+    <string name="enter_product_details">Please enter all details of garment</string>
 
     //create address
     <string name="address1">Address1</string>

@@ -48,7 +48,6 @@ public class Login extends Activity {
     }
 
     public void login(View view) {
-
         SharedPreferences sharedPreferences = getSharedPreferences("Login", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();  //to edit the sharedPreference
 
