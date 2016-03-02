@@ -319,7 +319,15 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+            if (isChecked){
+                for (int i = 0; i < mCheckBoxes.size(); i++) {
+                    mCheckBoxes.get(i).setChecked(false);
+                }
 
+            }
+                else {
+
+            }
             }
         });
 
