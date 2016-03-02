@@ -68,7 +68,6 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
                 getActionBar().setHomeButtonEnabled(true);
                 getActionBar().setIcon(R.drawable.pf);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

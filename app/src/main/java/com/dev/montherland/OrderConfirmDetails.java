@@ -27,6 +27,9 @@ import com.google.gson.Gson;
 
 import org.json.JSONArray;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +42,16 @@ public class OrderConfirmDetails extends Activity {
     Activity thisActivity = this;
     com.dev.montherland.adapter.ExpandableListView listview;
 
+    Calendar pickupCalendar = Calendar.getInstance();
+    Calendar deliveryCalendar = Calendar.getInstance();
+
+    DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH-mm");
+    DateFormat df1 = new SimpleDateFormat("dd-MM-yyyy HH-mm");
+
+    String myFormat1 = "yyyy-MM-dd HH:mm:ss";
+    SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
+    SimpleDateFormat sdf2 = new SimpleDateFormat(myFormat1);
+    String dTIme,pTime;
     List<Database> database;
 
     @Override
@@ -97,7 +110,9 @@ public class OrderConfirmDetails extends Activity {
         tv_state.setText(state);
         tv_city.setText(city);
         tv_zipcode.setText(zipcode);
-        pickup_date.setText(StaticVariables.pickupDate);
+
+        pTime=StaticVariables.pickupDate+" "+StaticVariables.pickupTime;
+        pickup_date.setText(pTime);
 
 
         Log.v("expected_pickup", StaticVariables.pickedDateTIme);
@@ -105,8 +120,11 @@ public class OrderConfirmDetails extends Activity {
         total_no.setText(String.valueOf(StaticVariables.garmentTypeList.size()));
         company.setText(StaticVariables.companyName);
         orderType.setText(StaticVariables.orderType);
-        delivery.setText(StaticVariables.deliveryDate);
-        // total_item.setText(StaticVariables.value + "");
+
+        dTIme=StaticVariables.deliveryDate+" "+StaticVariables.deliveryTime;
+        Log.v("dtime",dTIme);
+        delivery.setText(dTIme);
+
 
         Integer total = 0;
         for (int i = 0; i <= StaticVariables.garmentTypeList.size() - 1; i++) {
@@ -166,14 +184,13 @@ public class OrderConfirmDetails extends Activity {
                                 .setNegativeButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
+                                        StaticVariables.selectAddress="";
                                         Intent intent = new Intent(thisActivity, NavigataionActivity.class);
                                         intent.putExtra("redirection","Order");
                                         startActivity(intent);
                                         finish();
                                         StaticVariables.selectAddress=null;
-                                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
+                                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                                     }
                                 });
                         builder.show();
@@ -208,6 +225,19 @@ public class OrderConfirmDetails extends Activity {
                 Gson gson = new Gson();
 
                 //StaticVariables.customerContact=StaticVariables.contactId;
+             try {
+             pickupCalendar.setTime(df.parse(pTime));
+             deliveryCalendar.setTime(df1.parse(dTIme));
+
+             StaticVariables.pickedDateTIme=sdf1.format(pickupCalendar.getTime());
+             StaticVariables.deliveryDateTIme=sdf2.format(deliveryCalendar.getTime());
+
+            }
+             catch (Exception e){
+             e.printStackTrace();
+             }
+
+
                 String expected_pickup = StaticVariables.pickedDateTIme;
                 String expected_delivery = StaticVariables.deliveryDateTIme;
                 String jsonStyle = gson.toJson(StaticVariables.garmentStyle);

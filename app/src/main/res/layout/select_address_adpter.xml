@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,6 +17,7 @@
         card_view:cardCornerRadius="3dp"
         card_view:cardElevation="4dp"
         card_view:cardUseCompatPadding="true">
+
         <RelativeLayout
             android:id="@+id/top_layout"
             android:layout_width="match_parent"
@@ -31,6 +32,7 @@
                 android:text="New Text"
                 android:id="@+id/add1"
                 style="@style/SimpleTextviewStyle_16"
+                android:paddingBottom="0dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
@@ -40,6 +42,7 @@
                 android:text="New Text"
                 android:id="@+id/add3"
                 style="@style/SimpleTextviewStyle_16"
+                android:paddingBottom="0dp"
                 android:layout_below="@+id/add1"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -50,6 +53,7 @@
                 android:text="New Text"
                 android:id="@+id/address_line3"
                 style="@style/SimpleTextviewStyle_16"
+                android:paddingBottom="0dp"
                 android:layout_below="@+id/add3"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -60,6 +64,7 @@
                 android:text="New Text"
                 android:id="@+id/state"
                 style="@style/SimpleTextviewStyle_16"
+                android:paddingBottom="0dp"
                 android:layout_below="@+id/address_line3"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -70,6 +75,7 @@
                 android:text="New Text"
                 android:id="@+id/add2"
                 style="@style/SimpleTextviewStyle_16"
+                android:paddingBottom="0dp"
                 android:layout_below="@+id/state"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -79,6 +85,7 @@
                 android:text="New Text"
                 android:id="@+id/zipcode"
                 style="@style/SimpleTextviewStyle_16"
+                android:paddingBottom="0dp"
                 android:layout_below="@+id/add2"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -119,4 +126,4 @@
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</RelativeLayout>

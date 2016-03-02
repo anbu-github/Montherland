@@ -252,8 +252,7 @@ public class EditOrderDetails extends Activity {
                                     Intent intent = new Intent(EditOrderDetails.this,PurchaseOrderDetails.class);
                                     thisActivity.finish();
                                     startActivity(intent);
-                                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                                }
+                                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);                                }
                             });
                     builder.show();
                 } else {

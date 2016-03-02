@@ -40,7 +40,9 @@ public class StaticVariables {
     public static String addressId="";     //create purchase order spinner customerContact
     public static String status="";     //create purchase order spinner customerContact
     public static String selectAddress="";     //create purchase order spinner customerContact
-
+    public static String deliveryTime="";     //create purchase order spinner customerContact
+    public static String pickupTime="";     //create purchase order spinner customerContact
+   public static Boolean isSelected;
     //create order adapter
     public static ArrayList<String> editQuantityList = new ArrayList<>();
     public static ArrayList<String> garmentTypeList = new ArrayList<>();

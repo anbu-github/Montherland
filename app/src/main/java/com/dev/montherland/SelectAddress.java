@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.xml.transform.sax.SAXTransformerFactory;
+
 public class SelectAddress extends Activity {
     String data_receive = "string_req_recieve";
     private RecyclerView recyclerView;
@@ -42,12 +44,12 @@ public class SelectAddress extends Activity {
     String menuTitle="Next";
     ArrayList<String> editQuantityList = new ArrayList<>();
     ImageButton ig;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_address);
          ig = (ImageButton) findViewById(R.id.btn_add_address);
-
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         if (Build.VERSION.SDK_INT > 19) {
@@ -57,7 +59,6 @@ public class SelectAddress extends Activity {
             getActionBar().setHomeButtonEnabled(true);
             getActionBar().setIcon(R.drawable.pf);
         }
-
 
         getActionBar().setTitle("Create Order");
 
@@ -74,10 +75,7 @@ public class SelectAddress extends Activity {
         recyclerView.setLayoutManager(mLayoutManager);
         try {
 
-            if (StaticVariables.selectAddress.contains("Create order")){
-
-            }
-            else if (!(getIntent().getExtras().getString("change_address")==null)){
+              if (!(getIntent().getExtras().getString("change_address")==null)){
 
                 getActionBar().setTitle("Change Address");
                 StaticVariables.status="Save";
@@ -86,9 +84,6 @@ public class SelectAddress extends Activity {
                 menuTitle="Save";
 
             }
-
-
-
 
 
         } catch (Exception e) {
@@ -117,6 +112,7 @@ public class SelectAddress extends Activity {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
                             persons = Create_Address_JSONParser.parserFeed(response);
+                        //    if (persons.get(0).getAddressline1().contains(""))
                             recyclerView.setAdapter(new AddressCreateAdapter(persons,thisActivity));
                             // response_model= Response_JSONParser.parserFeed(response);
 
@@ -155,7 +151,6 @@ public class SelectAddress extends Activity {
         AppController.getInstance().addToRequestQueue(request, data_receive);
         Log.v("request", request + "");
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -220,7 +215,8 @@ public class SelectAddress extends Activity {
                     finish();
                     overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
-                }else {
+                }
+                else {
                     super.onBackPressed();
                     finish();
                     overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -228,9 +224,12 @@ public class SelectAddress extends Activity {
 
                 return true;
             case R.id.next_button:
-                goNext();
+                //goNext();
+                return true;
             case R.id.save_button:
-                goNext();
+                if (menuTitle.contains("Save")) {
+                    goNext();
+                }
                return true;
 
             default:

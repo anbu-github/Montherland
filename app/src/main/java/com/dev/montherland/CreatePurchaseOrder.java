@@ -374,7 +374,6 @@ public class CreatePurchaseOrder extends Activity {
         }
 
     }
-
     private void updateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
@@ -384,6 +383,7 @@ public class CreatePurchaseOrder extends Activity {
         }
         if (selectedTime.contains("deliveryTime")) {
             deliveryTime.setText(sdf.format(myCalendar1.getTime()));
+            StaticVariables.deliveryDateTIme = sdf1.format(myCalendar1.getTime());
 
         }
 
@@ -721,8 +721,7 @@ public class CreatePurchaseOrder extends Activity {
                                         Intent intent = new Intent(thisActivity, PurchaseOrderDetails.class);
                                         startActivity(intent);
                                         finish();
-                                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
+                                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                                     }
                                 });
                         builder.show();
@@ -825,6 +824,8 @@ public class CreatePurchaseOrder extends Activity {
 
         DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         DateFormat formatter1 = new SimpleDateFormat("HH:mm");
+        StaticVariables.deliveryTime=deliveryTime.getText().toString();
+        StaticVariables.pickupTime=pickupTime.getText().toString();
 
         try {
            /* Date pTIme=formatter1.parse(String.valueOf(pickupTime.getText()));
@@ -860,7 +861,12 @@ public class CreatePurchaseOrder extends Activity {
         } else if (deliveryDate.getText().toString().equals("DD-MM-YYYY")) {
             Toast.makeText(thisActivity, "Please set estimated delivery date", Toast.LENGTH_SHORT).show();
 
-        }else if (pDate.after(dDate)){
+        }
+        else if (deliveryTime.getText().toString().equals("HH-MM")) {
+            Toast.makeText(thisActivity, "Please set estimated delivery time", Toast.LENGTH_SHORT).show();
+
+        }
+        else if (pDate.after(dDate)){
             Toast.makeText(thisActivity, "Delivery date cannot be earlier than pickup date", Toast.LENGTH_SHORT).show();
 
         }

@@ -17,7 +17,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -29,6 +28,7 @@ import com.dev.montherland.OrderConfirmDetails;
 import com.dev.montherland.PurchaseOrderDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.SelectAddress;
+import com.dev.montherland.model.Address_Model;
 import com.dev.montherland.model.Create_Address_Model;
 import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.parsers.Create_Address_JSONParser;
@@ -53,12 +53,14 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
     private static int lastCheckedPos = 0;
     private static CheckBox lastChecked = null;
     private Integer selected_position = -1;
+    List<Address_Model> feedslist;
     Context mContext;
-
     public AddressCreateAdapter(List<Create_Address_Model> persons,Context context) {
         this.persons = persons;
         this.mContext=context;
     }
+
+
     public AddressCreateAdapter(Context context,List<Create_Address_Model> persons) {
         this.persons = persons;
         this.mContext = context;
@@ -84,7 +86,6 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
         else {
 
             changeAddressRequest();
-
         }
     }
 
@@ -169,6 +170,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                         PDialog.hide();
                         Log.v("response", response);
 
+
                         try {
                             JSONObject ar = new JSONObject(response);
                             String ER=ar.getString("id");
@@ -176,7 +178,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                                 if (ER.contains("Error")){
                                   Toast.makeText(mContext," As this Address has been assigned to one of the orders,unable to delete ",Toast.LENGTH_SHORT).show();
                                 }else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,R.style.myDialog));
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                                     builder.setCancelable(false)
                                             .setTitle("Success")
                                             .setMessage("Successfully Deleted")
@@ -239,6 +241,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
+
         address1=persons.get(position).getAddressline1();
         address2=persons.get(position).getAddressline2();
         address3=persons.get(position).getAddressline3();
@@ -251,7 +254,6 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
         holder.city.setText(city);
         holder.zipcode.setText(zipcode);
         holder.state.setText(state);
-
 
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,10 +279,6 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                 }
 
 
-
-
-
-
             }
         });
 
@@ -290,7 +288,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                 selctedPos = position;
 
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,R.style.myDialog));
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                 builder.setCancelable(false)
                         .setTitle("Delete Address")
                         .setMessage("Are you sure want to delete this address?")
@@ -336,11 +334,13 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                 if (((CheckBox) v).isChecked())
                 {
                     for (int i = 0; i < mCheckBoxes.size(); i++) {
-                        if (mCheckBoxes.get(i) == v)
+                        if (mCheckBoxes.get(i) == v) {
                             selected_position = i;
-
-                        else
+                            holder.cb.setOnCheckedChangeListener(null);
+                        }
+                        else{
                             mCheckBoxes.get(i).setChecked(false);
+                        }
                     }
 
                 }

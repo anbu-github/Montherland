@@ -49,14 +49,14 @@ public class NavigataionActivity extends Activity {
 //            e.printStackTrace();
         }
 
-        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[6];
+        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[2];
 
         drawerItem[0] = new ObjectDrawerItem(R.drawable.school_icon1, "Customers");
         drawerItem[1] = new ObjectDrawerItem(R.drawable.communication_icon, "Order");
-        drawerItem[2] = new ObjectDrawerItem(R.drawable.profile_icon1, "View/Edit Profile");
-        drawerItem[3] = new ObjectDrawerItem(R.drawable.password_icon2, "Change Password");
-        drawerItem[4] = new ObjectDrawerItem(R.drawable.logout_icon1, "Logout");
-        drawerItem[5] = new ObjectDrawerItem(R.drawable.exit_icon1, "Exit");
+       // drawerItem[2] = new ObjectDrawerItem(R.drawable.profile_icon1, "View/Edit Profile");
+        //drawerItem[3] = new ObjectDrawerItem(R.drawable.password_icon2, "Change Password");
+       // drawerItem[4] = new ObjectDrawerItem(R.drawable.logout_icon1, "Logout");
+       // drawerItem[5] = new ObjectDrawerItem(R.drawable.exit_icon1, "Exit");
 
 
 //        Log.d("planet","point 33");
@@ -70,8 +70,8 @@ public class NavigataionActivity extends Activity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
-       // getActionBar().setDisplayHomeAsUpEnabled(true);
-        //getActionBar().setHomeButtonEnabled(true);
+       getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
 //        Log.d("planet","point 5");
 
@@ -100,8 +100,6 @@ public class NavigataionActivity extends Activity {
 
 //        Log.d("planet", "point 6");
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-        getActionBar().setDisplayOptions(getActionBar().DISPLAY_SHOW_CUSTOM | getActionBar().DISPLAY_SHOW_HOME | getActionBar().DISPLAY_HOME_AS_UP);
 
         // Redirecting user to page requested in intent after clicking on menu drawer activity
         String redirection = "";
@@ -240,7 +238,7 @@ public class NavigataionActivity extends Activity {
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-//        getActionBar().setTitle(mTitle);
+        getActionBar().setTitle(mTitle);
     }
 
     /**

@@ -229,7 +229,9 @@ public class CreateAddress extends Activity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Intent intent = new Intent(thisActivity, SelectAddress.class);
-                                        intent.putExtra("change_address","change_address");
+                                        if (!(StaticVariables.selectAddress.contains("Create order"))) {
+                                            intent.putExtra("change_address", "change_address");
+                                        }
                                         startActivity(intent);
                                         finish();
                                         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -311,8 +313,7 @@ public class CreateAddress extends Activity {
                                         Intent intent = new Intent(thisActivity, SelectAddress.class);
                                         startActivity(intent);
                                         finish();
-                                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
+                                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
                                     }
                                 });

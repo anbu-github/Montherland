@@ -29,6 +29,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,8 +90,10 @@ public class PurchaseOrderDetails extends Activity {
         edit_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                StaticVariables.selectAddress="order details";
+
                 Intent intent=new Intent(thisActivity,SelectAddress.class);
-                intent.putExtra("change_address","change_address");
+                intent.putExtra("change_address","change address");
                 startActivity(intent);
                 finish();
             }
@@ -157,6 +162,9 @@ public class PurchaseOrderDetails extends Activity {
                                     Log.v("order_typeId", (parentObject.getString("order_type_id")));
                                     customerId =parentObject.getString("customer_id");
 
+
+
+
                                  //   StaticVariables.pickedDateTIme=String.valueOf(pickupDate.getText());
                                    // StaticVariables.deliveryDateTIme=String.valueOf(deliveryDate.getText());
 
@@ -205,6 +213,11 @@ public class PurchaseOrderDetails extends Activity {
             feedlist= Purchase_OrderDetails_JSONParser.parserFeed(basic_details);
 
             if(feedlist != null) {
+
+
+
+
+
                 cusName.setText(feedlist.get(0).getCustomerContact());
                 cusCompany.setText(feedlist.get(0).getCustomerCompany());
                 date.setText(feedlist.get(0).getExpected_delivery());
