@@ -22,6 +22,9 @@ public class InstructionActivity extends Activity {
 
         try {
             extras=getIntent().getExtras();
+            str_instr=extras.getString("instr");
+            in.setText(str_instr);
+
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             if (Build.VERSION.SDK_INT > 19) {
                 getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -30,7 +33,7 @@ public class InstructionActivity extends Activity {
                 getActionBar().setHomeButtonEnabled(true);
                 getActionBar().setIcon(R.drawable.pf);
             }
-            getActionBar().setTitle("Create Order");
+            getActionBar().setTitle(getResources().getString(R.string.instr_title));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,7 +45,7 @@ public class InstructionActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action barenu
-        getMenuInflater().inflate(R.menu.menu_next, menu);
+        getMenuInflater().inflate(R.menu.menu_save, menu);
 
         return true;
     }
@@ -55,14 +58,14 @@ public class InstructionActivity extends Activity {
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
                 return true;
-            case R.id.next_button:
+            case R.id.save_button:
 
                 str_instr=in.getText().toString();
                 
-                Intent in=new Intent(thisActivity,OrderConfirmDetails.class);
+               /* Intent in=new Intent(thisActivity,OrderConfirmDetails.class);
                 in.putExtra("bundle",extras);
                 in.putExtra("instr",str_instr);
-                startActivity(in);
+                startActivity(in);*/
 
 
 

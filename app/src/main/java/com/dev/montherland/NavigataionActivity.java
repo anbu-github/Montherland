@@ -7,11 +7,13 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.dev.montherland.adapter.DrawerItemCustomAdapter;
 import com.dev.montherland.model.ObjectDrawerItem;
@@ -56,7 +58,7 @@ public class NavigataionActivity extends Activity {
        // drawerItem[2] = new ObjectDrawerItem(R.drawable.profile_icon1, "View/Edit Profile");
         //drawerItem[3] = new ObjectDrawerItem(R.drawable.password_icon2, "Change Password");
        // drawerItem[4] = new ObjectDrawerItem(R.drawable.logout_icon1, "Logout");
-       // drawerItem[5] = new ObjectDrawerItem(R.drawable.exit_icon1, "Exit");
+      //  drawerItem[2] = new ObjectDrawerItem(R.drawable.exit_icon1, "Exit");
 
 
 //        Log.d("planet","point 33");
@@ -128,6 +130,7 @@ public class NavigataionActivity extends Activity {
                     setTitle("Order");
                     break;
                 }
+
                 default: {
                     selectItem(0);
                 }
@@ -180,6 +183,8 @@ public class NavigataionActivity extends Activity {
             switch (planet) {
                 case "Customers":
                     selectItem(0);
+                    Log.v("exit", "It is working");
+
                     break;
                 case "Order": {
                     android.app.Fragment test;
@@ -200,6 +205,7 @@ public class NavigataionActivity extends Activity {
                     break;
                 }
                 case "Exit": {
+                    Log.v("exit","It is working");
                     System.exit(0);
                     android.os.Process.killProcess(android.os.Process.myPid());
                     break;

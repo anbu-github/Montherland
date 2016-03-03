@@ -76,6 +76,7 @@ public class CreatePurchaseOrder extends Activity {
     String myFormat1 = "yyyy-MM-dd HH:mm:ss";
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
     SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
+
     LinearLayout instr_layout;
     ScrollView scrollview;
     String finalPicdate, finaldelDate, selectedTime;
@@ -98,7 +99,6 @@ public class CreatePurchaseOrder extends Activity {
         instr_layout = (LinearLayout) findViewById(R.id.instr_layout);
         scrollview = (ScrollView) findViewById(R.id.scrollview);
 
-
         menuTitle = "Next";
 
         customerLIst.add("Select");
@@ -114,6 +114,7 @@ public class CreatePurchaseOrder extends Activity {
                 menuTitle = "Save";
                 Log.v("order_id", order_id);
                 instr_layout.setVisibility(View.GONE);
+
                 Companylist.setBackgroundColor(Color.parseColor("#F1F1F1"));
                 Companylist.setClickable(false);
 
@@ -196,8 +197,14 @@ public class CreatePurchaseOrder extends Activity {
         time = new TimePickerDialog.OnTimeSetListener() {
             public void onTimeSet(TimePicker view, int hourOfDay,
                                   int minute) {
-                myCalendar1.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                myCalendar1.set(Calendar.MINUTE, minute);
+                if (selectedTime.contains("pickedTime")) {
+                    myCalendar1.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    myCalendar1.set(Calendar.MINUTE, minute);
+                    updateTime();
+                }
+                else
+                myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                myCalendar.set(Calendar.MINUTE, minute);
                 updateTime();
             }
         };
@@ -206,8 +213,8 @@ public class CreatePurchaseOrder extends Activity {
             public void onClick(View v) {
                 new TimePickerDialog(thisActivity,
                         time,
-                        myCalendar.get(Calendar.HOUR_OF_DAY),
-                        myCalendar.get(Calendar.MINUTE),
+                        myCalendar1.get(Calendar.HOUR_OF_DAY),
+                        myCalendar1.get(Calendar.MINUTE),
                         true).show();
                 selectedTime = "pickedTime";
             }
@@ -220,8 +227,8 @@ public class CreatePurchaseOrder extends Activity {
             public void onClick(View v) {
                 new TimePickerDialog(thisActivity,
                         time,
-                        myCalendar.get(Calendar.HOUR_OF_DAY),
-                        myCalendar.get(Calendar.MINUTE),
+                        myCalendar1.get(Calendar.HOUR_OF_DAY),
+                        myCalendar1.get(Calendar.MINUTE),
                         true).show();
                 selectedTime = "deliveryTime";
             }
@@ -353,6 +360,7 @@ public class CreatePurchaseOrder extends Activity {
 
             Log.v("currentTime", myCalendar.getTime() + "");
             Log.v("pickedDateTIme", StaticVariables.pickedDateTIme);
+
         }
 
     }
@@ -374,20 +382,20 @@ public class CreatePurchaseOrder extends Activity {
         }
 
     }
+
     private void updateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
         if (selectedTime.contains("pickedTime")) {
             pickupTime.setText(sdf.format(myCalendar1.getTime()));
-            StaticVariables.pickedDateTIme = sdf1.format(myCalendar1.getTime());
+            //StaticVariables.pickedDateTIme = sdf1.format(myCalendar1.getTime());
         }
+
         if (selectedTime.contains("deliveryTime")) {
-            deliveryTime.setText(sdf.format(myCalendar1.getTime()));
-            StaticVariables.deliveryDateTIme = sdf1.format(myCalendar1.getTime());
+            deliveryTime.setText(sdf.format(myCalendar.getTime()));
+            StaticVariables.deliveryDateTIme = sdf1.format(myCalendar.getTime());
 
         }
-
-
     }
 
     public void getEditOrderDetails() {
@@ -426,11 +434,17 @@ public class CreatePurchaseOrder extends Activity {
                                     StaticVariables.deliveryDefultDate=toDeliveryDate;
                                     StaticVariables.pickupDefaultDate=start_dt;
 
+
                                     Log.v("Str date",start_dt);
                                     Log.v("del date",toDeliveryDate);
 
                                     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                     Date date = formatter.parse(start_dt);
+
+                                   // myCalendar1.set(Calendar.HOUR,date.getHours());
+                                   // myCalendar1.set(Calendar.MINUTE,date.getMinutes());
+
+
                                     SimpleDateFormat newFormat = new SimpleDateFormat("HH:mm");
                                     SimpleDateFormat newFormat1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                                     String pickTime = newFormat.format(date);
@@ -572,7 +586,6 @@ public class CreatePurchaseOrder extends Activity {
                         Log.v("response", response + "");
                         try {
                             JSONArray ar = new JSONArray(response);
-
                             orderTypeList.add("Select");
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
@@ -669,13 +682,36 @@ public class CreatePurchaseOrder extends Activity {
     public void saveOrderRequest() {
         Log.v("de time", StaticVariables.pickupDefaultDate);
 
-        if (StaticVariables.pickedDateTIme.isEmpty()) {
-            StaticVariables.pickedDateTIme = StaticVariables.pickupDefaultDate;
+
+        String finalPickupDate=String.valueOf(pickupDate.getText()+" "+String.valueOf(pickupTime.getText()));
+        String finalDeliveryDate=String.valueOf(deliveryDate.getText()+" "+String.valueOf(deliveryTime.getText()));
+
+        Calendar pickupCalendar = Calendar.getInstance();
+        Calendar deliveryCalendar = Calendar.getInstance();
+
+        DateFormat ddf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        DateFormat ddf1 = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+
+        String myFormat1 = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat ssdf1 = new SimpleDateFormat(myFormat1);
+        SimpleDateFormat ssdf2 = new SimpleDateFormat(myFormat1);
+        try{
+
+            pickupCalendar.setTime(ddf.parse(finalPickupDate));
+            deliveryCalendar.setTime(ddf1.parse(finalDeliveryDate));
+
 
         }
-        if (StaticVariables.deliveryDateTIme.isEmpty()){
-            StaticVariables.deliveryDateTIme = StaticVariables.deliveryDefultDate;
+        catch (Exception e){
+            e.printStackTrace();
         }
+        StaticVariables.pickedDateTIme=ssdf1.format(pickupCalendar.getTime());
+        StaticVariables.deliveryDateTIme=ssdf2.format(deliveryCalendar.getTime());
+
+
+
+
+
 
       /*  try {
 
@@ -762,7 +798,7 @@ public class CreatePurchaseOrder extends Activity {
                 params.put("expected_pick_up_date", StaticVariables.pickedDateTIme);
                 params.put("order_type_id", StaticVariables.orderTypeId);
 
-              return params;
+                return params;
             }
         };
         AppController.getInstance().addToRequestQueue(request, "data_receive3");

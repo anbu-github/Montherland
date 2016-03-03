@@ -17,6 +17,16 @@ public class Create_Address_Model {
     String date;
     String customerContact;
 
+    public Boolean getIsChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(Boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    Boolean isChecked;
+
     public String getCustomerContact() {
         return customerContact;
     }

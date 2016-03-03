@@ -84,7 +84,12 @@ public class PurchaseOrderDetails extends Activity {
         edit_instruction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              Toast.makeText(thisActivity,"This feature is under construction",Toast.LENGTH_SHORT).show();
+                Toast.makeText(thisActivity,"This feature is under construction",Toast.LENGTH_SHORT).show();
+               /* Intent intent=new Intent(thisActivity,InstructionActivity.class);
+                intent.putExtra("change_instr","change instr");
+                intent.putExtra("instr",String.valueOf(instr.getText()));
+                startActivity(intent);
+                finish();*/
             }
         });
         edit_address.setOnClickListener(new View.OnClickListener() {

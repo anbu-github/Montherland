@@ -112,8 +112,14 @@ public class SelectAddress extends Activity {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
                             persons = Create_Address_JSONParser.parserFeed(response);
-                        //    if (persons.get(0).getAddressline1().contains(""))
-                            recyclerView.setAdapter(new AddressCreateAdapter(persons,thisActivity));
+
+                            if (persons.get(0).getAddressline1().contains("No Data")||persons.get(0).getAddressline1().contains("NO Data")){
+
+                                Toast.makeText(thisActivity,getResources().getString(R.string.no_address),Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                recyclerView.setAdapter(new AddressCreateAdapter(persons, thisActivity));
+                            }
                             // response_model= Response_JSONParser.parserFeed(response);
 
                         } catch (JSONException e) {

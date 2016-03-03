@@ -187,6 +187,7 @@ public class OrderConfirmDetails extends Activity {
                                         StaticVariables.selectAddress="";
                                         Intent intent = new Intent(thisActivity, NavigataionActivity.class);
                                         intent.putExtra("redirection","Order");
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
                                         StaticVariables.selectAddress=null;
@@ -226,11 +227,13 @@ public class OrderConfirmDetails extends Activity {
 
                 //StaticVariables.customerContact=StaticVariables.contactId;
              try {
-             pickupCalendar.setTime(df.parse(pTime));
+
+                 pickupCalendar.setTime(df.parse(pTime));
              deliveryCalendar.setTime(df1.parse(dTIme));
 
              StaticVariables.pickedDateTIme=sdf1.format(pickupCalendar.getTime());
              StaticVariables.deliveryDateTIme=sdf2.format(deliveryCalendar.getTime());
+
 
             }
              catch (Exception e){
@@ -290,7 +293,7 @@ public class OrderConfirmDetails extends Activity {
 
                 return true;
             case R.id.next_button:
-             save();
+                    save();
 
 
                 return true;

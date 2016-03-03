@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import com.dev.montherland.R;
 import com.dev.montherland.model.GarmentListModel;
 import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.util.StaticVariables;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +95,7 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
         viewHolder.spinner.setAdapter(washTypeAdapter);
 
 
+        viewHolder.style.setInputType(InputType.TYPE_CLASS_TEXT);
         viewHolder.garmentType.setText(garment_model.get(position).getGarmentType());
 
         viewHolder.quantity.addTextChangedListener(new TextWatcher() {
@@ -106,8 +110,6 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
 
             @Override
             public void afterTextChanged(Editable s) {
-                //  editQuantityList.remove(position);
-                // editQuantityList.add(position, viewHolder.quantity.getText().toString());
 
                 dataFromAdapterToActivity.garmentQuantity(viewHolder.quantity.getText().toString(), position);
                 Log.v("position", position + "");
@@ -127,11 +129,8 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
 
             @Override
             public void afterTextChanged(Editable s) {
-                //  editQuantityList.remove(position);
-                // editQuantityList.add(position, viewHolder.quantity.getText().toString());
 
                 dataFromAdapterToActivity.garmentStyle(viewHolder.style.getText().toString(), position);
-                Log.v("position", position + "");
             }
         });
 
@@ -147,8 +146,6 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
 
             @Override
             public void afterTextChanged(Editable s) {
-                //  editQuantityList.remove(position);
-                // editQuantityList.add(position, viewHolder.quantity.getText().toString());
 
                 dataFromAdapterToActivity.garmentInstr(viewHolder.garment_instr.getText().toString(), position);
                 Log.v("position", position + "");
@@ -168,16 +165,6 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
             }
         });
 
-        viewHolder.spinner.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                InputMethodManager imm=(InputMethodManager)context.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(viewHolder.spinner.getWindowToken(), 0);
-                return false;
-
-            }
-        });
 
     }
 

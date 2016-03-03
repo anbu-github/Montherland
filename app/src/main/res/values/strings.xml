@@ -47,6 +47,8 @@
     <string name="enter_instruction">Enter instruction</string>
     <string name="enter_atleast_one_product">Please enter details of atleast one garment</string>
     <string name="enter_product_details">Please enter all details of garment</string>
+    <string name="instr_title">Edit Order</string>
+
 
     //create address
     <string name="address1">Address1</string>
@@ -55,6 +57,13 @@
     <string name="city">City</string>
     <string name="state">State</string>
     <string name="zipcode">Zipcode</string>
+    <string name="no_address">No address available,Please create a new address</string>
+
+
+    //order detail
+    <string name="wash_instructions">Wash Instruction</string>
+    <string name="pickup_address">Pickup Address</string>
+    <string name="order_detail">Order Detail</string>
 
 
     //Manifest
@@ -63,7 +72,6 @@
     <string name="create_address_title">Create Address</string>
     <string name="select_address_title">Select Address</string>
     <string name="confirm_details_title">Customer Details</string>
-
 
 
     <!-- Main Activity-->

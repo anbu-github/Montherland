@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -255,6 +256,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
         holder.zipcode.setText(zipcode);
         holder.state.setText(state);
 
+
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -319,15 +321,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-            if (isChecked){
-                for (int i = 0; i < mCheckBoxes.size(); i++) {
-                    mCheckBoxes.get(i).setChecked(false);
-                }
 
-            }
-                else {
-
-            }
             }
         });
 
@@ -344,7 +338,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                     for (int i = 0; i < mCheckBoxes.size(); i++) {
                         if (mCheckBoxes.get(i) == v) {
                             selected_position = i;
-                            holder.cb.setOnCheckedChangeListener(null);
+
                         }
                         else{
                             mCheckBoxes.get(i).setChecked(false);
@@ -376,11 +370,10 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                     lastChecked = cb;
                     lastCheckedPos = cbPos;
                 } else
-                    lastChecked = null;*/
+                    lastChecked = null;
 
-
+*/
         });
-
 
 
     }
