@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView1"
+    style="@style/layout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/TextviewStyle_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vieweditprofile_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/title_color" />
+
+        <EditText
+            android:id="@+id/viewedit_name_edit"
+            style="@style/EditTextviewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/vieweditprofile_name_hint"
+            android:inputType="textPersonName|textCapWords|textNoSuggestions">
+
+            <requestFocus />
+        </EditText>
+
+        <TextView
+            android:id="@+id/textView10"
+            style="@style/TextviewStyle_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_phone_hint"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/title_color" />
+
+        <EditText
+            android:id="@+id/viewedit_phone_edit"
+            style="@style/EditTextviewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:hint="@string/vieweditprofile_pincode_hint"
+            android:inputType="number" />
+
+        <TextView
+            style="@style/TextviewStyle_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_Address_line1_hint"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/title_color" />
+
+        <EditText
+            android:id="@+id/viewedit_address_edit"
+            style="@style/EditTextviewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/vieweditprofile_address_hint1"
+            android:inputType="textMultiLine|textNoSuggestions" />
+
+        <TextView
+            style="@style/TextviewStyle_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_Address_line2_hint"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/title_color" />
+
+        <EditText
+            android:id="@+id/viewedit_address_edit2"
+            style="@style/EditTextviewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/vieweditprofile_address_hint"
+            android:inputType="textMultiLine|textNoSuggestions" />
+
+        <TextView
+            style="@style/TextviewStyle_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_Address_line3_hint"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/title_color" />
+
+        <EditText
+            android:id="@+id/viewedit_address_edit3"
+            style="@style/EditTextviewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/vieweditprofile_address_hint"
+            android:inputType="textMultiLine|textNoSuggestions" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextviewStyle_space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/registration_city_hint"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/title_color" />
+
+                <EditText
+                    android:id="@+id/viewedit_city_edit"
+                    style="@style/EditTextviewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/vieweditprofile_city_hint"
+                    android:inputType="text|textNoSuggestions" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextviewStyle_space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/registration_pin_code_hint"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/title_color" />
+
+                <EditText
+                    android:id="@+id/viewedit_city_pincode"
+                    style="@style/EditTextviewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/vieweditprofile_pincode_hint"
+                    android:inputType="number" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/viewedit_fbpage_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:visibility="gone" />
+
+
+        <TextView
+            style="@style/TextviewStyle_space"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_state_hint"
+            android:textColor="@color/title_color" />
+
+        <Spinner
+            android:id="@+id/registration_state"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog" />
+
+
+    </LinearLayout>
+</ScrollView>

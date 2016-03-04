@@ -2,12 +2,16 @@ package com.dev.montherland;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 
 import com.dev.montherland.adapter.DrawerItemCustomAdapter;
 import com.dev.montherland.model.ObjectDrawerItem;
+import com.dev.montherland.util.StaticVariables;
 
 public class NavigataionActivity extends Activity {
 
@@ -34,15 +39,12 @@ public class NavigataionActivity extends Activity {
         setContentView(R.layout.activity_navigataion);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        //        Log.d("planet","point 1");
         mTitle = mDrawerTitle = getTitle();
         mPlanetTitles = getResources().getStringArray(R.array.planets_array);
 
-//        Log.d("planet","point 2");
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-//        Log.d("planet","point 3");
 
         // set a custom shadow that overlays the main content when the drawer opens
         try {
@@ -51,21 +53,17 @@ public class NavigataionActivity extends Activity {
 //            e.printStackTrace();
         }
 
-        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[2];
+        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[6];
 
         drawerItem[0] = new ObjectDrawerItem(R.drawable.school_icon1, "Customers");
         drawerItem[1] = new ObjectDrawerItem(R.drawable.communication_icon, "Order");
-       // drawerItem[2] = new ObjectDrawerItem(R.drawable.profile_icon1, "View/Edit Profile");
-        //drawerItem[3] = new ObjectDrawerItem(R.drawable.password_icon2, "Change Password");
-       // drawerItem[4] = new ObjectDrawerItem(R.drawable.logout_icon1, "Logout");
-      //  drawerItem[2] = new ObjectDrawerItem(R.drawable.exit_icon1, "Exit");
+        drawerItem[2] = new ObjectDrawerItem(R.drawable.profile_icon1, "View/Edit Profile");
+        drawerItem[3] = new ObjectDrawerItem(R.drawable.password_icon2, "Change Password");
+        drawerItem[4] = new ObjectDrawerItem(R.drawable.logout_icon1, "Logout");
+        drawerItem[5] = new ObjectDrawerItem(R.drawable.exit_icon1, "Exit");
 
 
-//        Log.d("planet","point 33");
 
-        // set up the drawer's list view with items and click listener
-//        mDrawerList.setAdapter(new ArrayAdapter<>(MainActivity.this,R.layout.drawer_list_item, mPlanetTitles));
-//        Log.d("planet","point 4");
 
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_list_item, drawerItem);
         mDrawerList.setAdapter(adapter);
@@ -75,7 +73,6 @@ public class NavigataionActivity extends Activity {
        getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-//        Log.d("planet","point 5");
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
@@ -100,7 +97,6 @@ public class NavigataionActivity extends Activity {
             }
         };
 
-//        Log.d("planet", "point 6");
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         // Redirecting user to page requested in intent after clicking on menu drawer activity
@@ -183,7 +179,6 @@ public class NavigataionActivity extends Activity {
             switch (planet) {
                 case "Customers":
                     selectItem(0);
-                    Log.v("exit", "It is working");
 
                     break;
                 case "Order": {
@@ -205,9 +200,58 @@ public class NavigataionActivity extends Activity {
                     break;
                 }
                 case "Exit": {
-                    Log.v("exit","It is working");
+                    Log.v("exit", "It is working");
                     System.exit(0);
                     android.os.Process.killProcess(android.os.Process.myPid());
+                    break;
+                }
+                case "View/Edit Profile": {
+                    Log.v("exit","It is working");
+
+                    Intent intent=new Intent(NavigataionActivity.this,ViewProfile.class);
+                    startActivity(intent);
+                    break;
+                }
+                case "Change Password":{
+
+                    Intent intent=new Intent(NavigataionActivity.this,Change_Password.class);
+                    startActivity(intent);
+
+                 //   Toast.makeText(NavigataionActivity.this,getResources().getString(R.string.under_construction),Toast.LENGTH_SHORT).show();
+                break;
+                }
+
+                case "Logout": {
+
+                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(new ContextThemeWrapper(NavigataionActivity.this,R.style.myDialog));
+                    builder.setTitle(getResources().getString(R.string.logout))
+                            .setCancelable(true)
+                            .setMessage(getResources().getString(R.string.logout_warning))
+                            .setPositiveButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setNegativeButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dbhelp entry = new dbhelp(NavigataionActivity.this);
+                                    entry.open();
+                                    entry.logoout();
+                                    entry.close();
+
+                                    Intent intent2 = new Intent(NavigataionActivity.this, Login.class);
+                                    NavigataionActivity.this.finish();
+                                    startActivity(intent2);
+                                    NavigataionActivity.this.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                                }
+
+                            });
+                    builder.show();
+
+
                     break;
                 }
                 default: {

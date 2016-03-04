@@ -26,6 +26,7 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,7 +47,6 @@
             android:label="@string/Create_order_title"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-
         <activity
             android:name=".CreateAddress"
             android:label="@string/Create_order_title" >
@@ -62,8 +62,8 @@
         </activity>
         <activity
             android:name=".NavigataionActivity"
-            android:label="Motherland"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:label="Motherland" >
         </activity>
         <activity
             android:name=".PurchaseOrderActivity"
@@ -71,22 +71,39 @@
         </activity>
         <activity
             android:name=".PurchaseOrderDetails"
-            android:noHistory="true"
-            android:label="Order Details" >
+            android:label="Order Details"
+            android:noHistory="true" >
         </activity>
         <activity android:name=".DatepickupActivity" >
         </activity>
         <activity android:name=".InstructionActivity" >
         </activity>
-        <activity android:name=".EditOrderDetails" android:label="Edit Item">
+        <activity
+            android:name=".EditOrderDetails"
+            android:label="Edit Item" >
         </activity>
-        <activity android:name=".GarmentsDataActivity" android:label="Create Order" >
+        <activity
+            android:name=".GarmentsDataActivity"
+            android:label="Create Order" >
         </activity>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity
+            android:name=".Change_Password"
+            android:label="Change Password" >
+        </activity>
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".ViewProfile"
+            android:label="View profile" >
+        </activity>
+        <activity android:name=".EditProfile" android:label="Edit profile">
+        </activity>
     </application>
 
 </manifest>

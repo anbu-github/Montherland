@@ -115,7 +115,6 @@ public class Login extends Activity {
                     @Override
                     public void onResponse(String response) {
 
-
                         PDialog.hide();
                         Log.v("response", response + "");
                         feedslist = Existing_User_JSONParser.parserFeed(response);
@@ -178,6 +177,22 @@ public class Login extends Activity {
                         AlertDialog alert = builder.create();
                         alert.show();
                         break;
+                    }
+
+                    case "Error Password":{
+                        AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                        builder.setTitle("Error")
+                                .setMessage("Invalid login credentials")
+                                .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        break;
+
                     }
 
                     default:

@@ -168,7 +168,6 @@ public class CreatePurchaseOrder extends Activity {
 
         };
 
-
         deliveryDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,6 +180,7 @@ public class CreatePurchaseOrder extends Activity {
 
             }
         });
+
 
         pickupDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -881,7 +881,7 @@ public class CreatePurchaseOrder extends Activity {
 
         if (companyName.equals("Select")) {
 
-            Toast.makeText(thisActivity, "Please select company", Toast.LENGTH_SHORT).show();
+            Toast.makeText(thisActivity, "Please select customer", Toast.LENGTH_SHORT).show();
         } else if (customerName.equals("Select")) {
             Toast.makeText(thisActivity, "Please select contact", Toast.LENGTH_SHORT).show();
 

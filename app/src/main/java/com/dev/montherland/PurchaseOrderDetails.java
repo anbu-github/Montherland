@@ -84,14 +84,18 @@ public class PurchaseOrderDetails extends Activity {
         edit_instruction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(thisActivity,"This feature is under construction",Toast.LENGTH_SHORT).show();
-               /* Intent intent=new Intent(thisActivity,InstructionActivity.class);
+         //       Toast.makeText(thisActivity,"This feature is under construction",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(thisActivity,InstructionActivity.class);
                 intent.putExtra("change_instr","change instr");
                 intent.putExtra("instr",String.valueOf(instr.getText()));
+                intent.putExtra("order_id", feedlist.get(0).getId());
                 startActivity(intent);
-                finish();*/
+
+                finish();
             }
         });
+
+
         edit_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,13 +118,6 @@ public class PurchaseOrderDetails extends Activity {
                 args.putSerializable("edit_order", (Serializable) feedlist);
                 orderIntent.putExtra("BUNDLE", args);
                 orderIntent.putExtra("order_details", "order_details");
-
-
-               /* orderIntent.putExtra("order_type", orderType);
-                orderIntent.putExtra("customerId", customerId);
-                orderIntent.putExtra("pickup_date", pickupdate);
-                orderIntent.putExtra("delivery_date",deliveryDate);
-                orderIntent.putExtra("status_id",status_id);*/
 
                 orderIntent.putExtra("order_id",feedlist.get(0).getId());
 
@@ -238,6 +235,9 @@ public class PurchaseOrderDetails extends Activity {
                 pickup_date.setText(feedlist.get(0).getExpected_pickup());
                 order_type.setText(feedlist.get(0).getOrder_type());
                 order_id.setText(feedlist.get(0).getId());
+
+                StaticVariables.pickupDefaultDate=feedlist.get(0).getPickupdate();
+                StaticVariables.deliveryDefultDate=feedlist.get(0).getDeliverydate();
 
                 if (feedlist.get(0).getExpected_delivery().contains("null")){
                     date.setText("");

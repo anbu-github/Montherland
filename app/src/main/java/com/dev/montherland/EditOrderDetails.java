@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -76,6 +77,7 @@ public class EditOrderDetails extends Activity {
     RelativeLayout layout;
     String wash_test="",status_test="";
 
+    Calendar calc,deliveryCalendar,pickupCalendar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +131,6 @@ public class EditOrderDetails extends Activity {
 
         statusIdList.add("Select");
         statusTypeList.add("Select");
-
 
         dataAdapter2 = new ArrayAdapter<>(this,
                 R.layout.spinner_layout, statusTypeList);
@@ -216,11 +217,37 @@ public class EditOrderDetails extends Activity {
 
     public void updateDate() {
         //In which you need put here
-        Calendar calc=Calendar.getInstance();
+         calc=Calendar.getInstance();
         calc.set(Calendar.DAY_OF_MONTH, calc.get(Calendar.DAY_OF_MONTH) - 1);
+
+
+         pickupCalendar = Calendar.getInstance();
+         deliveryCalendar = Calendar.getInstance();
+
+        DateFormat ddf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat ddf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String myFormat1 = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat ssdf1 = new SimpleDateFormat(myFormat1);
+        SimpleDateFormat ssdf2 = new SimpleDateFormat(myFormat1);
+        try{
+
+            pickupCalendar.setTime(ddf.parse(StaticVariables.pickupDefaultDate));
+            deliveryCalendar.setTime(ddf1.parse(StaticVariables.deliveryDefultDate));
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Log.v("picktm",pickupCalendar.getTime().toString());
+        Log.v("deltm",deliveryCalendar.getTime().toString());
+        Log.v("currentTIme",calc.getTime().toString());
         if (myCalendar.getTime().before(calc.getTime())){
             Toast.makeText(thisActivity,"Please select valid date",Toast.LENGTH_SHORT).show();
         }
+
+
         else {
 
             date.setText(sdf.format(myCalendar.getTime()));
@@ -242,7 +269,7 @@ public class EditOrderDetails extends Activity {
         if(respones != null) {
             for(Response_Model flower: respones) {
                 if(flower.getId().equals("Success")) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
+                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(new ContextThemeWrapper(thisActivity,R.style.myDialog));
                     builder.setCancelable(false)
                             .setTitle("Success")
                             .setMessage("Order detail has saved successfully")
@@ -573,6 +600,17 @@ public class EditOrderDetails extends Activity {
                 String instru = instr.getText().toString();
                 String style_no = style.getText().toString();
 
+
+                DateFormat ddf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+                try {
+                    calc.setTime(ddf.parse(get_date));
+
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 if(quantity_str.trim().equals("")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.enter_quantity),Toast.LENGTH_LONG).show();
                 } else if(wash_id.equals("") || wash_id.equals("Select")) {
@@ -585,7 +623,25 @@ public class EditOrderDetails extends Activity {
                     Toast.makeText(thisActivity,getResources().getString(R.string.select_status),Toast.LENGTH_LONG).show();
                 } else if (instru.trim().equals("") || instru.equals("null")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.enter_instructions),Toast.LENGTH_LONG).show();
-                } else {
+                }
+
+               /* else if (pickupCalendar.getTime().after(calc.getTime())){
+
+                    Log.v("caltime",calc.getTime()+"");
+                    Toast.makeText(thisActivity,"Item delivery date cannot be earlier than order pickup date",Toast.LENGTH_SHORT).show();
+
+                }
+                else if (deliveryCalendar.getTime().before(calc.getTime())){
+
+                    Log.v("deltim",calc.getTime()+"");
+                    Toast.makeText(thisActivity,"Item delivery date cannot be later than order delivery date",Toast.LENGTH_SHORT).show();
+
+                }*/
+
+
+                else {
+
+
                     if (StaticVariables.isNetworkConnected(thisActivity)) {
                         saveOrder();
                     } else {

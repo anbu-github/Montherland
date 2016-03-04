@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Enter Instructions"
+                android:text="Edit Instruction"
                 android:layout_marginLeft="20dp"
                 android:textColor="@android:color/white"
                 android:id="@+id/textView16"

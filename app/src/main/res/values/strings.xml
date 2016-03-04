@@ -18,6 +18,7 @@
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="no_internet_access">No internet access</string>
+    <string name="cancel">Cancel</string>
     <string name="error_occurred1">Error occurred while accessing server please try again</string>
     <string name="error_occurred2">Error occurred while saving changes please try again.</string>
 
@@ -72,7 +73,47 @@
     <string name="create_address_title">Create Address</string>
     <string name="select_address_title">Select Address</string>
     <string name="confirm_details_title">Customer Details</string>
+    <string name="save_instruction">Instruction has saved successfully</string>
 
+
+    <!-- View/Edit Profile -->
+    <string name="vieweditprofile_heading">View/Edit Profile</string>
+    <string name="vieweditprofile_name">Name</string>
+    <string name="vieweditprofile_name_hint">Enter your name</string>
+    <string name="vieweditprofile_email">Email</string>
+    <string name="vieweditprofile_email_hint">Enter your email address</string>
+    <string name="vieweditprofile_email_hint1">Enter your email</string>
+    <string name="vieweditprofile_setpassword">Set Password</string>
+    <string name="vieweditprofile_bsname">Business name</string>
+    <string name="vieweditprofile_bsname_hint">Enter your business name</string>
+    <string name="vieweditprofile_sitename_hint">Enter your business name</string>
+    <string name="vieweditprofile_category">Business category</string>
+    <string name="vieweditprofile_phone">Phone</string>
+    <string name="vieweditprofile_phone_hint">Enter your 10 digit mobile number</string>
+    <string name="vieweditprofile_fbpage">FB page</string>
+    <string name="vieweditprofile_fbpage_hint">Enter your Facebook page name</string>
+    <string name="vieweditprofile_address">Address</string>
+    <string name="vieweditprofile_address2">Address2</string>
+    <string name="vieweditprofile_address3">Address3</string>
+    <string name="vieweditprofile_state">State</string>
+    <string name="vieweditprofile_address_hint">Enter your address</string>
+    <string name="vieweditprofile_address_hint1">Enter your address</string>
+    <string name="vieweditprofile_city">City</string>
+    <string name="vieweditprofile_city_hint">Enter your city</string>
+    <string name="vieweditprofile_pincode">Pincode</string>
+    <string name="vieweditprofile_pincode_hint">Enter your pincode</string>
+    <string name="vieweditprofile_state_hint">Select your State</string>
+    <string name="vieweditprofile_logo_discription">Select your official logo</string>
+    <string name="vieweditprofile_submit">Save</string>
+    <string name="corrent_password">Password is wrong</string>
+    <string name="vieweditprofile_address_hint2">Enter your address 1</string>
+    <string name="update_saved">Changes has saved sucessfully</string>
+    <string name="update_failed">Update failed due to unknown reason. Contact administrator for the issue.</string>
+    <string name="unknownerror7">No response from server </string>
+    <string name="under_construction">This feature is under construction </string>
+    <string name="logout_warning">Are you sure you want to logout</string>
+    <string name="logout">Logout</string>
+    <string name="ok">OK</string>
 
     <!-- Main Activity-->
     <string name="drawer_open">Open navigation drawer</string>
@@ -82,7 +123,7 @@
         <item>Order</item>
         <item>View/Edit Profile</item>
         <item>Change Password</item>
-        <item>LogOut</item>
+        <item>Logout</item>
         <item>Exit</item>
     </string-array>
     <string name="title_activity_navigataion">NavigataionActivity</string>
@@ -92,6 +133,96 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="correct_user_name">Enter your username</string>
+    <string name="correct_username_without_space">Enter username without any space</string>
+    <string name="username_minimum_limit">Enter username should have atleast 6 characters</string>
+    <string name="correct_email2">Enter correct email</string>
+    <string name="correct_contact">Enter contact number</string>
+    <string name="category_not_change">Category can not be changed</string>
+    <string name="correct_limit_contact">Enter 10 digit mobile number only</string>
+    <string name="correct_mobile">Enter correct mobile number</string>
+
+
+
+    <!-- Change Password -->
+    <string name="changepassword_heading">Change Password</string>
+    <string name="changepassword_email">Username</string>
+    <string name="changepassword_oldpassword">Current Password</string>
+    <string name="changepassword_oldpassword_hint">Enter current password</string>
+    <string name="changepassword_newpassword">New password</string>
+    <string name="changepassword_newpassword_hint">Enter new password</string>
+    <string name="changepassword_confirmnewpassword">Confirm new Password</string>
+    <string name="changepassword_confirmnewpassword_hint">Enter confirm password</string>
+    <string name="changepassword_showpassword">Show Password</string>
+    <string name="Changepassword_submit">Submit</string>
+    <string name="changepassword_success">Your password has been changed successfully</string>
+    <string name="change_password_correct">Try again with the correct password</string>
+    <string name="password_online_local_different1">Local and online profile password differs</string>
+    <string name="unknownerror">Some thing went wrong contact PurpleFront for the issue.</string>
+    <string name="unknownerror2">Some error occurred try again</string>
+    <string name="unknownerror4">An error occurred while accessing Database try clearing Database and use email you are already registered with</string>
+    <string name="unknownerror3">An Unknown error occurred try again restarting the app</string>
+    <string name="unknownerror5">Some error occurred please try again after some time</string>
+
+
+    <!-- Validation -->
+    <string name="correct_location">Enter location</string>
+    <string name="correct_requirement">Enter requirement</string>
+    <string name="correct_radio_preferences">Please select one preferences type</string>
+    <string name="correct_radio_interest">Please select one interest type</string>
+    <string name="reject_request_desc">Please enter rejection description.</string>
+    <string name="dialog_password_title">Enter password</string>
+    <string name="dialog_password_message">Password</string>
+    <string name="dialog_password_hint">Enter your password</string>
+    <string name="dialog_password_button">Verify</string>
+    <string name="dialog_password_button2">Cancel</string>
+    <string name="dialog_password_correct">Enter correct password</string>
+    <string name="correct_name">Enter your name</string>
+    <string name="correct__name">Enter name</string>
+    <string name="contact_name">Enter contact person name</string>
+    <string name="site_name">Enter site name</string>
+    <string name="business_name">Enter business name</string>
+    <string name="contact_mobile">Enter contact mobile number</string>
+    <string name="contact_email">Enter contact email address</string>
+    <string name="contact_address">Enter contact address</string>
+    <string name="contact_city">Enter city</string>
+    <string name="contact_pincode">Enter pincode</string>
+    <string name="contact_state">Select state</string>
+    <string name="correct_email">Enter your email</string>
+    <string name="correct_email_error">Enter your email</string>
+    <string name="correct_address_error">Enter your address</string>
+    <string name="correct_city_error">Enter your address</string>
+    <string name="correct_phone">Enter correct phone</string>
+    <string name="correct_phone_length">Phone number should have 10digits</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="password_limit_correct">The password should have minimum 6 characters</string>
+    <string name="confirm_password_limit_correct">Note confirm password should have minimum 6 characters</string>
+    <string name="password_new_limit">New password should have more than 6 letters</string>
+    <string name="password_confirm_password_not_match">Password and confirm password does not match</string>
+    <string name="password_space">Enter the password without spaces</string>
+    <string name="password_confirm_space">Enter the conform password without spaces</string>
+    <string name="old_new_password">Old and new password should be different</string>
+    <string name="password_match">Passwords match</string>
+    <string name="password_correct2">Try again with the correct password</string>
+    <string name="correct_password">Enter your password</string>
+    <string name="password_new">Enter New password</string>
+    <string name="correct_confirm_password">Enter your confirm password</string>
+
+
+    <!-- Registration -->
+    <string name="registration_title_hint">Title*</string>
+    <string name="registration_name_hint">Name</string>
+    <string name="registration_business_name_hint">Business Name</string>
+    <string name="registration_Address_line1_hint">Address Line1*</string>
+    <string name="registration_Address_line2_hint">Address Line2</string>
+    <string name="registration_Address_line3_hint">Address Line3</string>
+    <string name="registration_city_hint">City</string>
+    <string name="registration_pin_code_hint">Pin code*</string>
+    <string name="registration_state_hint">state*</string>
+    <string name="registration_phone_hint">Phone*</string>
+    <string name="registration_email_hint">Email*</string>
+    <string name="registration_submit">Request Account</string>
+    <string name="registration_success_message">Your account has been requested successfully</string>
 
     <!-- Validation -->
     <string name="enter_password">Enter password</string>

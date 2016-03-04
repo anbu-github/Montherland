@@ -22,6 +22,25 @@ public class PurchaseOrderDetailsModel implements Serializable{
     String expected_pickup;
     String order_type;
     String instruction;
+    String pickupdate;
+
+    public String getDeliverydate() {
+        return deliverydate;
+    }
+
+    public void setDeliverydate(String deliverydate) {
+        this.deliverydate = deliverydate;
+    }
+
+    public String getPickupdate() {
+        return pickupdate;
+    }
+
+    public void setPickupdate(String pickupdate) {
+        this.pickupdate = pickupdate;
+    }
+
+    String deliverydate;
 
     public String getCustomerId() {
         return CustomerId;

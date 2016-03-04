@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -48,7 +49,12 @@ public class CustomerDetails extends Activity {
         name=(TextView)findViewById(R.id.add1);
         website=(TextView)findViewById(R.id.website);
         mobile=(TextView)findViewById(R.id.phone);
-        getContactlist();
+
+        if (StaticVariables.isNetworkConnected(thisActivity)) {
+            getContactlist();
+        }else {
+            Toast.makeText(thisActivity,getResources().getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show();
+        }
 
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -88,7 +94,6 @@ public class CustomerDetails extends Activity {
 
                             JSONArray ar = new JSONArray(basic_details);
                             for (int i = 0; i < ar.length(); i++) {
-
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 name.setText(parentObject.getString("name"));
                                 website.setText(parentObject.getString("website"));

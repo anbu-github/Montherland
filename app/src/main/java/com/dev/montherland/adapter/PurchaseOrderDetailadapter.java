@@ -116,8 +116,10 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
 
             }
 
+
             if (person.get(position).getExpectedDelivery().contains("null")) {
 
+                holder.date.setText(StaticVariables.deliveryDefultDate);
             }
         else
             {
