@@ -89,7 +89,7 @@
             android:text="Exp Delivery Date"
             android:id="@+id/textView22"
             android:textColor="@color/black_text_color"
-            android:layout_alignTop="@+id/date"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -100,9 +100,9 @@
             android:text="Medium Text"
             android:id="@+id/item"
             android:maxLength="14"
-            android:layout_marginLeft="50dp"
-            android:layout_marginStart="50dp"
-            android:layout_above="@+id/textView20"
+            android:layout_marginLeft="41dp"
+            android:layout_marginStart="41dp"
+            android:layout_alignTop="@+id/textView19"
             android:layout_toRightOf="@+id/textView22"
             android:layout_toEndOf="@+id/textView22" />
 
@@ -112,6 +112,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/quantity"
+            android:maxLength="15"
             android:layout_below="@+id/item"
             android:layout_alignLeft="@+id/item"
             android:layout_alignStart="@+id/item"
@@ -133,9 +134,11 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/date"
+            android:textSize="16dp"
+
             android:layout_below="@+id/textView24"
             android:layout_alignLeft="@+id/order_type"
-            android:layout_alignStart="@+id/order_type"
+            android:layout_alignStart="@id/style"
             android:layout_marginTop="8dp" />
 
         <TextView
@@ -156,6 +159,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/style"
+            android:textSize="16dp"
             android:layout_below="@+id/order_type"
             android:layout_alignLeft="@+id/order_type"
             android:layout_alignStart="@+id/order_type"
@@ -244,7 +248,8 @@
     <com.dev.montherland.adapter.ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:divider="@null"
+        android:divider="@color/divider_grey"
+        android:dividerHeight="1dp"
         android:background="@android:color/transparent"
         android:id="@+id/listView" />
 
@@ -302,7 +307,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Add2"
-            android:id="@+id/add2"
+            android:id="@+id/state"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="15dp" />
 
@@ -319,7 +324,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="State"
-            android:id="@+id/state"
+            android:id="@+id/add2"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="15dp" />
         <TextView

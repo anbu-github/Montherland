@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="10dp"
+        android:id="@+id/title_bar"
         android:background="@color/title_bar_color"
         android:layout_height="wrap_content">
 
@@ -43,7 +44,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/fab_button_margin_bottom"
-            android:layout_marginRight="@dimen/fab_button_margin_right"
+            android:layout_marginRight="22dp"
             android:background="@drawable/fab_shape"
             android:layout_gravity="bottom"
             android:src="@drawable/fab_ic_add"

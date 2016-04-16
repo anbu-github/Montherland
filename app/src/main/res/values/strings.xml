@@ -18,9 +18,17 @@
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="no_internet_access">No internet access</string>
+    <string name="no_contact_found">No contacts found</string>
     <string name="cancel">Cancel</string>
+    <string name="already_exist">This contact is already exist</string>
+    <string name="save_selection_alert">Address selection have changed.do you want to update this address selection?</string>
     <string name="error_occurred1">Error occurred while accessing server please try again</string>
     <string name="error_occurred2">Error occurred while saving changes please try again.</string>
+    <string name="history_instr">Order History : Wash Instructions</string>
+    <string name="history_order_details">Order History : Order</string>
+    <string name="history_order_item">Order History : Item</string>
+    <string name="history_order_address">Order History : Address</string>
+    <string name="no_history_found">No history found for this order</string>
 
     // Customer Home fragment
     <string name="no_customer_found">No customer found</string>
@@ -38,7 +46,20 @@
     <string name="Garment_Quantity">Quantity</string>
     <string name="delivery_date">Exp Delivery Date/Time</string>
     <string name="expected_pickup">Exp pickup Date/Time</string>
+    <string name="view_update_history">To view update history, click on</string>
+
+    //purchase order details
     <string name="Select">Select</string>
+
+    //Edit instr
+    <string name="edit_instr_title">Edit Instruction</string>
+
+
+    //Edit order item
+       <string name="wash_type">Wash type</string>
+       <string name="style_code">Style code</string>
+       <string name="status">Status</string>
+
 
     // Edit purchase order
 
@@ -49,6 +70,7 @@
     <string name="enter_atleast_one_product">Please enter details of atleast one garment</string>
     <string name="enter_product_details">Please enter all details of garment</string>
     <string name="instr_title">Edit Order</string>
+    <string name="customer_address_title">Addresses</string>
 
 
     //create address
@@ -64,7 +86,7 @@
     //order detail
     <string name="wash_instructions">Wash Instruction</string>
     <string name="pickup_address">Pickup Address</string>
-    <string name="order_detail">Order Detail</string>
+    <string name="order_detail">Order Details</string>
 
 
     //Manifest
@@ -78,8 +100,9 @@
 
     <!-- View/Edit Profile -->
     <string name="vieweditprofile_heading">View/Edit Profile</string>
-    <string name="vieweditprofile_name">Name</string>
+    <string name="vieweditprofile_name">Name*</string>
     <string name="vieweditprofile_name_hint">Enter your name</string>
+    <string name="vieweditprofile_name_hint1">Enter  name</string>
     <string name="vieweditprofile_email">Email</string>
     <string name="vieweditprofile_email_hint">Enter your email address</string>
     <string name="vieweditprofile_email_hint1">Enter your email</string>
@@ -90,6 +113,7 @@
     <string name="vieweditprofile_category">Business category</string>
     <string name="vieweditprofile_phone">Phone</string>
     <string name="vieweditprofile_phone_hint">Enter your 10 digit mobile number</string>
+    <string name="vieweditprofile_phone_hint1">Enter mobile number</string>
     <string name="vieweditprofile_fbpage">FB page</string>
     <string name="vieweditprofile_fbpage_hint">Enter your Facebook page name</string>
     <string name="vieweditprofile_address">Address</string>
@@ -111,21 +135,55 @@
     <string name="update_failed">Update failed due to unknown reason. Contact administrator for the issue.</string>
     <string name="unknownerror7">No response from server </string>
     <string name="under_construction">This feature is under construction </string>
-    <string name="logout_warning">Are you sure you want to logout</string>
+    <string name="logout_warning">Are you sure want to logout?</string>
     <string name="logout">Logout</string>
-    <string name="ok">OK</string>
+    <string name="exit">Exit</string>
+    <string name="exit_warning">Are you sure want to exit the app?</string>
+    <string name="ok">Ok</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="exit_press_back_twice_message">press back again to exit motherland</string>
+    <string name="alphaonly">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+    <string name="number_only">0123456789()+ .</string>
+
+    //create customer
+    <string name="customer_name">Enter customer name</string>
+    <string name="customer_website">Website</string>
+    <string name="customer_website_hint">Enter website</string>
+    <string name="customer_phone">Phone</string>
 
     <!-- Main Activity-->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string-array name="planets_array">
         <item>Customers</item>
-        <item>Order</item>
-        <item>View/Edit Profile</item>
-        <item>Change Password</item>
-        <item>Logout</item>
+        <item>Orders</item>
+        <item>Reports</item>
+        <item>Settings</item>
         <item>Exit</item>
+
+        <!--   <item>Change Password</item>
+           <item>Logout</item>-->
     </string-array>
+
+    <string name="str_January">January</string>
+    <string name="str_February">February</string>
+    <string name="str_March">March</string>
+    <string name="str_April">April</string>
+    <string name="str_May">May</string>
+    <string name="str_June">June</string>
+    <string name="str_July">July</string>
+    <string name="str_August">August</string>
+    <string name="str_September">September</string>
+    <string name="str_October">October</string>
+    <string name="str_November">November</string>
+    <string name="str_December">December</string>
+
+
+
+
+
+
     <string name="title_activity_navigataion">NavigataionActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -193,6 +251,7 @@
     <string name="correct_address_error">Enter your address</string>
     <string name="correct_city_error">Enter your address</string>
     <string name="correct_phone">Enter correct phone</string>
+    <string name="correct_website">Enter website</string>
     <string name="correct_phone_length">Phone number should have 10digits</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="password_limit_correct">The password should have minimum 6 characters</string>
@@ -227,11 +286,14 @@
     <!-- Validation -->
     <string name="enter_password">Enter password</string>
     <string name="enter_email">Enter email</string>
+    <string name="enter_phone">Enter phone</string>
+    <string name="enter_name">Enter name</string>
     <string name="enter_quantity">Please enter quantity</string>
     <string name="select_wash_type">Please select wash type</string>
     <string name="select_style_code">Please select style code</string>
     <string name="expected_delivery_time">Please select expected delivery time</string>
     <string name="select_status">Please select status</string>
+    <string name="enter_valid_number">Please enter valid number</string>
     <string name="enter_instructions">Please enter instructions</string>
 
 </resources>

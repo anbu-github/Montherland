@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/background_screen"
+    android:id="@+id/scrollview"
+    android:layout_height="match_parent">
+
+
+            <RelativeLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:id="@+id/layout1"
+                android:layout_height="28dp"
+                android:background="@color/title_bar_color"
+                android:layout_marginBottom="7dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:text="Updated by:"
+                    android:textColor="#ffffff"
+                    android:id="@+id/textView17"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/edit_order"
+                    android:visibility="invisible"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="3dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Medium Text"
+                    android:id="@+id/updatedby"
+                    android:textSize="16dp"
+                    android:textColor="#fff"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/textView17"
+                    android:layout_toEndOf="@+id/textView17" />
+
+            </RelativeLayout>
+
+
+</LinearLayout>

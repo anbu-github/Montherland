@@ -1,5 +1,7 @@
 package com.dev.montherland;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -8,17 +10,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.dev.montherland.model.Customer_Contact_Model;
 import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.util.PDialog;
+import com.dev.montherland.util.StaticVariables;
 
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     List<Response_Model> persons;
+    List<Customer_Contact_Model> person;
+    String mTitle="";
 
     public RecyclerViewAdapter(List<Response_Model> persons) {
         this.persons = persons;
     }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         PDialog.hide();
@@ -30,12 +37,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.personName.setText(persons.get(position).getName());
+        StaticVariables.customerList.add(persons.get(position).getName());
+
         holder.cv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), CustomerDetails.class);
-                intent.putExtra("id",persons.get(position).getId());
+                intent.putExtra("id", persons.get(position).getId());
+                StaticVariables.cus_id=persons.get(position).getId();
                 v.getContext().startActivity(intent);
+                Activity activity = (Activity) v.getContext();
+                activity.finish();
+                activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
             }
         });

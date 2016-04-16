@@ -1,7 +1,6 @@
 package com.dev.montherland;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -19,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -41,6 +39,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,8 +63,9 @@ public class EditOrderDetails extends Activity {
     Calendar myCalendar = Calendar.getInstance();
 
     String myFormat1 = "yyyy-MM-dd HH:mm:ss";
+    String myFormat2 = "dd-MM-yyyy HH:mm:ss";
 
-    SimpleDateFormat sdf = new SimpleDateFormat(myFormat1);
+    SimpleDateFormat sdf = new SimpleDateFormat(myFormat2);
     SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
 
     DatePickerDialog.OnDateSetListener  calender_date;
@@ -74,14 +74,16 @@ public class EditOrderDetails extends Activity {
 
     List<Response_Model> respones;
     ArrayAdapter<String> dataAdapter2;
-    RelativeLayout layout;
-    String wash_test="",status_test="";
+    LinearLayout layout;
+    LinearLayout selectDate;
+    String wash_test="",status_test="", current_status_id ="",current_status="",intent_from="";
+    Bundle bundle;
 
-    Calendar calc,deliveryCalendar,pickupCalendar;
+    Calendar calc,deliveryCalendar,pickupCalendar,deliveryDateTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_order_details);
+        setContentView(R.layout.edit_order_details);
 
         order_type=(Spinner)findViewById(R.id.order_type);
         status=(Spinner)findViewById(R.id.status);
@@ -91,10 +93,24 @@ public class EditOrderDetails extends Activity {
         item=(TextView)findViewById(R.id.item);
         date=(TextView)findViewById(R.id.date_id);
 
-        layout=(RelativeLayout)findViewById(R.id.layout);
+        layout=(LinearLayout)findViewById(R.id.layout);
+        selectDate=(LinearLayout)findViewById(R.id.date);
 
         washIdList.add("Select");
         washTypeList.add("Select");
+        layout.setVisibility(View.INVISIBLE);
+
+        calc=Calendar.getInstance();
+        deliveryDateTime=Calendar.getInstance();
+
+        try {
+            bundle=getIntent().getExtras();
+            intent_from=bundle.getString("intent_from");
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         if(StaticVariables.isNetworkConnected(EditOrderDetails.this)) {
 
             getWashTypes();
@@ -104,8 +120,7 @@ public class EditOrderDetails extends Activity {
             Toast.makeText(EditOrderDetails.this,getResources().getString(R.string.no_internet_connection),Toast.LENGTH_LONG).show();
         }
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
-                R.layout.spinner_layout, washTypeList);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,R.layout.spinner_layout, washTypeList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         order_type.setAdapter(dataAdapter);
         order_type.setFocusableInTouchMode(true);
@@ -162,20 +177,28 @@ public class EditOrderDetails extends Activity {
             }
         });
 
-        date.setOnClickListener(new View.OnClickListener() {
+        selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(thisActivity, calender_date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                StaticVariables.hideKeyboard(thisActivity);
+                new DatePickerDialog(thisActivity, calender_date, deliveryDateTime
+                        .get(Calendar.YEAR), deliveryDateTime.get(Calendar.MONTH),
+                        deliveryDateTime.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
         time = new TimePickerDialog.OnTimeSetListener() {
             public void onTimeSet(TimePicker view, int hourOfDay,
                                   int minute) {
-                myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                myCalendar.set(Calendar.MINUTE, minute);
+                deliveryDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                deliveryDateTime.set(Calendar.MINUTE, minute);
+
+                Log.v("time",hourOfDay+minute+"");
+
+                date.setText(sdf.format(deliveryDateTime.getTime()));
+                get_date = sdf1.format(deliveryDateTime.getTime());
+                Log.v("currentTime", myCalendar.getTime() + "");
+                Log.v("pickedDateTIme", get_date);
                 //updateTime();
             }
         };
@@ -185,9 +208,9 @@ public class EditOrderDetails extends Activity {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                deliveryDateTime.set(Calendar.YEAR, year);
+                deliveryDateTime.set(Calendar.MONTH, monthOfYear);
+                deliveryDateTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 Log.v("date", monthOfYear + "");
 
@@ -217,49 +240,24 @@ public class EditOrderDetails extends Activity {
 
     public void updateDate() {
         //In which you need put here
-         calc=Calendar.getInstance();
+
+        calc=Calendar.getInstance();
         calc.set(Calendar.DAY_OF_MONTH, calc.get(Calendar.DAY_OF_MONTH) - 1);
 
 
-         pickupCalendar = Calendar.getInstance();
-         deliveryCalendar = Calendar.getInstance();
-
-        DateFormat ddf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        DateFormat ddf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        String myFormat1 = "yyyy-MM-dd HH:mm:ss";
-        SimpleDateFormat ssdf1 = new SimpleDateFormat(myFormat1);
-        SimpleDateFormat ssdf2 = new SimpleDateFormat(myFormat1);
-        try{
-
-            pickupCalendar.setTime(ddf.parse(StaticVariables.pickupDefaultDate));
-            deliveryCalendar.setTime(ddf1.parse(StaticVariables.deliveryDefultDate));
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        Log.v("picktm",pickupCalendar.getTime().toString());
-        Log.v("deltm",deliveryCalendar.getTime().toString());
-        Log.v("currentTIme",calc.getTime().toString());
-        if (myCalendar.getTime().before(calc.getTime())){
+        if (deliveryDateTime.getTime().before(calc.getTime())){
             Toast.makeText(thisActivity,"Please select valid date",Toast.LENGTH_SHORT).show();
         }
 
 
         else {
 
-            date.setText(sdf.format(myCalendar.getTime()));
-            get_date = sdf1.format(myCalendar.getTime());
-            Log.v("currentTime", myCalendar.getTime() + "");
-            Log.v("pickedDateTIme", StaticVariables.pickedDateTIme);
-
             new TimePickerDialog(thisActivity,
                     time,
-                    myCalendar.get(Calendar.HOUR_OF_DAY),
-                    myCalendar.get(Calendar.MINUTE),
+                    deliveryDateTime.get(Calendar.HOUR_OF_DAY),
+                    deliveryDateTime.get(Calendar.MINUTE),
                     true).show();
+
         }
 
 
@@ -269,7 +267,7 @@ public class EditOrderDetails extends Activity {
         if(respones != null) {
             for(Response_Model flower: respones) {
                 if(flower.getId().equals("Success")) {
-                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(new ContextThemeWrapper(thisActivity,R.style.myDialog));
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(thisActivity);
                     builder.setCancelable(false)
                             .setTitle("Success")
                             .setMessage("Order detail has saved successfully")
@@ -277,6 +275,13 @@ public class EditOrderDetails extends Activity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent intent = new Intent(EditOrderDetails.this,PurchaseOrderDetails.class);
+                                    try {
+                                        if (intent_from.contains("customer_order")) {
+                                            intent.putExtra("intent_from", "customer_order");
+                                        }
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                     thisActivity.finish();
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);                                }
@@ -323,7 +328,6 @@ public class EditOrderDetails extends Activity {
                     String quantity_str = quantity.getText().toString();
                     String instru = instr.getText().toString();
                     String style_no = style.getText().toString();
-
                     params.put("email", StaticVariables.database.get(0).getEmail());
                     params.put("password", StaticVariables.database.get(0).getPassword());
                     params.put("id", StaticVariables.database.get(0).getId());
@@ -346,7 +350,6 @@ public class EditOrderDetails extends Activity {
         Log.v("request", request + "");
 
     }
-
 
     public void getWashTypes() {
         PDialog.show(thisActivity);
@@ -374,7 +377,7 @@ public class EditOrderDetails extends Activity {
                                 Log.v("name", parentObject.getString("name"));
                             }
 
-                            ArrayAdapter<String> adapter3 = new ArrayAdapter<>(EditOrderDetails.this, android.R.layout.simple_spinner_dropdown_item, washTypeList);
+                            ArrayAdapter<String> adapter3 = new ArrayAdapter<>(EditOrderDetails.this,R.layout.spinner_layout, washTypeList);
                             adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             order_type.setAdapter(adapter3);
 
@@ -438,8 +441,13 @@ public class EditOrderDetails extends Activity {
                                // style.setText(parentObject.getString("style_number"));
                                 instr.setText(parentObject.getString("instructions"));
                                 garment_id=parentObject.getString("garment_id");
+                                current_status_id =parentObject.getString("status_id");
 
                                 get_date = parentObject.getString("expected_delivery_date");
+/*
+                            if (current_status_id.isEmpty()||current_status_id.equals(null)||current_status_id.contains("null")){
+                                current_status_id="-1";
+                            }*/
 
                             if (parentObject.getString("style_number").contains("null")){
                                 style.setText("");
@@ -448,15 +456,20 @@ public class EditOrderDetails extends Activity {
                                 style.setText(parentObject.getString("style_number"));
                             }
 
+                            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+                            Calendar cal = Calendar.getInstance();
                             if (parentObject.getString("expected_delivery_date").contains("null")) {
 
-                                DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-                                Calendar cal = Calendar.getInstance();
                                 date.setText(dateFormat.format(cal.getTime()));
                             }
                             else {
-                                date.setText(parentObject.getString("expected_delivery_date"));
+                                deliveryDateTime.setTime(formatter.parse(get_date));
+                              //  date.setText(parentObject.getString("expected_delivery_date"));
+
+                                Date d=formatter.parse(parentObject.getString("expected_delivery_date"));
+                                 date.setText(dateFormat.format(d));
 
                             }
 
@@ -468,9 +481,11 @@ public class EditOrderDetails extends Activity {
 
 
 
-                                Log.d("status do get",parentObject.getString("status"));
+                                Log.d("status do get", parentObject.getString("status"));
                                     int spinnerPosition = dataAdapter2.getPosition(parentObject.getString("status"));
                                     status.setSelection(spinnerPosition);
+                                    current_status=status.getSelectedItem().toString();
+
                             }
 
                             PDialog.hide();
@@ -499,10 +514,13 @@ public class EditOrderDetails extends Activity {
                 params.put("id", StaticVariables.database.get(0).getId());
                 params.put("order_line_id", line_id);
                 params.put("order_id", StaticVariables.order_id);
+                Log.v("line_id",line_id);
+                Log.v("order_id",StaticVariables.order_id);
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(request, "data_receive");
+        Log.v("request",request+"");
     }
     public void getStatusList() {
 
@@ -532,7 +550,7 @@ public class EditOrderDetails extends Activity {
                                 //Log.d("success", parentObject.getString("success"));
                             }
 
-                            dataAdapter2 = new ArrayAdapter<>(EditOrderDetails.this, android.R.layout.simple_spinner_dropdown_item, statusTypeList);
+                            dataAdapter2 = new ArrayAdapter<>(EditOrderDetails.this, R.layout.spinner_layout, statusTypeList);
                             dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             status.setAdapter(dataAdapter2);
 
@@ -576,68 +594,84 @@ public class EditOrderDetails extends Activity {
         return true;
     }
 
-    @Override
-    public void onBackPressed() {
-
+    public void goBack(){
         Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
+        if (intent_from.contains("customer_order")){
+            in.putExtra("intent_from","customer_order");
+        }
         startActivity(in);
         finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
     @Override
+    public void onBackPressed() {
+
+     goBack();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                 Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
-                startActivity(in);
-                finish();
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                goBack();
                 return true;
             case R.id.save_button:
+
+                StaticVariables.hideKeyboard(thisActivity);
 
                 String quantity_str = quantity.getText().toString();
                 String instru = instr.getText().toString();
                 String style_no = style.getText().toString();
 
 
-                DateFormat ddf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                pickupCalendar = Calendar.getInstance();
+                deliveryCalendar = Calendar.getInstance();
 
-                try {
-                    calc.setTime(ddf.parse(get_date));
+                DateFormat ddf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                DateFormat ddf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
+                String myFormat1 = "yyyy-MM-dd HH:mm:ss";
+                try{
+
+                    pickupCalendar.setTime(ddf.parse(StaticVariables.pickupDefaultDate));
+                    deliveryCalendar.setTime(ddf1.parse(StaticVariables.deliveryDefultDate));
+
+
+
+                Log.v("currentwashid", current_status_id +"washid"+wash_id);
 
                 if(quantity_str.trim().equals("")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.enter_quantity),Toast.LENGTH_LONG).show();
-                } else if(wash_id.equals("") || wash_id.equals("Select")) {
+                }
+                else if (Integer.parseInt(quantity_str)==0){
+                    Toast.makeText(thisActivity,getResources().getString(R.string.enter_valid_number),Toast.LENGTH_LONG).show();
+
+                }
+                else if(wash_id.equals("") || wash_id.equals("Select")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.select_wash_type),Toast.LENGTH_LONG).show();
                 } else if(style_no.trim().equals("")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.select_style_code),Toast.LENGTH_LONG).show();
-                } else if(String.valueOf(date).equals("null") || String.valueOf(date).equals("") || String.valueOf(date).equals("0000-00-00 00:00:00")) {
+                }
+                else if(String.valueOf(date).equals("null") || String.valueOf(date).equals("") || String.valueOf(date).equals("0000-00-00 00:00:00")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.expected_delivery_time),Toast.LENGTH_LONG).show();
                 } else if(status_id.equals("") || status_id.equals("Select")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.select_status),Toast.LENGTH_LONG).show();
-                } else if (instru.trim().equals("") || instru.equals("null")) {
-                    Toast.makeText(thisActivity,getResources().getString(R.string.enter_instructions),Toast.LENGTH_LONG).show();
                 }
-
-               /* else if (pickupCalendar.getTime().after(calc.getTime())){
+              /*  else if (Integer.parseInt(current_status_id)>Integer.parseInt(status_id)){
+                    Toast.makeText(thisActivity, "It is already in "+current_status+" status, It cannot be change to "+status.getSelectedItem()+" status",Toast.LENGTH_LONG).show();
+                }*/
+                else if (pickupCalendar.getTime().after(deliveryDateTime.getTime())){
 
                     Log.v("caltime",calc.getTime()+"");
                     Toast.makeText(thisActivity,"Item delivery date cannot be earlier than order pickup date",Toast.LENGTH_SHORT).show();
-
                 }
-                else if (deliveryCalendar.getTime().before(calc.getTime())){
+              /*  else if (deliveryCalendar.getTime().before(deliveryDateTime.getTime())){
 
                     Log.v("deltim",calc.getTime()+"");
-                    Toast.makeText(thisActivity,"Item delivery date cannot be later than order delivery date",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(thisActivity,"if item delivery date is greater than order delivery date ,change the order delivery date to match it",Toast.LENGTH_SHORT).show();
 
                 }*/
-
 
                 else {
 
@@ -648,6 +682,11 @@ public class EditOrderDetails extends Activity {
                         Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                     }
                 }
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 return true;
 
             default:

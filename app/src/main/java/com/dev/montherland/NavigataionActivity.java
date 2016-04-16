@@ -2,16 +2,18 @@ package com.dev.montherland;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,7 +25,8 @@ import com.dev.montherland.adapter.DrawerItemCustomAdapter;
 import com.dev.montherland.model.ObjectDrawerItem;
 import com.dev.montherland.util.StaticVariables;
 
-public class NavigataionActivity extends Activity {
+public class NavigataionActivity extends FragmentActivity {
+    private boolean doubleBackToExitPressedOnce = false;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -32,6 +35,7 @@ public class NavigataionActivity extends Activity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mPlanetTitles;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,7 @@ public class NavigataionActivity extends Activity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
+        StaticVariables.mode1="";
 
         // set a custom shadow that overlays the main content when the drawer opens
         try {
@@ -53,14 +58,14 @@ public class NavigataionActivity extends Activity {
 //            e.printStackTrace();
         }
 
-        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[6];
+        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[5];
 
         drawerItem[0] = new ObjectDrawerItem(R.drawable.school_icon1, "Customers");
-        drawerItem[1] = new ObjectDrawerItem(R.drawable.communication_icon, "Order");
-        drawerItem[2] = new ObjectDrawerItem(R.drawable.profile_icon1, "View/Edit Profile");
-        drawerItem[3] = new ObjectDrawerItem(R.drawable.password_icon2, "Change Password");
-        drawerItem[4] = new ObjectDrawerItem(R.drawable.logout_icon1, "Logout");
-        drawerItem[5] = new ObjectDrawerItem(R.drawable.exit_icon1, "Exit");
+        drawerItem[1] = new ObjectDrawerItem(R.drawable.communication_icon, "Orders");
+        drawerItem[2] = new ObjectDrawerItem(R.drawable.communication_icon, "Reports");
+        drawerItem[3] = new ObjectDrawerItem(R.drawable.password_icon2, "Settings");
+       // drawerItem[4] = new ObjectDrawerItem(R.drawable.logout_icon1, "Logout");
+        drawerItem[4] = new ObjectDrawerItem(R.drawable.exit_icon1, "Exit");
 
 
 
@@ -108,30 +113,57 @@ public class NavigataionActivity extends Activity {
                     selectItem(0);
                     break;
                 }
-                case "Order": {
-                    android.app.Fragment test;
-                    android.app.FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    test = new PurchaseOrderFragment();
-                    Bundle args = new Bundle();
 
-                    fragmentTransaction.setCustomAnimations(
-                            R.animator.fragment_slide_left_enter,
-                            R.animator.fragment_slide_left_exit,
-                            R.animator.fragment_slide_right_enter,
-                            R.animator.fragment_slide_right_exit);
+                case "Orders": {
+                    Fragment test;
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    test = new Order_View();
+
+                  /*  fragmentTransaction.setCustomAnimations(
+                            R.anim.fragment_slide_left_enter,
+                            R.anim.fragment_slide_left_exit,
+                            R.anim.fragment_slide_right_enter,
+                            R.anim.fragment_slide_right_exit);*/
                     fragmentTransaction.replace(R.id.content_frame, test);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
-                    setTitle("Order");
+                    setTitle("Orders");
                     break;
                 }
+
+                case "Settings":{
+
+                    Fragment test;
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    test = new Settings();
+
+                   /* fragmentTransaction.setCustomAnimations(
+                            R.anim.fragment_slide_left_enter,
+                            R.anim.fragment_slide_left_exit,
+                            R.anim.fragment_slide_right_enter,
+                            R.anim.fragment_slide_right_exit);*/
+                    fragmentTransaction.replace(R.id.content_frame, test);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    setTitle("Settings");
+/*
+                    Intent intent=new Intent(NavigataionActivity.this,Settings.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);*/
+
+                    //   Toast.makeText(NavigataionActivity.this,getResources().getString(R.string.under_construction),Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
 
                 default: {
                     selectItem(0);
                 }
             }
         }
+
         catch(Exception ignored)
         {
             ignored.printStackTrace();
@@ -181,28 +213,89 @@ public class NavigataionActivity extends Activity {
                     selectItem(0);
 
                     break;
-                case "Order": {
-                    android.app.Fragment test;
-                    android.app.FragmentManager fragmentManager = getFragmentManager();
+                case "Orders": {
+                    Fragment test;
+                    FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    test = new PurchaseOrderFragment();
-                    Bundle args = new Bundle();
+                    test = new Order_View();
 
-                    fragmentTransaction.setCustomAnimations(
-                            R.animator.fragment_slide_left_enter,
-                            R.animator.fragment_slide_left_exit,
-                            R.animator.fragment_slide_right_enter,
-                            R.animator.fragment_slide_right_exit);
+                  /*  fragmentTransaction.setCustomAnimations(
+                            R.anim.fragment_slide_left_enter,
+                            R.anim.fragment_slide_left_exit,
+                            R.anim.fragment_slide_right_enter,
+                            R.anim.fragment_slide_right_exit);*/
                     fragmentTransaction.replace(R.id.content_frame, test);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
-                    setTitle("Order");
+                    setTitle("Orders");
                     break;
                 }
+
+                case "Reports": {
+                    Fragment test;
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    test = new Report_Fragment();
+
+                  /*  fragmentTransaction.setCustomAnimations(
+                            R.anim.fragment_slide_left_enter,
+                            R.anim.fragment_slide_left_exit,
+                            R.anim.fragment_slide_right_enter,
+                            R.anim.fragment_slide_right_exit);*/
+                    fragmentTransaction.replace(R.id.content_frame, test);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    setTitle("Orders Report");
+                    break;
+                }
+
+                case "Orders History": {
+                    Fragment test;
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    test = new HistoryHomeFragment();
+
+                  /*  fragmentTransaction.setCustomAnimations(
+                            R.anim.fragment_slide_left_enter,
+                            R.anim.fragment_slide_left_exit,
+                            R.anim.fragment_slide_right_enter,
+                            R.anim.fragment_slide_right_exit);*/
+                    fragmentTransaction.replace(R.id.content_frame, test);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    setTitle("Order History");
+                    break;
+                }
+
+
                 case "Exit": {
                     Log.v("exit", "It is working");
-                    System.exit(0);
-                    android.os.Process.killProcess(android.os.Process.myPid());
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(NavigataionActivity.this);
+                    builder.setTitle(getResources().getString(R.string.exit))
+                            .setCancelable(true)
+                            .setMessage(getResources().getString(R.string.exit_warning))
+                            .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    System.exit(0);
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+
+                                }
+                            })
+                            .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+
+                                }
+
+                            });
+                    builder.show();
+
+
+
                     break;
                 }
                 case "View/Edit Profile": {
@@ -210,20 +303,39 @@ public class NavigataionActivity extends Activity {
 
                     Intent intent=new Intent(NavigataionActivity.this,ViewProfile.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                     break;
                 }
-                case "Change Password":{
 
-                    Intent intent=new Intent(NavigataionActivity.this,Change_Password.class);
+                case "Settings":{
+
+                    Fragment test;
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    test = new Settings();
+
+                   /* fragmentTransaction.setCustomAnimations(
+                            R.anim.fragment_slide_left_enter,
+                            R.anim.fragment_slide_left_exit,
+                            R.anim.fragment_slide_right_enter,
+                            R.anim.fragment_slide_right_exit);*/
+                    fragmentTransaction.replace(R.id.content_frame, test);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    setTitle("Settings");
+/*
+                    Intent intent=new Intent(NavigataionActivity.this,Settings.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);*/
 
-                 //   Toast.makeText(NavigataionActivity.this,getResources().getString(R.string.under_construction),Toast.LENGTH_SHORT).show();
+                    //   Toast.makeText(NavigataionActivity.this,getResources().getString(R.string.under_construction),Toast.LENGTH_SHORT).show();
                 break;
                 }
 
+
                 case "Logout": {
 
-                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(new ContextThemeWrapper(NavigataionActivity.this,R.style.myDialog));
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(NavigataionActivity.this);
                     builder.setTitle(getResources().getString(R.string.logout))
                             .setCancelable(true)
                             .setMessage(getResources().getString(R.string.logout_warning))
@@ -264,16 +376,16 @@ public class NavigataionActivity extends Activity {
     private void selectItem(int position) {
 
         // update the main content by replacing fragments
-        android.app.Fragment test;
-        android.app.FragmentManager fragmentManager = getFragmentManager();
+        Fragment test;
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         test = new CustomerHomeFragment();
 
-        fragmentTransaction.setCustomAnimations(
+       /* fragmentTransaction.setCustomAnimations(
                 R.animator.fragment_slide_left_enter,
-                R.animator.fragment_slide_left_exit,
-                R.animator.fragment_slide_right_enter,
-                R.animator.fragment_slide_right_exit);
+                R.anim.fragment_slide_left_exit,
+                R.anim.fragment_slide_right_enter,
+                R.anim.fragment_slide_right_exit);*/
         fragmentTransaction.replace(R.id.content_frame, test);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
@@ -312,9 +424,20 @@ public class NavigataionActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        NavigataionActivity.this.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
-        System.exit(0);
-        android.os.Process.killProcess(android.os.Process.myPid());
+
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            //NavigataionActivity.this.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
+
+            System.exit(0);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            NavigataionActivity.this.overridePendingTransition(R.anim.bottom_in, R.anim.top_out);
+
+            return;
+        }
+
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, R.string.exit_press_back_twice_message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -23,13 +23,13 @@ public class Profile_JSONParser {
                 flower.setEmail(obj.getString("email"));
                 flower.setName(obj.getString("name"));
                 flower.setPhone(obj.getString("phone"));
-                flower.setAddress_line1(obj.getString("address_line1"));
-                flower.setAddress_line2(obj.getString("address_line2"));
-                flower.setAddress_line3(obj.getString("address_line3"));
-                flower.setCity(obj.getString("city"));
-                flower.setPincode(obj.getString("zipcode"));
-                flower.setState(obj.getString("state"));
-                flower.setStateId(obj.getString("state_id"));
+               // flower.setAddress_line1(obj.getString("address_line1"));
+                //flower.setAddress_line2(obj.getString("address_line2"));
+                //flower.setAddress_line3(obj.getString("address_line3"));
+                //flower.setCity(obj.getString("city"));
+                //flower.setPincode(obj.getString("zipcode"));
+                //flower.setState(obj.getString("state"));
+                //flower.setStateId(obj.getString("state_id"));
                 feedslist.add(flower);
             }
             return feedslist;

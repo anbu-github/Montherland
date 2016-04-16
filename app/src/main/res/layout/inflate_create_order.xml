@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="2dp"
     android:layout_marginRight="2dp"
-    android:background="@color/background_screen"
+    android:background="#f1f1f1"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -15,7 +15,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
         android:foreground="?android:attr/selectableItemBackground"
-        card_view:cardBackgroundColor="@color/graylight"
+        card_view:cardBackgroundColor="@android:color/white"
         card_view:cardCornerRadius="3dp"
         card_view:cardElevation="4dp"
         card_view:cardUseCompatPadding="true"
@@ -60,36 +60,35 @@
                     style="@style/SimpleTextviewStyle_16"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:inputType="textCapCharacters"
+                    android:layout_marginTop="5dp"
+                    android:textAllCaps="true"
                     android:id="@+id/styleno"
                     android:hint="Style"
-                    android:maxLength="2"
+                    android:maxLength="4"
                     android:layout_height="wrap_content" />
 
                 <EditText
                     style="@style/SimpleTextviewStyle_16"
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:maxLength="7"
                     android:id="@+id/total_quantity"
+                    android:layout_marginTop="5dp"
                     android:hint="Quantity"
                     android:inputType="number"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Instructions"
-                android:textStyle="bold"
-                android:id="@+id/textView38"
-                android:layout_marginLeft="3dp" />
+
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:hint="Enter here"
+                android:hint="Enter Instruction "
+                android:layout_marginTop="5dp"
                 android:id="@+id/garment_instr"
                 android:maxLines="7" />
 

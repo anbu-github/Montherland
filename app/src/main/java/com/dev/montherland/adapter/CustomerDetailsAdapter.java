@@ -1,5 +1,6 @@
 package com.dev.montherland.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -68,11 +69,18 @@ public class CustomerDetailsAdapter extends RecyclerView.Adapter<CustomerDetails
             @Override
             public void onClick(View v) {
 
-                Intent in=new Intent(context, PurchaseOrderDetails.class);
+                Intent in=new Intent(context, com.dev.montherland.PurchaseOrderDetails.class);
+                in.putExtra("intent_from","customer_order");
+                StaticVariables.mode1="customer_order";
                 StaticVariables.value=2;
                 StaticVariables.order_id=persons.get(position).getId();
                 StaticVariables.count=position;
                 context.startActivity(in);
+                Activity activity=(Activity)context;
+                activity.finish();
+                activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+
             }
         });
 

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:weightSum="1"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="0.075"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05" >
+
+            <Button
+                android:id="@+id/btn_monthly"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Monthly Report"
+                android:textColor="@color/color_black"
+                android:background="#a2b3c2"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05" >
+
+            <Button
+                android:id="@+id/btn_customer"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Customer Report"
+                android:background="@color/grey_light"
+                android:textColor="@color/color_black" >
+            </Button>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="0.065"
+        android:layout_marginTop="3dp"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.045" >
+
+            <Button
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Month"
+                android:textColor="@color/color_black"
+                android:background="#90A4AE"
+                android:textSize="15dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.045" >
+
+            <Button
+                android:id="@+id/created"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Orders"
+                android:textColor="@color/color_black"
+                android:background="#a2c2b2"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.045" >
+
+            <Button
+                android:id="@+id/inprogress"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Inprogress"
+                android:background="#a2c2b2"
+                android:textColor="@color/color_black"
+                android:layout_marginLeft="1dp">
+            </Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.045" >
+
+            <Button
+                android:id="@+id/completed"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Completed"
+                android:background="#a2c2b2"
+                android:textColor="@color/color_black"
+                android:layout_marginLeft="1dp">
+            </Button>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_weight="0.9"
+        android:weightSum="1"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        android:layout_height="0dp">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
+            android:layout_height="fill_parent">
+            <include
+                android:layout_width="fill_parent"
+                android:layout_height="450dp"
+                layout="@layout/inflate_mothly_report" />
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:id="@+id/listview"
+                android:visibility="invisible"
+                android:layout_height="fill_parent"></ListView>
+
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.75"
+            android:layout_height="fill_parent">
+            <TableLayout
+                android:id="@+id/tableLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:shrinkColumns="*"
+                android:stretchColumns="*" >
+            </TableLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

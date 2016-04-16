@@ -26,14 +26,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/vieweditprofile_name_hint"
-            android:inputType="textPersonName|textCapWords|textNoSuggestions">
+            android:hint="@string/vieweditprofile_name_hint1">
 
             <requestFocus />
         </EditText>
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/order"
             style="@style/TextviewStyle_space"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,10 +45,9 @@
             style="@style/EditTextviewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:ems="10"
-            android:hint="@string/vieweditprofile_pincode_hint"
-            android:inputType="number" />
+            android:digits="@string/number_only"
+            android:hint="@string/vieweditprofile_phone_hint1" />
 
         <TextView
             style="@style/TextviewStyle_space"
@@ -57,7 +55,8 @@
             android:layout_height="wrap_content"
             android:text="@string/registration_Address_line1_hint"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/title_color" />
+            android:textColor="@color/title_color"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/viewedit_address_edit"
@@ -66,7 +65,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/vieweditprofile_address_hint1"
-            android:inputType="textMultiLine|textNoSuggestions" />
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:visibility="gone" />
 
         <TextView
             style="@style/TextviewStyle_space"
@@ -74,7 +74,8 @@
             android:layout_height="wrap_content"
             android:text="@string/registration_Address_line2_hint"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/title_color" />
+            android:textColor="@color/title_color"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/viewedit_address_edit2"
@@ -83,7 +84,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/vieweditprofile_address_hint"
-            android:inputType="textMultiLine|textNoSuggestions" />
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:visibility="gone" />
 
         <TextView
             style="@style/TextviewStyle_space"
@@ -91,7 +93,8 @@
             android:layout_height="wrap_content"
             android:text="@string/registration_Address_line3_hint"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/title_color" />
+            android:textColor="@color/title_color"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/viewedit_address_edit3"
@@ -100,7 +103,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/vieweditprofile_address_hint"
-            android:inputType="textMultiLine|textNoSuggestions" />
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,7 +123,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/registration_city_hint"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/title_color" />
+                    android:textColor="@color/title_color"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/viewedit_city_edit"
@@ -128,7 +133,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/vieweditprofile_city_hint"
-                    android:inputType="text|textNoSuggestions" />
+                    android:inputType="text|textNoSuggestions"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -144,7 +150,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/registration_pin_code_hint"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/title_color" />
+                    android:textColor="@color/title_color"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/viewedit_city_pincode"
@@ -153,7 +160,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/vieweditprofile_pincode_hint"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
 
@@ -171,13 +179,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/registration_state_hint"
-            android:textColor="@color/title_color" />
+            android:textColor="@color/title_color"
+            android:visibility="gone" />
 
         <Spinner
             android:id="@+id/registration_state"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog" />
+            android:spinnerMode="dialog"
+            android:visibility="gone" />
 
 
     </LinearLayout>

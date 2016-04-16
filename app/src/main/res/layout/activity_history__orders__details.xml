@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:id="@+id/scrollView">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <!-- A RecyclerView to display horizontal list -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:scrollbars="none"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="0dp"/>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:id="@+id/listView"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+    </RelativeLayout>
+</RelativeLayout>

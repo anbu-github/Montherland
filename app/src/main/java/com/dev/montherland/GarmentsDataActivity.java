@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -39,11 +40,7 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
     RecyclerView.Adapter mAdapter;
     Activity thisActivity=this;
     ArrayList<String> garmentWashIdList = new ArrayList<>();
-    ArrayList<String> garmentWashTypeList = new ArrayList<>();
     ArrayList<String> washTypeList = new ArrayList<>();
-    ArrayList<String> garmentInstrList = new ArrayList<>();
-    ArrayList<String> garmentStyleList = new ArrayList<>();
-    ArrayList<String> garmentWashTypeIdList = new ArrayList<>();
 
     List<GarmentListModel> garment_model;
 
@@ -72,12 +69,15 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
             e.printStackTrace();
         }
         if (StaticVariables.isNetworkConnected(thisActivity)) {
+
             getGarmentTypes();
         } else {
             Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
         }
 
+
     }
+
     public void getWashTypes() {
 
         // PDialog.show(thisActivity);
@@ -85,13 +85,12 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        PDialog.hide();
                         Log.v("response", response + "");
                         try {
                             PDialog.hide();
                             JSONArray ar = new JSONArray(response);
 
-                            washTypeList.add("Select");
+                            washTypeList.add("Select Wash Type");
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 washTypeList.add(parentObject.getString("name"));
@@ -101,12 +100,13 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
                                 //Log.d("success", parentObject.getString("success"));
                             }
 
+                            PDialog.hide();
                             mAdapter = new CreateOrderAdapter(thisActivity
                                     , garment_model,washTypeList);
 
+                            mRecyclerView.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+
                             mRecyclerView.setAdapter(mAdapter);
-
-
 
                         } catch (Exception e) {
                             PDialog.hide();
@@ -138,8 +138,10 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
         AppController.getInstance().addToRequestQueue(request, "data_receive");
         Log.v("request", request + "");
     }
+
+    
     public void getGarmentTypes() {
-           PDialog.show(thisActivity);
+          PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "garment_type_list.php?",
                 new Response.Listener<String>() {
                     @Override
@@ -147,7 +149,7 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
                        // PDialog.hide();
                         Log.v("response", response + "");
                         try {
-                            PDialog.hide();
+                        //    PDialog.hide();
                             JSONArray ar = new JSONArray(response);
                             garment_model = Garment_JSONParer.parserFeed(response);
 
@@ -191,17 +193,7 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action barenu
         getMenuInflater().inflate(R.menu.menu_next, menu);
-        final Menu m = menu;
-        final  MenuItem item = menu.findItem(R.id.next_button);
 
-        item.getActionView().setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                m.performIdentifierAction(item.getItemId(), 0);
-                goNext();
-            }
-        });
 
         return true;
     }
@@ -217,32 +209,37 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
         ArrayList<String> garment_type = new ArrayList<>();
         ArrayList<String> garment_quantity = new ArrayList<>();
         ArrayList<String> garment_id = new ArrayList<>();
+        ArrayList<String> garment_style = new ArrayList<>();
+        ArrayList<String> garment_washType = new ArrayList<>();
+        ArrayList<String> garment_instr = new ArrayList<>();
+        ArrayList<String> garment_washtypeid = new ArrayList<>();
 
         Boolean goOrnot = false;
         int j = 0;
         if(garment_model != null) {
             for (int i = 0; i < garment_model.size(); i++) {
-                if (!garment_model.get(i).getGarmentWashType().equals("Select") || !garment_model.get(i).getGarmentStyle().equals("") || !garment_model.get(i).getGarmentQuantity().equals("") || !garment_model.get(i).getGarmentInstr().equals("")) {
-                    if (garment_model.get(i).getGarmentWashType().equals("Select")) {
+                if (!garment_model.get(i).getGarmentWashType().equals("Select Wash Type") || !garment_model.get(i).getGarmentStyle().equals("") || !garment_model.get(i).getGarmentQuantity().equals("") || !garment_model.get(i).getGarmentInstr().equals("")) {
+                    if (garment_model.get(i).getGarmentWashType().equals("Select Wash Type")) {
                         goOrnot = false;
-                        Toast.makeText(thisActivity, "Please select wash type of" + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(thisActivity, "Please select wash type of " + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
+
                         break;
                     } else if (garment_model.get(i).getGarmentStyle().equals("")) {
                         goOrnot = false;
-                        Toast.makeText(thisActivity, "Please enter style of" + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(thisActivity, "Please enter style of " + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
                         break;
-
                     } else if (garment_model.get(i).getGarmentQuantity().equals("")) {
                         goOrnot = false;
-                        Toast.makeText(thisActivity, "Please enter quantity of" + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
+                        StaticVariables.quantityPos=i;
+                        Toast.makeText(thisActivity, "Please enter quantity of " + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
                         break;
-
-                    } else if (garment_model.get(i).getGarmentInstr().equals("")) {
+                    }
+                    else if (Integer.parseInt(garment_model.get(i).getGarmentQuantity())==0){
                         goOrnot = false;
-                        Toast.makeText(thisActivity, "Please enter instruction of" + garment_model.get(i).getGarmentType(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(thisActivity,getResources().getString(R.string.enter_valid_number),Toast.LENGTH_LONG).show();
                         break;
-
-                    } else {
+                    }
+                    else {
                         goOrnot = true;
                         Boolean isValidNo = StaticVariables.checkIfNumber(garment_model.get(i).getGarmentQuantity());
                         Log.v("wash Tylpe", garment_model.get(i).getGarmentWashType());
@@ -250,11 +247,10 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
                         garment_quantity.add(garment_model.get(i).getGarmentQuantity());
                         garment_type.add(garment_model.get(i).getGarmentType());
                         garment_id.add(garment_model.get(i).getGarmentTypeId());
-                        garmentStyleList.add(garment_model.get(i).getGarmentStyle());
-                        garmentWashTypeList.add(garment_model.get(i).getGarmentWashType());
-                        garmentWashTypeIdList.add(garment_model.get(i).getGarmentWashId());
-                        garmentInstrList.add(garment_model.get(i).getGarmentInstr());
-
+                        garment_style.add(garment_model.get(i).getGarmentStyle());
+                        garment_instr.add(garment_model.get(i).getGarmentInstr());
+                        garment_washType.add(garment_model.get(i).getGarmentWashType());
+                        garment_washtypeid.add(garment_model.get(i).getGarmentWashId());
                     }
                 }
 //                else {
@@ -270,18 +266,21 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
         Log.v("quantity no", garment_model.get(0).getGarmentQuantity().toString());
         if(j > 0) {
             if (goOrnot) {
-
+                StaticVariables.address_id="";
+                StaticVariables.hideKeyboard(thisActivity);
                 Intent in = new Intent(thisActivity, SelectAddress.class);
                 StaticVariables.selectAddress = "Create order";
                 startActivity(in);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
 
                 StaticVariables.editQuantityList = garment_quantity;
                 StaticVariables.garmentTypeList = garment_type;
                 StaticVariables.garmentIdList = garment_id;
-                StaticVariables.garmentStyle = garmentStyleList;
-                StaticVariables.garmentWashtype = garmentWashTypeList;
-                StaticVariables.garmentWashTypeId = garmentWashTypeIdList;
-                StaticVariables.garmentInstr = garmentInstrList;
+                StaticVariables.garmentStyle = garment_style;
+                StaticVariables.garmentWashtype = garment_washType;
+                StaticVariables.garmentWashTypeId = garment_washtypeid;
+                StaticVariables.garmentInstr = garment_instr;
             }
         }
         else {
@@ -300,9 +299,9 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
 
                 return true;
             case R.id.next_button:
-              //  Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
+            //   Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
 
-                //goNext();
+                goNext();
                 return true;
 
             default:

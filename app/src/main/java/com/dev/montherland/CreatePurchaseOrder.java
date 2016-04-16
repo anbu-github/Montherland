@@ -2,18 +2,17 @@ package com.dev.montherland;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -58,13 +57,12 @@ public class CreatePurchaseOrder extends Activity {
     ArrayList<String> orderTypeList = new ArrayList<>();
     ArrayList<String> orderTypeIdList = new ArrayList<>();
     ArrayList<String> washTypeList = new ArrayList<>();
-
+    static final int SHOW_DATE_PICKER_DIALOG = 1;
     Spinner customerList, Companylist, orderType;
 
     ArrayAdapter<String> dataAdapter, dataAdapter2, orderTypeAdapter, dataAdapter4, washTypeAdapter;
 
-    String companyId, customerId, companyName, customerName, order_type, menuTitle, order_id, statusId;
-    LinearLayout dateLayout;
+    String companyId, customerId, companyName, customerName, order_type, menuTitle="", order_id, statusId;
     DatePickerDialog.OnDateSetListener date, pickup_date;
     Calendar myCalendar = Calendar.getInstance();
     Calendar myCalendar1 = Calendar.getInstance();
@@ -77,10 +75,12 @@ public class CreatePurchaseOrder extends Activity {
     SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
     SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
 
-    LinearLayout instr_layout;
+    LinearLayout instr_layout,linearLayout,delivery_layout;
     ScrollView scrollview;
-    String finalPicdate, finaldelDate, selectedTime;
-    Date pDate, dDate;
+    String selectedTime,intent_from="";
+    Date pDate, dDate,date1;
+
+    Boolean isload=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,16 +97,44 @@ public class CreatePurchaseOrder extends Activity {
         deliveryTime = (TextView) findViewById(R.id.expect_del_time);
         productInstr = (EditText) findViewById(R.id.instruction);
         instr_layout = (LinearLayout) findViewById(R.id.instr_layout);
+        linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+        delivery_layout = (LinearLayout) findViewById(R.id.delivery_layout);
         scrollview = (ScrollView) findViewById(R.id.scrollview);
+
+        myCalendar.set(Calendar.HOUR,9);
+        myCalendar1.set(Calendar.HOUR,9);
+        myCalendar.set(Calendar.AM_PM,0);
+        myCalendar1.set(Calendar.AM_PM,0);
+        myCalendar.set(Calendar.MINUTE,0);
+        myCalendar1.set(Calendar.MINUTE,0);
+        pickupTime.setText("09:00");
+        deliveryTime.setText("09:00");
 
         menuTitle = "Next";
 
         customerLIst.add("Select");
         customerIdList.add("Select");
 
+        companyIdList.add("Select");
+        companyList.add("Select");
+        linearLayout.setVisibility(View.INVISIBLE);
+
+
+
+
+        try {
+            intent_from=getIntent().getExtras().getString("intent_from");
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+
+
+
         try {
             if (!(getIntent().getExtras().getString("order_details") == null)) {
-
+                delivery_layout.setBackground(getResources().getDrawable(R.drawable.layout_border4));
+                PDialog.show(thisActivity);
                 getActionBar().setTitle("Edit Order Details");
                 Intent intent = getIntent();
                 //   Bundle args = intent.getBundleExtra("BUNDLE");
@@ -117,11 +145,14 @@ public class CreatePurchaseOrder extends Activity {
 
                 Companylist.setBackgroundColor(Color.parseColor("#F1F1F1"));
                 Companylist.setClickable(false);
-
             }
+
+
         } catch (Exception e) {
+            PDialog.show(thisActivity);
             e.printStackTrace();
         }
+
 
         if (StaticVariables.isNetworkConnected(thisActivity)) {
             // PDialog.show(thisActivity);
@@ -132,7 +163,6 @@ public class CreatePurchaseOrder extends Activity {
         } else {
             Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_access), Toast.LENGTH_LONG).show();
         }
-
 
         date = new DatePickerDialog.OnDateSetListener() {
 
@@ -162,6 +192,7 @@ public class CreatePurchaseOrder extends Activity {
                 myCalendar1.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 Log.v("date", monthOfYear + "");
 
+
                 updatePickupDate();
 
             }
@@ -172,22 +203,27 @@ public class CreatePurchaseOrder extends Activity {
             @Override
             public void onClick(View v) {
 
+                if (menuTitle.equals("Save")){
 
-                new DatePickerDialog(thisActivity, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                }else {
+
+                    new DatePickerDialog(thisActivity, date, myCalendar
+                            .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                            myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                }
 
 
             }
         });
 
 
+
         pickupDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(thisActivity, pickup_date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(thisActivity, pickup_date, myCalendar1
+                        .get(Calendar.YEAR), myCalendar1.get(Calendar.MONTH),
+                        myCalendar1.get(Calendar.DAY_OF_MONTH)).show();
 
 
             }
@@ -202,10 +238,11 @@ public class CreatePurchaseOrder extends Activity {
                     myCalendar1.set(Calendar.MINUTE, minute);
                     updateTime();
                 }
-                else
-                myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                myCalendar.set(Calendar.MINUTE, minute);
-                updateTime();
+                else {
+                    myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                    myCalendar.set(Calendar.MINUTE, minute);
+                    updateTime();
+                }
             }
         };
 
@@ -213,8 +250,8 @@ public class CreatePurchaseOrder extends Activity {
             public void onClick(View v) {
                 new TimePickerDialog(thisActivity,
                         time,
-                        myCalendar1.get(Calendar.HOUR_OF_DAY),
-                        myCalendar1.get(Calendar.MINUTE),
+                        myCalendar1.get(myCalendar1.HOUR_OF_DAY),
+                        myCalendar1.get(myCalendar1.MINUTE),
                         true).show();
                 selectedTime = "pickedTime";
             }
@@ -225,15 +262,19 @@ public class CreatePurchaseOrder extends Activity {
 
             @Override
             public void onClick(View v) {
-                new TimePickerDialog(thisActivity,
-                        time,
-                        myCalendar1.get(Calendar.HOUR_OF_DAY),
-                        myCalendar1.get(Calendar.MINUTE),
-                        true).show();
-                selectedTime = "deliveryTime";
+
+                if (menuTitle.contains("Save")){
+
+                }else {
+                    new TimePickerDialog(thisActivity,
+                            time,
+                            myCalendar.get(myCalendar.HOUR_OF_DAY),
+                            myCalendar.get(myCalendar.MINUTE),
+                            true).show();
+                    selectedTime = "deliveryTime";
+                }
             }
         });
-
 
         try {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -267,17 +308,17 @@ public class CreatePurchaseOrder extends Activity {
                 android.R.layout.simple_spinner_item, washTypeList);
         washTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-
         customerList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 try {
-                    StaticVariables.customerId = customerId;
+
                     StaticVariables.customerContact = customerIdList.get(position).toString();
                     Log.v("customer_id", StaticVariables.customerContact);
                     customerName = customerList.getSelectedItem().toString();
 
+                    StaticVariables.customerName=customerName;
 
                 } catch (Exception e) {
 
@@ -301,6 +342,14 @@ public class CreatePurchaseOrder extends Activity {
                     customerLIst.clear();
                     companyName = String.valueOf(Companylist.getSelectedItem());
                     StaticVariables.companyName = companyName;
+                    StaticVariables.customerId=companyIdList.get(position).toString();
+                    Log.v("customerid",StaticVariables.customerId);
+
+                    if (companyName.equals("Select")){
+                        customerList.setClickable(false);
+                    }else {
+                        customerList.setClickable(true);
+                    }
 
                     if (StaticVariables.isNetworkConnected(thisActivity)) {
                         getCustomerList();
@@ -348,6 +397,8 @@ public class CreatePurchaseOrder extends Activity {
     public void updateDate() {
         //In which you need put here
 
+
+
         Calendar calc = Calendar.getInstance();
         calc.set(Calendar.DAY_OF_MONTH, calc.get(Calendar.DAY_OF_MONTH) - 1);
         if (myCalendar.getTime().before(calc.getTime())) {
@@ -382,6 +433,8 @@ public class CreatePurchaseOrder extends Activity {
         }
 
     }
+
+
 
     private void updateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -426,6 +479,9 @@ public class CreatePurchaseOrder extends Activity {
                                     for (int in = 0; in < customerIdList.size(); in++) {
                                         if (customerIdList.get(in).equals(editCustomerContactId)) {
                                             customerList.setSelection(in);
+                                            PDialog.hide();
+                                            linearLayout.setVisibility(View.VISIBLE);
+
                                         }
                                     }
 
@@ -441,7 +497,8 @@ public class CreatePurchaseOrder extends Activity {
                                     DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                     Date date = formatter.parse(start_dt);
 
-                                   // myCalendar1.set(Calendar.HOUR,date.getHours());
+                                    myCalendar.setTime(formatter.parse(toDeliveryDate));
+                                    myCalendar1.setTime(formatter.parse(start_dt));
                                    // myCalendar1.set(Calendar.MINUTE,date.getMinutes());
 
 
@@ -451,7 +508,13 @@ public class CreatePurchaseOrder extends Activity {
 
                                     String pickup_date = newFormat1.format(date);
 
-                                    Date date1 = formatter.parse(toDeliveryDate);
+                                    if (StaticVariables.delDate!=""){
+                                         date1 = formatter.parse(StaticVariables.delDate);
+                                         myCalendar.setTime(date1);
+                                    }
+                                    else {
+                                         date1 = formatter.parse(toDeliveryDate);
+                                    }
                                     String delivery_date = newFormat1.format(date1);
                                     String delTime = newFormat.format(date1);
 
@@ -460,16 +523,6 @@ public class CreatePurchaseOrder extends Activity {
                                     pickupTime.setText(pickTime);
                                     pickupDate.setText(pickup_date);
 
-                                    Date pd = newFormat1.parse(String.valueOf(pickupDate.getText()));
-                                    Date dd = newFormat1.parse(String.valueOf(deliveryDate.getText()));
-
-
-
-                                 //   finalPicdate = start_dt;
-                                  //  finaldelDate = toDeliveryDate;
-
-
-                                    // PDialog.hide();
 
 
                                 }
@@ -477,7 +530,7 @@ public class CreatePurchaseOrder extends Activity {
 
 
                         } catch (Exception e) {
-                            PDialog.hide();
+                            //PDialog.hide();
                         }
                     }
                 },
@@ -486,7 +539,7 @@ public class CreatePurchaseOrder extends Activity {
 
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
-                        PDialog.hide();
+                      //  PDialog.hide();
 
                     }
                 }) {
@@ -509,7 +562,13 @@ public class CreatePurchaseOrder extends Activity {
 
     public void getCustomerList() {
 
-        PDialog.show(thisActivity);
+        if (!menuTitle.contains("Save")){
+            if (isload) {
+                PDialog.show(thisActivity);
+
+            }
+        }
+        //PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_company_list.php?",
                 new Response.Listener<String>() {
                     @Override
@@ -525,7 +584,6 @@ public class CreatePurchaseOrder extends Activity {
                             customerLIst.add("Select");
                             customerIdList.add("Select");
 
-
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 if (!parentObject.getString("name").equals("NO Data")) {
@@ -538,6 +596,8 @@ public class CreatePurchaseOrder extends Activity {
                                     getEditOrderDetails();
                                 } else {
                                     PDialog.hide();
+                                    isload=true;
+                                    linearLayout.setVisibility(View.VISIBLE);
                                 }
 
 
@@ -546,7 +606,7 @@ public class CreatePurchaseOrder extends Activity {
 
 
                         } catch (Exception e) {
-                            PDialog.hide();
+                           // PDialog.hide();
                         }
                     }
                 },
@@ -555,7 +615,7 @@ public class CreatePurchaseOrder extends Activity {
 
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
-                        PDialog.hide();
+                      //  PDialog.hide();
 
                     }
                 }) {
@@ -637,7 +697,11 @@ public class CreatePurchaseOrder extends Activity {
                         Log.v("response", response + "");
                         try {
                             JSONArray ar = new JSONArray(response);
+                            companyIdList.clear();
+                            companyList.clear();
+
                             companyList.add("Select");
+                            companyIdList.add("Select");
                             for (int i = 0; i < ar.length(); i++) {
                                 JSONObject parentObject = ar.getJSONObject(i);
                                 companyList.add(parentObject.getString("name"));
@@ -709,10 +773,6 @@ public class CreatePurchaseOrder extends Activity {
         StaticVariables.deliveryDateTIme=ssdf2.format(deliveryCalendar.getTime());
 
 
-
-
-
-
       /*  try {
 
             Log.v("de time", StaticVariables.deliveryDateTIme);
@@ -736,25 +796,32 @@ public class CreatePurchaseOrder extends Activity {
         }*/
 
 
-
-
-
         PDialog.show(thisActivity);
         //  String url= "http://purplefront.net/motherland_dev/home/purchase_order_submit.php?id=4&email=test@test.com&password=aaa&customer_contact_id=5&customer_contact_address_id=6&garment_type_json="+jsonGarmentId+"&quantity_json="+jsonQuantity+"&wash_type_id_json="+jsonWashTypeId+"&style_number_json="+jsonStyle+"&wash_instructions_type=no&expected_pick_up=2016-02-18 02:15:52&expected_delivery=2016-02-18 02:15:52&order_type_id=2&instructions_json="+jsonInstr+"";
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "edit_order_details_edit.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.v("response",response);
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(thisActivity,R.style.myDialog));
+                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(thisActivity);
                         builder.setCancelable(false)
                                 .setTitle("Success")
                                 .setMessage("Order detail has saved successfully ")
-                                .setNegativeButton("ok", new DialogInterface.OnClickListener() {
+                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
                                         Intent intent = new Intent(thisActivity, PurchaseOrderDetails.class);
+                                        try {
+                                            if (intent_from.contains("customer_order")){
+                                                intent.putExtra("intent_from","customer_order");
+                                            }
+
+                                        }catch (Exception e){
+                                            e.printStackTrace();
+                                        }
+
                                         startActivity(intent);
                                         finish();
                                         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -764,11 +831,10 @@ public class CreatePurchaseOrder extends Activity {
 
                         try {
 
-
                             JSONArray ar = new JSONArray(response);
 
                         } catch (Exception e) {
-                            PDialog.hide();
+                          //  PDialog.hide();
 //                            Log.d("json connection", "No internet access" + e);
                         }
                     }
@@ -778,7 +844,7 @@ public class CreatePurchaseOrder extends Activity {
 
                     @Override
                     public void onErrorResponse(VolleyError arg0) {
-                        PDialog.hide();
+                       // PDialog.hide();
 
                     }
                 }) {
@@ -809,70 +875,64 @@ public class CreatePurchaseOrder extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action barenu
-        if (menuTitle.contains("Save")){
+        if (menuTitle.contains("Save")) {
             getMenuInflater().inflate(R.menu.menu_save, menu);
 
-        }
-        else {
+        } else {
             getMenuInflater().inflate(R.menu.menu_next, menu);
-            final Menu m = menu;
             final MenuItem item = menu.findItem(R.id.next_button);
             item.setTitle(menuTitle);
 
-            item.getActionView().setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    m.performIdentifierAction(item.getItemId(), 0);
-                    if (menuTitle.contains("Save")) {
-                        save();
-                    } else {
-                        nextPage();
-                    }
-                }
-            });
         }
         return true;
     }
 
-    public void onBackPressed() {
-
-        //super.onBackPressed();
-
+    public void goBack(){
         if (menuTitle.contains("Save")) {
 
             Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
+
+            try {
+                if (intent_from.contains("customer_order")){
+                    in.putExtra("intent_from","customer_order");
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
             startActivity(in);
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
         } else {
             Intent in = new Intent(thisActivity, NavigataionActivity.class);
-            in.putExtra("redirection","Order");
+            in.putExtra("redirection","Orders");
             startActivity(in);
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
+    }
+
+    public void onBackPressed() {
+
+        //super.onBackPressed();
+   goBack();
+
 
     }
 
     public void nextPage() {
+        StaticVariables.hideKeyboard(thisActivity);
 
         DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        DateFormat formatter1 = new SimpleDateFormat("HH:mm");
         StaticVariables.deliveryTime=deliveryTime.getText().toString();
         StaticVariables.pickupTime=pickupTime.getText().toString();
 
+
         try {
-           /* Date pTIme=formatter1.parse(String.valueOf(pickupTime.getText()));
-            Date dTIme=formatter1.parse(String.valueOf(deliveryTime.getText()));
 
-            pDate.setHours(pTIme.getHours());
-            pDate.setMinutes(pTIme.getMinutes());
-
-            dDate.setHours(dTIme.getHours());
-            dDate.setHours(dTIme.getMinutes());
-*/
              pDate = formatter.parse(String.valueOf(pickupDate.getText()));
              dDate = formatter.parse(String.valueOf(deliveryDate.getText()));
         }catch (Exception e){
@@ -880,7 +940,6 @@ public class CreatePurchaseOrder extends Activity {
         }
 
         if (companyName.equals("Select")) {
-
             Toast.makeText(thisActivity, "Please select customer", Toast.LENGTH_SHORT).show();
         } else if (customerName.equals("Select")) {
             Toast.makeText(thisActivity, "Please select contact", Toast.LENGTH_SHORT).show();
@@ -902,23 +961,38 @@ public class CreatePurchaseOrder extends Activity {
             Toast.makeText(thisActivity, "Please set estimated delivery time", Toast.LENGTH_SHORT).show();
 
         }
-        else if (pDate.after(dDate)){
+        else if (pDate.equals(dDate)&&(myCalendar1.after(myCalendar))){
+            Toast.makeText(thisActivity, "Pickup time cannot be later than delivery time for same date", Toast.LENGTH_SHORT).show();
+
+        }
+        else if (pDate.equals(dDate)&&(myCalendar1.equals(myCalendar))){
+            Toast.makeText(thisActivity, "Pickup time and delivery time cannot be equal for same date ", Toast.LENGTH_LONG).show();
+
+        }
+        else if (myCalendar1.after(myCalendar)){
+
             Toast.makeText(thisActivity, "Delivery date cannot be earlier than pickup date", Toast.LENGTH_SHORT).show();
 
         }
 
         else {
-            StaticVariables.prodcutInstr = productInstr.getText().toString();
 
+            Log.v("date1",myCalendar1.getTime()+"date2"+myCalendar.getTime());
+            StaticVariables.prodcutInstr = productInstr.getText().toString();
 
             Intent in = new Intent(CreatePurchaseOrder.this, GarmentsDataActivity.class);
             startActivity(in);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
         }
 
     }
 
     public void save(){
+
+
+        Log.v("pickdattime",myCalendar1.getTime()+"");
+        Log.v("delivery",myCalendar.getTime()+"");
 
         DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         try {
@@ -946,8 +1020,18 @@ public class CreatePurchaseOrder extends Activity {
         else if (deliveryTime.getText().toString().equals("HH-MM")) {
             Toast.makeText(thisActivity, "Please set estimated delivery time", Toast.LENGTH_SHORT).show();
         }
-        else if (pDate.after(dDate)){
-            Toast.makeText(thisActivity, "Delivery date should be greater than pickup date", Toast.LENGTH_SHORT).show();
+
+        else if (pDate.equals(dDate)&&(myCalendar1.after(myCalendar))){
+                Toast.makeText(thisActivity, "Pickup time cannot be later than delivery time for same date", Toast.LENGTH_SHORT).show();
+
+        }
+        else if (pDate.equals(dDate)&&(myCalendar1.equals(myCalendar))){
+            Toast.makeText(thisActivity, "Pickup time and delivery time cannot be equal for same date ", Toast.LENGTH_LONG).show();
+
+        }
+        else if (myCalendar1.after(myCalendar)){
+            Log.v("calender1",myCalendar1+"cal2"+myCalendar);
+            Toast.makeText(thisActivity, "Delivery date cannot be earlier than pickup date", Toast.LENGTH_SHORT).show();
 
         }
         else {
@@ -959,21 +1043,12 @@ public class CreatePurchaseOrder extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                goBack();
+                return true;
 
-                if (menuTitle.contains("Save")) {
+            case R.id.next_button:
 
-                    Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
-                    startActivity(in);
-                    finish();
-                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                } else {
-                    Intent in = new Intent(thisActivity, NavigataionActivity.class);
-                    in.putExtra("redirection","Order");
-                    startActivity(in);
-                    finish();
-                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                }
-
+                nextPage();
                 return true;
             case R.id.save_button:
 

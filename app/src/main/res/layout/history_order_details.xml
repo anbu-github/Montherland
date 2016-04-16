@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/scrollview"
+    android:background="@android:color/white"
+    android:layout_height="match_parent">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cv">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/layout"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:id="@+id/layout1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_height="27dp"
+            android:background="@color/title_bar_color"
+            android:layout_marginBottom="7dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"
+                android:text="Updated by :"
+                android:textColor="#ffffff"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/textView17"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Medium Text"
+                android:id="@+id/updatedby"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="#f1f1f1"
+                android:gravity="center_vertical"
+                android:layout_alignTop="@+id/textView17"
+                android:layout_toRightOf="@+id/textView17"
+                android:layout_toEndOf="@+id/textView17"
+                android:layout_marginLeft="3dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/layout2"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Contact"
+                android:id="@+id/textView20"
+                android:textColor="@color/black_text_color"
+                android:layout_alignTop="@+id/quantity"
+                android:layout_alignLeft="@+id/textView21"
+                android:layout_alignStart="@+id/textView21"
+                android:layout_marginLeft="2dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Order Type"
+                android:id="@+id/textView21"
+                android:textColor="@color/black_text_color"
+                android:layout_below="@+id/textView20"
+                android:layout_toRightOf="@+id/imageView11"
+                android:layout_toEndOf="@+id/imageView11"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="2dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Exp Delivery Date"
+                android:id="@+id/textView22"
+                android:textColor="@color/black_text_color"
+                android:layout_alignTop="@+id/date"
+                android:layout_toRightOf="@+id/imageView14"
+                android:layout_toEndOf="@+id/imageView14"
+                android:layout_marginLeft="2dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/quantity"
+
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/textView22"
+                android:layout_toEndOf="@+id/textView22"
+                android:layout_marginLeft="18dp"
+                android:layout_marginStart="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/order_type"
+                android:layout_alignBaseline="@+id/textView21"
+                android:layout_alignBottom="@+id/textView21"
+                android:layout_alignLeft="@+id/quantity"
+                android:layout_alignStart="@+id/quantity" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/date"
+                android:maxLength="23"
+                android:textSize="16dp"
+                android:layout_below="@+id/imageView14"
+                android:layout_alignLeft="@+id/style"
+                android:layout_alignStart="@+id/style"
+                android:layout_marginTop="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Exp Pickup Date"
+                android:id="@+id/textView24"
+                android:textColor="@android:color/black"
+                android:layout_alignTop="@+id/style"
+                android:layout_toRightOf="@+id/imageView11"
+                android:layout_toEndOf="@+id/imageView11"
+                android:layout_marginLeft="2dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/style"
+                android:maxLength="23"
+                android:textSize="16dp"
+                android:layout_below="@+id/order_type"
+                android:layout_alignLeft="@+id/order_type"
+                android:layout_alignStart="@+id/order_type"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Status"
+                android:id="@+id/textView25"
+                android:textColor="#000000"
+                android:layout_alignBaseline="@+id/status"
+                android:layout_alignBottom="@+id/status"
+                android:layout_toRightOf="@+id/imageView15"
+                android:layout_toEndOf="@+id/imageView15"
+                android:layout_marginLeft="2dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/status"
+                android:layout_below="@+id/imageView15"
+                android:layout_alignLeft="@+id/date"
+                android:layout_alignStart="@+id/date"
+                android:layout_marginTop="10dp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/imageView11"
+                android:src="@drawable/ordertype"
+                android:layout_alignBottom="@+id/textView21"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/imageView13"
+                android:src="@drawable/user"
+                android:layout_alignBottom="@+id/textView20"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/imageView14"
+                android:src="@drawable/calendar"
+                android:layout_alignBottom="@+id/textView24"
+                android:layout_toLeftOf="@+id/textView24"
+                android:layout_toStartOf="@+id/textView24" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/imageView15"
+                android:src="@drawable/calendar"
+                android:layout_alignBottom="@+id/textView22"
+                android:layout_toLeftOf="@+id/textView22"
+                android:layout_toStartOf="@+id/textView22" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/imageView16"
+                android:src="@drawable/refresh"
+                android:layout_alignTop="@+id/textView25"
+                android:layout_toLeftOf="@+id/textView25"
+                android:layout_toStartOf="@+id/textView25" />
+
+        </RelativeLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:id="@+id/address_layout"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Add1"
+                    android:id="@+id/add1"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Add2"
+                android:id="@+id/state"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="18dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Add3"
+                android:id="@+id/add3"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="18dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="State"
+                android:id="@+id/add2"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="18dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="city"
+                android:id="@+id/city"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="18dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="zipcode"
+                android:id="@+id/zipcode"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="18dp" />
+
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/instr_layout"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Instructions"
+                android:id="@+id/instr"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="23dp"
+                android:layout_marginStart="23dp" />
+
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:id="@+id/listView"
+            android:layout_height="wrap_content">
+
+        </ListView>
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+</ScrollView>

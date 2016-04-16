@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dev.montherland.R;
@@ -64,10 +65,20 @@ public class OrderConfirmDetailsAdapter  extends BaseAdapter{
             holder.washType = (TextView) convertView.findViewById(R.id.wash);
             holder.style = (TextView) convertView.findViewById(R.id.styleno);
             holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
+            holder.instr = (TextView) convertView.findViewById(R.id.instr);
+
             holder.quantity.setText(StaticVariables.editQuantityList.get(position));
             holder.garment_type.setText(StaticVariables.garmentTypeList.get(position));
             holder.style.setText(StaticVariables.garmentStyle.get(position));
             holder.washType.setText(StaticVariables.garmentWashtype.get(position));
+
+            if (StaticVariables.garmentInstr.get(position).isEmpty()||StaticVariables.garmentInstr.equals("")){
+                holder.instr.setVisibility(View.GONE);
+            }
+            else {
+                holder.instr.setText(StaticVariables.garmentInstr.get(position));
+            }
+
 
         }
         catch (Exception e){
@@ -89,7 +100,7 @@ public class OrderConfirmDetailsAdapter  extends BaseAdapter{
      */
 
     private class ViewHolder {
-        TextView quantity,garment_type,washType,style;
+        TextView quantity,garment_type,washType,style,instr;
     }
 
 }

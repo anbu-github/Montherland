@@ -1,7 +1,9 @@
 package com.dev.montherland;
 
-import android.app.Fragment;
+import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -79,6 +81,7 @@ public class CustomerHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.activity_home,container,false);
+        getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
         //getActivity().getActionBar().setTitle("Customer List");
         try {
@@ -94,6 +97,17 @@ public class CustomerHomeFragment extends Fragment {
         }
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        view.findViewById(R.id.btn_add_address).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getActivity(),"This feature is under construction",Toast.LENGTH_SHORT).show();
+
+                Intent in=new Intent(getActivity(),Create_Customer.class);
+                getActivity().startActivity(in);
+
+            }
+        });
       //  getActivity().getActionBar().setTitle("Customer List");
 
         if (StaticVariables.isNetworkConnected(getActivity())) {
@@ -101,8 +115,9 @@ public class CustomerHomeFragment extends Fragment {
         }
         else {
             Toast.makeText(getActivity(),getResources().getString(R.string.no_internet_connection),Toast.LENGTH_LONG).show();
-
         }
+
+
         recyclerView = (RecyclerView)view.findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
         mLayoutManager=new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -111,6 +126,8 @@ public class CustomerHomeFragment extends Fragment {
 
         return view;
     }
+
+
 
         void update_display() {
         if(persons != null) {

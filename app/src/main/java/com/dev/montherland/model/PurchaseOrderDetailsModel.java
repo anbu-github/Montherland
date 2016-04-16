@@ -23,6 +23,53 @@ public class PurchaseOrderDetailsModel implements Serializable{
     String order_type;
     String instruction;
     String pickupdate;
+    String addressid;
+    String createdBy;
+    String updated;
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    String created;
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public String getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    String updatedBy;
+
+    public String getAddressid() {
+        return addressid;
+    }
+
+    public void setAddressid(String addressid) {
+        this.addressid = addressid;
+    }
 
     public String getDeliverydate() {
         return deliverydate;

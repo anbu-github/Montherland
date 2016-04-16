@@ -33,6 +33,8 @@ public class InstructionActivity extends Activity {
     EditText in;
     String str_instr,order_id;
     List<Response_Model> feedlist;
+    Bundle bundle;
+    String intent_value="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,19 +43,24 @@ public class InstructionActivity extends Activity {
 
         try {
             extras=getIntent().getExtras();
+            intent_value=extras.getString("intent_from");
             str_instr=extras.getString("instr");
             order_id=extras.getString("order_id");
             in.setText(str_instr);
 
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+
             if (Build.VERSION.SDK_INT > 19) {
                 getActionBar().setDisplayHomeAsUpEnabled(true);
                 getActionBar().setHomeAsUpIndicator(R.drawable.pf);
+                getActionBar().setTitle(getResources().getString(R.string.edit_instr_title));
             } else {
                 getActionBar().setHomeButtonEnabled(true);
                 getActionBar().setIcon(R.drawable.pf);
+                getActionBar().setTitle(getResources().getString(R.string.edit_instr_title));
             }
-            getActionBar().setTitle(getResources().getString(R.string.instr_title));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,7 +78,7 @@ public class InstructionActivity extends Activity {
     public void updateDisplay() {
 
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(thisActivity, R.style.myDialog));
+         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(thisActivity);
             builder.setCancelable(false)
                     .setTitle("Success")
                     .setMessage(getResources().getString(R.string.save_instruction))
@@ -80,6 +87,14 @@ public class InstructionActivity extends Activity {
                         public void onClick(DialogInterface dialog, int which) {
 
                             Intent intent = new Intent(thisActivity, PurchaseOrderDetails.class);
+
+                            try {
+                                if (intent_value.contains("customer_order")) {
+                                    intent.putExtra("intent_from", "customer_order");
+                                }
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             startActivity(intent);
                             finish();
                             overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -87,7 +102,6 @@ public class InstructionActivity extends Activity {
                     });
             builder.show();
         }
-
 
     public void save() {
         PDialog.show(thisActivity);
@@ -124,7 +138,7 @@ public class InstructionActivity extends Activity {
                     params.put("password", StaticVariables.database.get(0).getPassword());
                     params.put("id", StaticVariables.database.get(0).getId());
                     params.put("order_id", order_id);
-                    params.put("instructions", String.valueOf(in.getText()));
+                    params.put("instructions", in.getText()+" ");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -137,17 +151,35 @@ public class InstructionActivity extends Activity {
 
     }
 
+    public void goBack(){
+        Intent in=new Intent(thisActivity,PurchaseOrderDetails.class);
+        try {
+            if (intent_value.contains("customer_order")) {
+                in.putExtra("intent_from", "customer_order");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        startActivity(in);
+        finish();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    @Override
+    public void onBackPressed() {
+    goBack();
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
+              goBack();
                 return true;
             case R.id.save_button:
 
+                StaticVariables.hideKeyboard(thisActivity);
                 save();
 
                /* Intent in=new Intent(thisActivity,OrderConfirmDetails.class);

@@ -32,6 +32,9 @@ import com.dev.montherland.util.MCrypt;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +51,7 @@ public class Change_Password extends Activity {
     private String TAG = Change_Password.class.getSimpleName();
     private String tag_string_req = "string_req";
     Activity thisActivity=this;
-
+    String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +98,8 @@ public class Change_Password extends Activity {
             @Override
             public void onClick(View v) {
 
+                StaticVariables.hideKeyboard(thisActivity);
+
                 password = et.getText().toString();
                 newpassword = et2.getText().toString();
                 confirmpassword = et3.getText().toString();
@@ -132,7 +137,7 @@ public class Change_Password extends Activity {
                             PDialog.show(thisActivity);
                             newpassword = MCrypt.bytesToHex(mcrypt.encrypt(newpassword));
                             password = MCrypt.bytesToHex(mcrypt.encrypt(password));
-                            Toast.makeText(Change_Password.this, R.string.password_match, Toast.LENGTH_LONG).show();
+                          //  Toast.makeText(Change_Password.this, R.string.password_match, Toast.LENGTH_LONG).show();
                             if (StaticVariables.isNetworkConnected(thisActivity)) {
                                 StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "change_password.php",
                                         new Response.Listener<String>() {
@@ -140,9 +145,17 @@ public class Change_Password extends Activity {
                                             public void onResponse(String s) {
                                                 Log.v("response", s);
 
+                                               try {
 
+                                                       JSONObject obj = new JSONObject(s);
+                                                        id = obj.getString("id");
+                                                       String name = obj.getString("name");
+
+                                               }catch (Exception e){
+                                                   e.printStackTrace();
+                                               }
                                                 //Log.d("password response", s);
-                                                updatedislay(s);
+                                                updatedislay(id);
                                                 // PDialog.hide();
                                             }
                                         },
@@ -188,6 +201,7 @@ public class Change_Password extends Activity {
 
 
     public void updatedislay(String res) {
+        PDialog.hide();
         switch (res) {
             case "password updated":
                 dbhelp entry = new dbhelp(Change_Password.this);
@@ -212,10 +226,14 @@ public class Change_Password extends Activity {
                 AlertDialog alert = builder.create();
                 alert.show();
                 break;
+
             case "Passwords does not match":
+                PDialog.hide();
+
                 Toast.makeText(Change_Password.this, R.string.password_online_local_different1, Toast.LENGTH_LONG).show();
                 break;
             case "Email not set":
+                PDialog.hide();
                 Toast.makeText(Change_Password.this, R.string.unknownerror, Toast.LENGTH_LONG).show();
                 break;
             default:
@@ -228,7 +246,8 @@ public class Change_Password extends Activity {
                                 Intent intent = new Intent(Change_Password.this, NavigataionActivity.class);
                                 intent.putExtra("user_id", user_id);
                                 intent.putExtra("email", user_email);
-                                Change_Password.this.finish();
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                                 startActivity(intent);
                                 Change_Password.this.overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
                             }
@@ -245,17 +264,17 @@ public class Change_Password extends Activity {
 
         super.onBackPressed();
         finish();
-        overridePendingTransition(R.anim.left_right, R.anim.right_left);
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+              super.onBackPressed();
                 finish();
-                Intent intent = new Intent(Change_Password.this, NavigataionActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.left_right, R.anim.right_left);
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
                 return true;
             default:
                 return true;

@@ -31,6 +31,11 @@ public class Create_Address_JSONParser {
                 flower.setState(parentObject.getString("state"));
                 flower.setCountry(parentObject.getString("country"));
                 flower.setId(parentObject.getString("id"));
+
+                /*  if (!parentObject.getString("status").equals(null)) {
+                      flower.setStatus(parentObject.getString("status"));
+                  }*/
+
                 //Log.d("success", parentObject.getString("success"));
                 respnse.add(flower);
             }

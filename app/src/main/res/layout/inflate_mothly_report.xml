@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:background="#8f000000"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/monthly_layout"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_marginLeft="3dp"
+            android:gravity="center"
+            android:text="@string/str_January"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+
+        <View android:id="@+id/separator"
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_marginLeft="3dp"
+
+            android:gravity="center"
+            android:text="@string/str_February"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+        <View
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_marginLeft="3dp"
+
+            android:gravity="center"
+            android:text="@string/str_March"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+
+        <View
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:text="@string/str_April"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+        <View
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_marginLeft="3dp"
+
+            android:gravity="center"
+            android:text="@string/str_May"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+
+        <View
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:layout_marginLeft="3dp"
+
+            android:text="@string/str_June"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+        <View
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_marginLeft="3dp"
+
+            android:gravity="center"
+            android:text="@string/str_July"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+        <View
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_marginLeft="3dp"
+
+            android:gravity="center"
+            android:text="@string/str_August"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+        <View
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:text="@string/str_September"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+        <View
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:layout_marginLeft="3dp"
+
+            android:text="@string/str_October"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+        <View
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_marginLeft="3dp"
+
+            android:gravity="center"
+            android:text="@string/str_November"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+        <View
+            android:background="#ffffff"
+            android:layout_width = "fill_parent"
+            android:layout_height="1dip"
+            android:layout_centerVertical ="true"
+            android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:layout_marginLeft="3dp"
+
+            android:gravity="center"
+            android:text="@string/str_December"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/dimen_textSize_16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -51,7 +51,14 @@ public class SplashActivity extends Activity {
                         finish();
                         startActivity(in);
                         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                    } else {
+                    } else if (StaticVariables.database.get(0).getRole_id().equals("3")){
+                        Intent in=new Intent(SplashActivity.this, com.dev.montherland.customers.NavigataionActivity.class);
+                        finish();
+                        startActivity(in);
+                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                    }else
+
+                    {
                         Intent in=new Intent(SplashActivity.this,NavigataionActivity.class);
                         finish();
                         startActivity(in);

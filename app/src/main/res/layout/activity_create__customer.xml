@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView1"
+    style="@style/layout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView1"
+            style="@style/TextviewStyle_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:text="@string/vieweditprofile_name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/title_color" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/viewedit_name_edit"
+                style="@style/EditTextviewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/enter_name"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/spinner2"
+                android:layout_toEndOf="@+id/spinner2">
+                <requestFocus />
+            </EditText>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/contact"
+            style="@style/TextviewStyle_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/customer_website"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/title_color" />
+
+        <EditText
+            android:id="@+id/create_email"
+            style="@style/EditTextviewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/customer_website_hint"
+            android:inputType="textEmailAddress" />
+
+        <TextView
+            android:id="@+id/order"
+            style="@style/TextviewStyle_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_phone_hint"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/title_color" />
+
+        <EditText
+            android:id="@+id/viewedit_phone_edit"
+            style="@style/EditTextviewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="@string/number_only"
+            android:ems="10"
+            android:hint="@string/enter_phone"/>
+
+
+    </LinearLayout>
+</ScrollView>

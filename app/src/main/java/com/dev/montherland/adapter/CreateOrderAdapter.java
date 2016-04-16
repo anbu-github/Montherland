@@ -1,5 +1,6 @@
 package com.dev.montherland.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -95,8 +96,28 @@ public class CreateOrderAdapter extends RecyclerView.Adapter<CreateOrderAdapter.
         viewHolder.spinner.setAdapter(washTypeAdapter);
 
 
-        viewHolder.style.setInputType(InputType.TYPE_CLASS_TEXT);
+    /*    if (viewHolder.style.getText().toString().isEmpty()){
+
+            viewHolder.style.requestFocus();
+        }
+
+      else  if (viewHolder.quantity.getText().toString().isEmpty()){
+
+            viewHolder.quantity.requestFocus();
+        }*/
+
+        viewHolder.style.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+
         viewHolder.garmentType.setText(garment_model.get(position).getGarmentType());
+
+        viewHolder.spinner.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Activity activity=(Activity)context;
+                StaticVariables.hideKeyboard(activity);
+                return false;
+            }
+        });
 
         viewHolder.quantity.addTextChangedListener(new TextWatcher() {
 

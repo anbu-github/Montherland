@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        android:weightSum="1">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,26 +33,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:background="@drawable/layout_border"
+            android:id="@+id/customer_layout"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="25dp"
             android:layout_height="wrap_content">
 
             <Spinner
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
+                android:layout_height="30dp"
                 android:id="@+id/customer_list"
                 android:popupTheme="@style/android:Widget.Holo.Light.PopupMenu"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:layout_marginLeft="5dp"
-                android:layout_below="@+id/textView2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:spinnerMode="dialog" />
-
         </LinearLayout>
 
-            <TextView
+         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/customer_contact"
@@ -71,11 +69,13 @@
             android:layout_marginRight="20dp"
             android:layout_marginLeft="25dp"
             android:layout_height="wrap_content">
+
             <Spinner
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:id="@+id/customer_company_list"
                 android:spinnerMode="dialog"
+
                 android:layout_marginRight="10dp"
                 android:popupTheme="@style/android:Widget.Holo.Light.PopupMenu"
                 android:layout_marginLeft="5dp"
@@ -97,9 +97,6 @@
                 android:layout_marginLeft="20dp" />
 
 
-
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:background="@drawable/layout_border"
@@ -108,7 +105,7 @@
             android:layout_height="wrap_content">
             <Spinner
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:id="@+id/order_type"
                 android:spinnerMode="dialog"
                 android:popupTheme="@style/android:Widget.Holo.Light.PopupMenu"
@@ -147,10 +144,9 @@
                 android:text="DD-MM-YYYY"
                 android:maxLength="10"
                 android:layout_gravity="center"
+                android:inputType="datetime"
                 android:id="@+id/expect_pickup_date"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/textView6"
-                android:layout_alignParentLeft="true"
+                android:padding="6dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="5dp" />
             </LinearLayout>
@@ -171,9 +167,7 @@
                     android:id="@+id/expect_pickup_time"
                     android:text="HH-MM"
                     android:layout_gravity="center"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/textView6"
-                    android:layout_alignParentLeft="true"
+                    android:padding="6dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="5dp" />
             </LinearLayout>
@@ -198,6 +192,7 @@
             android:background="@drawable/layout_border"
             android:layout_marginRight="20dp"
             android:orientation="horizontal"
+            android:id="@+id/delivery_layout"
             android:layout_marginLeft="25dp"
             android:layout_height="wrap_content">
             <LinearLayout
@@ -210,9 +205,7 @@
                     android:maxLength="10"
                     android:layout_gravity="center"
                     android:id="@+id/expect_del_date"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/textView6"
-                    android:layout_alignParentLeft="true"
+                    android:padding="6dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="5dp" />
             </LinearLayout>
@@ -233,31 +226,59 @@
                     android:id="@+id/expect_del_time"
                     android:text="HH-MM"
                     android:layout_gravity="center"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/textView6"
-                    android:layout_alignParentLeft="true"
+                    android:padding="6dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="5dp" />
             </LinearLayout>
 
 
         </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/order_type"
-                android:background="#E1E1E1"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp" />
-        <include
+        <LinearLayout
+            android:layout_width="match_parent"
             android:id="@+id/instr_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentBottom="true"
-            layout="@layout/activity_instruction" />
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/title_bar_color"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:id="@+id/linearLayout3">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Enter Instruction"
+                android:layout_marginLeft="20dp"
+                android:textColor="@android:color/white"
+                android:id="@+id/textView16"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp" />
+        </LinearLayout>
+
+
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="Enter here"
+            android:id="@+id/instruction"
+            android:gravity="top"
+            android:background="@android:color/transparent"
+            android:layout_below="@+id/linearLayout3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp" />
+        </LinearLayout>
+</LinearLayout>
+
 
 
 </ScrollView>

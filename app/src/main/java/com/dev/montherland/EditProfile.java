@@ -7,9 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,11 +42,9 @@ import java.util.Map;
 
 public class EditProfile extends Activity {
 
-
     String name = "", phone = "", address = "", address2 = "", address3 = "", city = "", pincode = "",stateId="";
     EditText nameet, addresset, addresset2, addresset3, cityet, pincodeet, phoneet;
     Button b;
-    ProgressDialog progress;
     List<Profile_Model> feedlist;
     String tag_string_req_category3 = "string_req_warrenty";
     String state_id = "";
@@ -51,10 +52,8 @@ public class EditProfile extends Activity {
     ArrayList<String> myarray2_state = new ArrayList<>();
     Spinner spnr_state;
     List<Response_Model> feedlist_response;
-    private String tag_string_req_send = "string_req_send";
     private String tag_string_req = "string_req";
     List<Database> database;
-    String extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +74,24 @@ public class EditProfile extends Activity {
                 getActionBar().setHomeButtonEnabled(true);
                 getActionBar().setIcon(R.drawable.pf);
             }
+
+
+            nameet.setFilters(new InputFilter[] {
+                    new InputFilter() {
+                        @Override
+                        public CharSequence filter(CharSequence cs, int start,
+                                                   int end, Spanned spanned, int dStart, int dEnd) {
+                            // TODO Auto-generated method stub
+                            if(cs.equals("")){ // for backspace
+                                return cs;
+                            }
+                            if(cs.toString().matches("[a-zA-Z ]+")){
+                                return cs;
+                            }
+                            return "";
+                        }
+                    }
+            });
 
             nameet.setText(getIntent().getExtras().getString("name"));
             addresset.setText(getIntent().getExtras().getString("address1"));
@@ -198,8 +215,8 @@ public class EditProfile extends Activity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        Intent intent = new Intent(EditProfile.this, NavigataionActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        Intent intent = new Intent(EditProfile.this,ViewProfile.class);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
                         intent.putExtra("redirection", "Settings");
                         finish();
@@ -233,15 +250,10 @@ public class EditProfile extends Activity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("email", StaticVariables.database.get(0).getEmail());
-                params.put("id", StaticVariables.database.get(0).getId());    params.put("name", name);
+                params.put("id", StaticVariables.database.get(0).getId());
+                params.put("name", name);
                 params.put("password", StaticVariables.database.get(0).getPassword());
                 params.put("phone", phone);
-                params.put("city", city);
-                params.put("address1", address);
-                params.put("address2", address2);
-                params.put("address3", address3);
-                params.put("pincode", pincode);
-                params.put("state", state_id);
 
                 return params;
             }
@@ -249,6 +261,7 @@ public class EditProfile extends Activity {
         };
         AppController.getInstance().addToRequestQueue(request, tag_string_req);
     }
+
 
     public void save(){
         name = nameet.getText().toString();
@@ -269,7 +282,7 @@ public class EditProfile extends Activity {
         } else if (phone.length() != 10) {
             phoneet.setError(getResources().getString(R.string.correct_limit_contact));
             Toast.makeText(EditProfile.this, R.string.correct_limit_contact, Toast.LENGTH_LONG).show();
-        } else if (address.equals("") || address.isEmpty() || address.trim().isEmpty()) {
+        } /*else if (address.equals("") || address.isEmpty() || address.trim().isEmpty()) {
             addresset.setError(getResources().getString(R.string.correct_address_error));
             Toast.makeText(EditProfile.this, R.string.correct_address_error, Toast.LENGTH_LONG).show();
         } else if (pincode.equals("") || pincode.isEmpty() || pincode.trim().isEmpty()) {
@@ -277,7 +290,7 @@ public class EditProfile extends Activity {
             Toast.makeText(EditProfile.this, R.string.contact_city, Toast.LENGTH_LONG).show();
         } else if (state_id.equals("")) {
             Toast.makeText(EditProfile.this, getResources().getString(R.string.contact_state), Toast.LENGTH_LONG).show();
-        }
+        }*/
         else {
             if (StaticVariables.isNetworkConnected(EditProfile.this)) {
                 PDialog.show(EditProfile.this);
@@ -298,7 +311,9 @@ public class EditProfile extends Activity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+          Intent in=new Intent(EditProfile.this,ViewProfile.class);
+        startActivity(in);
+        finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
@@ -307,14 +322,17 @@ public class EditProfile extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-
-                super.onBackPressed();
+                     Intent in=new Intent(EditProfile.this,ViewProfile.class);
+                startActivity(in);
+                finish();
                     overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
                 return true;
             case R.id.save_button:
 
+                StaticVariables.hideKeyboard(EditProfile.this);
                 save();
+
                 return true;
 
             default:

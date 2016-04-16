@@ -26,6 +26,7 @@ public class Garment_JSONParser1 {
                 flower.setStyleNumber(parentObject.getString("style_number"));
                 flower.setGarmentInstruction(parentObject.getString("instructions"));
                 flower.setExpectedDelivery(parentObject.getString("expected_delivery"));
+                flower.setExpectedDeliveryDate(parentObject.getString("expected_delivery_date"));
                 flower.setStatus(parentObject.getString("status"));
                 //Log.d("success", parentObject.getString("success"));
                 respnse.add(flower);

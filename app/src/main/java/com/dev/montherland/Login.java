@@ -106,6 +106,7 @@ public class Login extends Activity {
 
 
     public void loginRequest() {
+        StaticVariables.hideKeyboard(thisActivity);
         PDialog.show(Login.this);
 
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "login.php",
@@ -186,6 +187,7 @@ public class Login extends Activity {
                                 .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        password.setText("");
                                         dialog.cancel();
                                     }
                                 });
@@ -208,9 +210,15 @@ public class Login extends Activity {
                             Log.d("id database", StaticVariables.database.get(0).getId());
                             Log.d("email database", StaticVariables.database.get(0).getEmail());
 
-                            Intent in=new Intent(thisActivity,NavigataionActivity.class);
-                            startActivity(in);
-                            finish();
+                            if (flower.getRole_id().equals("3")){
+                                Intent in = new Intent(thisActivity, com.dev.montherland.customers.NavigataionActivity.class);
+                                startActivity(in);
+                                finish();
+                            }else {
+                                Intent in = new Intent(thisActivity, NavigataionActivity.class);
+                                startActivity(in);
+                                finish();
+                            }
                         } catch (Exception e) {
                             Log.d("error in database",e+"");
                             e.printStackTrace();

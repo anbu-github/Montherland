@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -50,6 +49,7 @@ public class CreateAddress extends Activity {
     String data_receive = "string_req_recieve", strAddress1, strAddress2, strAddress3, strPincode, strCity, stateId,strState;
     List<Response_Model> feedlist;
     String action="",addressId;
+    String intent_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +59,10 @@ public class CreateAddress extends Activity {
         address1 = (EditText) findViewById(R.id.add1);
         address2 = (EditText) findViewById(R.id.add3);
         address3 = (EditText) findViewById(R.id.address_line3);
-        city = (EditText) findViewById(R.id.state);
+        city = (EditText) findViewById(R.id.add2);
         pincode = (EditText) findViewById(R.id.pincode);
 
+        intent_name=getIntent().getExtras().getString("intent_name");
         stateList.add("Select");
         stateIdList.add("Select");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -74,10 +75,14 @@ public class CreateAddress extends Activity {
         }
 
         try {
-            if (getIntent().getExtras().getString("edit_address").contains("edit_address")){
+            if (intent_name.contains("edit_address")||intent_name.contains("customer_edit_address")){
 
+                StaticVariables.hideKeyboard(thisActivity);
                 getActionBar().setTitle("Edit Address");
-                action="edit_address";
+
+                if (intent_name.contains("edit_address")) {
+                    action = "edit_address";
+                }
 
                 address1.setText(getIntent().getExtras().getString("address1"));
                 address2.setText(getIntent().getExtras().getString("address2"));
@@ -88,6 +93,14 @@ public class CreateAddress extends Activity {
                 strState=getIntent().getExtras().getString("state");
 
             }
+
+            else if (intent_name.contains("customer_address")){
+
+                getActionBar().setTitle("Create Address");
+                action="create_customer_address";
+
+            }
+
 
             dbhelp.DatabaseHelper2 dbhelp = new dbhelp.DatabaseHelper2(thisActivity);
             dbhelp.getReadableDatabase();
@@ -148,11 +161,21 @@ public class CreateAddress extends Activity {
 
         if (strAddress1.equals("")) {
             address1.setError("Please enter the address");
+            address1.requestFocus();
         } else if (strCity.equals("")) {
             city.setError("Please enter the city");
+            city.requestFocus();
         } else if (strPincode.equals("")) {
             pincode.setError("please enter pincode");
-        } else {
+            pincode.requestFocus();
+        } else if (strPincode.length() != 6) {
+            pincode.setError("please enter valid pincode");
+            pincode.requestFocus();
+        }
+        else if (stateSpinner.getSelectedItem().equals("Select")) {
+            Toast.makeText(thisActivity,"please select state",Toast.LENGTH_SHORT).show();
+        }
+        else {
 
             if (StaticVariables.isNetworkConnected(thisActivity)) {
 
@@ -199,7 +222,7 @@ public class CreateAddress extends Activity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         Intent intent = new Intent(thisActivity, SelectAddress.class);
                                         startActivity(intent);
-                                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
 
                                     }
@@ -220,7 +243,7 @@ public class CreateAddress extends Activity {
                     @Override
                     public void onResponse(String response) {
                         PDialog.hide();
-                        Toast.makeText(thisActivity,"address saved",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(thisActivity,"address saved",Toast.LENGTH_SHORT).show();
                         AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
                         builder.setCancelable(false)
                                 .setTitle("Success")
@@ -302,18 +325,32 @@ public class CreateAddress extends Activity {
                     @Override
                     public void onResponse(String response) {
                         PDialog.hide();
-                        Toast.makeText(thisActivity,"address saved",Toast.LENGTH_SHORT).show();
-                        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(new ContextThemeWrapper(thisActivity,R.style.myDialog));
+                       // Toast.makeText(thisActivity,"address saved",Toast.LENGTH_SHORT).show();
+                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(thisActivity);
                         builder.setCancelable(false)
                                 .setTitle("Success")
                                 .setMessage("Address has saved successfully")
                                 .setNegativeButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(thisActivity, SelectAddress.class);
-                                        startActivity(intent);
-                                        finish();
-                                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+                                        if (action.contains("create_customer_address")){
+
+                                            Intent intent1 = new Intent(thisActivity, SelectAddress.class);
+                                            intent1.putExtra("customer_address", "customer_address");
+                                            startActivity(intent1);
+                                            finish();
+                                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                                        }
+                                        else {
+                                            Intent intent = new Intent(thisActivity, SelectAddress.class);
+                                            startActivity(intent);
+                                            finish();
+                                            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                                        }
+
+
 
                                     }
                                 });
@@ -350,7 +387,16 @@ public class CreateAddress extends Activity {
 
                 Map<String, String> params = new HashMap<>();
                 params.put("id", StaticVariables.database.get(0).getId());
-                params.put("customer_id", StaticVariables.customerContact);
+
+                params.put("customer_id", StaticVariables.customerId);
+
+                if(action.contains("create_customer_address")){
+
+                }
+                else {
+                    params.put("customer_contact_id", StaticVariables.customerContact);
+
+                }
                 params.put("email", StaticVariables.database.get(0).getEmail());
                 params.put("address_lin1", strAddress1);
                 params.put("address_lin2", strAddress2);
@@ -440,37 +486,71 @@ public class CreateAddress extends Activity {
 
     public void onBackPressed() {
 
-        if (action.contains("edit_address")){
+         if (StaticVariables.status.contains("Save")){
+            Intent intent = new Intent(thisActivity, SelectAddress.class);
+            intent.putExtra("change_address","change_address");
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+       else if (action.contains("edit_address")){
             Intent intent = new Intent(thisActivity, SelectAddress.class);
             startActivity(intent);
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
-        else {
-            super.onBackPressed();
-            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        else if (action.contains("create_customer_address")){
+
+             Intent intent = new Intent(thisActivity, SelectAddress.class);
+             intent.putExtra("customer_address", "customer_address");
+             startActivity(intent);
+             finish();
+             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
         }
+        else {
+             super.onBackPressed();
+             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (action.contains("edit_address")){
+              if (StaticVariables.status.contains("Save")){
                     Intent intent = new Intent(thisActivity, SelectAddress.class);
+                    intent.putExtra("change_address","change_address");
                     startActivity(intent);
                     finish();
                     overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                }
+            else if (action.contains("edit_address")){
+                Intent intent = new Intent(thisActivity, SelectAddress.class);
+                startActivity(intent);
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            }
 
-                }
-                else {
-                    super.onBackPressed();
-                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                }
+
+              else if (action.contains("create_customer_address")){
+
+                  Intent intent = new Intent(thisActivity, SelectAddress.class);
+                  intent.putExtra("customer_address", "customer_address");
+                  startActivity(intent);
+                  finish();
+                  overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+              }
+              else {
+                  super.onBackPressed();
+                  overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+              }
 
                 return true;
             case R.id.save_button:
 
+                StaticVariables.hideKeyboard(thisActivity);
                 submitAddress();
                 return true;
 

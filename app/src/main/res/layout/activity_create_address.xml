@@ -59,30 +59,6 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:id="@+id/address_line3" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="State*"
-                android:id="@+id/textView51"
-                style="@style/TextviewStyle_space_dark_blue"
-                android:textStyle="bold"
-                android:textColor="@color/title_color" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:background="@drawable/layout_border1"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content">
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:spinnerMode="dialog"
-                    android:gravity="center"
-                    android:layout_marginBottom="5dp"
-                    android:id="@+id/state_spin" />
-
-            </LinearLayout>
 
 
             <LinearLayout
@@ -108,7 +84,7 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/state"
+                        android:id="@+id/add2"
                         android:layout_below="@+id/textView49"
                         android:layout_alignParentLeft="true"
                         android:singleLine="true"
@@ -120,10 +96,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1.1">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:text="PinCode*"
                         android:textStyle="bold"
@@ -142,12 +118,37 @@
                         android:id="@+id/pincode"
                         android:maxLength="6"
                         android:inputType="number"
-                        android:layout_alignBottom="@+id/state"
+                        android:layout_alignBottom="@+id/add2"
                         android:layout_alignLeft="@+id/textView49"
                         android:layout_alignStart="@+id/textView49" />
 
                 </LinearLayout>
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="State*"
+                android:id="@+id/textView51"
+                style="@style/TextviewStyle_space_dark_blue"
+                android:textStyle="bold"
+                android:textColor="@color/title_color" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@drawable/layout_border1"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content">
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:id="@+id/state_spin" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>

@@ -5,12 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +27,7 @@ import org.json.JSONArray;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +45,8 @@ public class OrderConfirmDetails extends Activity {
 
     DateFormat df = new SimpleDateFormat("dd-MM-yyyy HH-mm");
     DateFormat df1 = new SimpleDateFormat("dd-MM-yyyy HH-mm");
+    DateFormat df3 = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+    DateFormat df2 = new SimpleDateFormat("dd MMM yyyy hh:mm a");
 
     String myFormat1 = "yyyy-MM-dd HH:mm:ss";
     SimpleDateFormat sdf1 = new SimpleDateFormat(myFormat1);
@@ -60,9 +60,9 @@ public class OrderConfirmDetails extends Activity {
         setContentView(R.layout.confirm_details);
 
         tv_address1 = (TextView) findViewById(R.id.add1);
-        tv_address2 = (TextView) findViewById(R.id.add2);
+        tv_address2 = (TextView) findViewById(R.id.state);
         tv_address3 = (TextView) findViewById(R.id.add3);
-        tv_state = (TextView) findViewById(R.id.state);
+        tv_state = (TextView) findViewById(R.id.add2);
         tv_city = (TextView) findViewById(R.id.city);
         tv_zipcode = (TextView) findViewById(R.id.zipcode);
         str_instr = (TextView) findViewById(R.id.instr);
@@ -112,7 +112,8 @@ public class OrderConfirmDetails extends Activity {
         tv_zipcode.setText(zipcode);
 
         pTime=StaticVariables.pickupDate+" "+StaticVariables.pickupTime;
-        pickup_date.setText(pTime);
+     //   pickup_date.setText(pTime);
+
 
 
         Log.v("expected_pickup", StaticVariables.pickedDateTIme);
@@ -123,15 +124,31 @@ public class OrderConfirmDetails extends Activity {
 
         dTIme=StaticVariables.deliveryDate+" "+StaticVariables.deliveryTime;
         Log.v("dtime",dTIme);
-        delivery.setText(dTIme);
+      //  delivery.setText(dTIme);
 
 
+        try {
+
+            Date pdate = df3.parse(pTime);
+            //pickupCalendar.setTime(df.parse(pTime));
+            String getPdate=df2.format(pdate);
+            pickup_date.setText(getPdate);
+
+            Date ddate=df3.parse(dTIme);
+            String getDdate=df2.format(ddate);
+            delivery.setText(getDdate);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+/*
         Integer total = 0;
         for (int i = 0; i <= StaticVariables.garmentTypeList.size() - 1; i++) {
             total = total + Integer.parseInt(StaticVariables.editQuantityList.get(i));
         }
 
-        total_item.setText(String.valueOf(total));
+        total_item.setText(String.valueOf(total));*/
 
         listview.setAdapter(new OrderConfirmDetailsAdapter(thisActivity));
         Log.v("no of item", StaticVariables.garmentTypeList.size() + "");
@@ -177,7 +194,7 @@ public class OrderConfirmDetails extends Activity {
                     public void onResponse(String response) {
                         PDialog.hide();
                         Log.v("response", response);
-                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(thisActivity,R.style.myDialog));
+                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(thisActivity);
                         builder.setCancelable(false)
                                 .setTitle("Success")
                                 .setMessage("Order has been placed successfully")
@@ -186,7 +203,7 @@ public class OrderConfirmDetails extends Activity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         StaticVariables.selectAddress="";
                                         Intent intent = new Intent(thisActivity, NavigataionActivity.class);
-                                        intent.putExtra("redirection","Order");
+                                        intent.putExtra("redirection","Orders");
                                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
                                         finish();
@@ -303,12 +320,12 @@ public class OrderConfirmDetails extends Activity {
         }
     }
 
+
+    @Override
     public void onBackPressed() {
-
         super.onBackPressed();
-        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         finish();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
-        overridePendingTransition(R.anim.left_right, R.anim.right_left);
     }
 }

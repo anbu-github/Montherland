@@ -22,7 +22,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="7dp"
             android:layout_marginLeft="5dp" />
 
         <TextView
@@ -69,38 +69,68 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="15dp" />
+<LinearLayout
+    android:layout_width="50dp"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="false"
+    android:gravity="center"
+    android:onClick="edit_contact"
+    android:id="@+id/edit_customer_layout"
+    android:layout_height="50dp"
+    android:layout_above="@+id/website">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_customer"
+            android:onClick="edit_contact"
+            android:src="@android:drawable/ic_menu_edit" />
+</LinearLayout>
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/imageView3"
-            android:background="#d5d6d9"
-            android:id="@+id/view23" />
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/rl"
-            android:layout_below="@+id/view23"
-            android:background="@color/title_bar_color"
-            android:layout_height="30dp">
-
-
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Orders"
-                android:textSize="20sp"
-
-                android:id="@+id/textView10"
+                android:textSize="17sp"
+                android:layout_marginTop="15dp"
+                android:textColor="#727272"
+                android:onClick="orders"
+                android:layout_below="@+id/imageView3"
+                android:id="@+id/order"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
-        </RelativeLayout>
 
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Contacts"
+                android:textSize="17sp"
+                android:onClick="contacts"
+                android:textColor="#727272"
+                android:layout_below="@+id/order"
+
+                android:id="@+id/contact"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+
+
+
+
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Addresses"
+                android:textSize="17sp"
+                android:textColor="#727272"
+                android:layout_below="@+id/contact"
+                android:onClick="customerAddress"
+                android:id="@+id/address"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
 
 
     </RelativeLayout>
@@ -111,6 +141,7 @@
         android:id="@+id/rv"
         android:layout_below="@+id/re_layout"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="match_parent" />
 
 

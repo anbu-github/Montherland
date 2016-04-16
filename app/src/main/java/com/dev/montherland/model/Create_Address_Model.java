@@ -17,6 +17,27 @@ public class Create_Address_Model {
     String date;
     String customerContact;
 
+    public String getStateid() {
+        return stateid;
+    }
+
+    public void setStateid(String stateid) {
+        this.stateid = stateid;
+    }
+
+    String stateid;
+    Boolean isChecked=false;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    String status;
+
     public Boolean getIsChecked() {
         return isChecked;
     }
@@ -25,7 +46,7 @@ public class Create_Address_Model {
         this.isChecked = isChecked;
     }
 
-    Boolean isChecked;
+
 
     public String getCustomerContact() {
         return customerContact;

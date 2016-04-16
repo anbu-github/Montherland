@@ -3,6 +3,7 @@ package com.dev.montherland.util;
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -36,13 +37,23 @@ public class StaticVariables {
     public static String deliveryDateTIme="";     //create purchase order spinner customerContact
     public static String deliveryDefultDate="";     //create purchase order spinner customerContact
     public static String pickupDefaultDate="";     //create purchase order spinner customerContact
-    public static String purchaseOrderType="";     //create purchase order spinner customerContact
+    public static String address_id="";     //create purchase order spinner customerContact
     public static String addressId="";     //create purchase order spinner customerContact
     public static String status="";     //create purchase order spinner customerContact
     public static String selectAddress="";     //create purchase order spinner customerContact
+    public static String delDate="";     //create purchase order spinner customerContact
     public static String deliveryTime="";     //create purchase order spinner customerContact
     public static String pickupTime="";     //create purchase order spinner customerContact
-   public static Boolean isSelected;
+    public static Integer quantityPos=-1;     //create purchase order spinner customerContact
+    public static Integer stylePos=-1;     //create purchase order spinner customerContact
+    public static Boolean isSelected=false;
+    public static Bundle bundle;
+    public static String mode="";
+    public static String mode1="";
+    public static String cus_id="";
+    public  static   ArrayList<String> addressIdList=new ArrayList<>();
+
+
     //create order adapter
     public static ArrayList<String> editQuantityList = new ArrayList<>();
     public static ArrayList<String> garmentTypeList = new ArrayList<>();
@@ -53,6 +64,7 @@ public class StaticVariables {
     public static ArrayList<String> garmentWashtype = new ArrayList<>();
     public static ArrayList<String> garmentWashTypeId = new ArrayList<>();
     public static ArrayList<String> garmentInstr = new ArrayList<>();
+    public static ArrayList<String> customerList = new ArrayList<>();
 
     // Order Details
     public static String order_id = "";
@@ -74,6 +86,8 @@ public class StaticVariables {
 
         return true;
     }
+
+
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.

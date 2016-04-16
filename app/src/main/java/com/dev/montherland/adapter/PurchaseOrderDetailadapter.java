@@ -1,5 +1,6 @@
 package com.dev.montherland.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -8,12 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.montherland.EditOrderDetails;
+import com.dev.montherland.History_Orders_Details;
 import com.dev.montherland.R;
 import com.dev.montherland.model.GarmentListModel1;
+import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
 import java.text.DateFormat;
@@ -70,10 +75,7 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,""+person.get(position).getId(),Toast.LENGTH_SHORT).show();
-                Intent in=new Intent(context, EditOrderDetails.class);
-                in.putExtra("id",person.get(position).getId());
-                context.startActivity(in);
+               // Toast.makeText(context,""+person.get(position).getId(),Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -86,11 +88,62 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
             holder.wash_type = (TextView) convertView.findViewById(R.id.wash_type);
             holder.style = (TextView) convertView.findViewById(R.id.style);
             holder.date = (TextView) convertView.findViewById(R.id.date);
+            holder.edit=(ImageView)convertView.findViewById(R.id.edit);
+            holder.itemImage=(ImageView)convertView.findViewById(R.id.imageView);
+
+        if (person.get(position).getStatus().equals("Delivered")){
+            holder.edit.setVisibility(View.GONE
+            );
+        }
+
+           holder.edit.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   if (StaticVariables.mode.equals("order_history")) {
+                       Intent in = new Intent(context, History_Orders_Details.class);
+                       in.putExtra("id", person.get(position).getId());
+                       in.putExtra("item", person.get(position).getGarmentName());
+                       if (StaticVariables.mode1.contains("customer_order")){
+                           in.putExtra("intent_to","customer_order");
+                       }
+                       context.startActivity(in);
+                       Activity activity = (Activity) context;
+                       activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                   }
+                   else {
+                       Intent in = new Intent(context, EditOrderDetails.class);
+                       if (StaticVariables.mode1.contains("customer_order")){
+                           in.putExtra("intent_from","customer_order");
+                       }
+                       in.putExtra("id", person.get(position).getId());
+                       context.startActivity(in);
+                       Activity activity = (Activity) context;
+                       activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                   }
+               }
+           });
+
             holder.quantity.setText(person.get(position).getGarmentQuantity());
             holder.garment_type.setText(person.get(position).getGarmentName());
            // holder.wash_type.setText(person.get(position).getWashType());
             holder.style.setText(person.get(position).getStyleNumber());
             holder.wash.setText(person.get(position).getStatus());
+
+        if (StaticVariables.mode.equals("order_history")){
+            holder.edit.setVisibility(View.VISIBLE);
+            holder.edit.setImageResource(R.drawable.order_history);
+        }
+
+        if (person.get(position).getGarmentName().contains("Shirts")){
+
+            holder.itemImage.setImageResource(R.drawable.item_shirts);
+        }
+        if (person.get(position).getGarmentName().contains("Jeans")){
+            holder.itemImage.setImageResource(R.drawable.item_jeans);
+        }
+        if (person.get(position).getGarmentName().contains("Pants")){
+            holder.itemImage.setImageResource(R.drawable.item_pants);
+        }
 
         if (person.get(position).getWashType().contains("null")){
             holder.wash_type.setText("");
@@ -125,8 +178,15 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
             {
                 holder.date.setText(person.get(position).getExpectedDelivery());
             }
-            holder.garment_instruction.setText(person.get(position).getGarmentInstruction());
 
+           if (person.get(position).getGarmentInstruction().equals("")||person.get(position).getGarmentInstruction().isEmpty()){
+
+               holder.garment_instruction.setVisibility(View.GONE);
+           }else {
+               holder.garment_instruction.setText(person.get(position).getGarmentInstruction());
+           }
+
+        PDialog.hide();
 
         return convertView;
     }
@@ -144,6 +204,8 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
 
     private class ViewHolder {
         TextView quantity,garment_type,wash,wash_type,style,date,garment_instruction;
+        ImageView edit,itemImage;
+
     }
 
 }

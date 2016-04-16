@@ -1,8 +1,8 @@
 package com.dev.montherland;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -77,7 +77,7 @@ public class PurchaseOrderFragment extends Fragment {
     }
 
     public void getPurchaseOrderLIst() {
-        PDialog.show(getActivity());
+       // PDialog.show(getActivity());
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "master_purchase_order.php",
                 new Response.Listener<String>() {
                     @Override

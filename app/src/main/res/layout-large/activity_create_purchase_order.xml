@@ -37,6 +37,7 @@
             android:background="@drawable/layout_border"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="25dp"
+            android:id="@+id/customer_layout"
             android:layout_height="wrap_content">
 
             <Spinner

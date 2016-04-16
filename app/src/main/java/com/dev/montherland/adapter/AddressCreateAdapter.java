@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,16 +22,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.AppController;
 import com.dev.montherland.CreateAddress;
-import com.dev.montherland.NavigataionActivity;
 import com.dev.montherland.OrderConfirmDetails;
 import com.dev.montherland.PurchaseOrderDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.SelectAddress;
 import com.dev.montherland.model.Address_Model;
 import com.dev.montherland.model.Create_Address_Model;
-import com.dev.montherland.model.Response_Model;
-import com.dev.montherland.parsers.Create_Address_JSONParser;
-import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
@@ -99,7 +93,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                     public void onResponse(String response) {
                         PDialog.hide();
                         Log.v("response", response + "");
-                        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,R.style.myDialog));
+                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mContext);
                         builder.setCancelable(false)
                                 .setTitle("Success")
                                 .setMessage("Successfully Address Changed")
@@ -107,8 +101,14 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         StaticVariables.cbpos=-1;
+                                        StaticVariables.address_id="";
                                         Intent intent = new Intent(mContext, PurchaseOrderDetails.class);
+                                        if (StaticVariables.mode1.contains("customer_order")){
+                                            intent.putExtra("intent_from","customer_order");
+                                        }
                                         mContext.startActivity(intent);
+                                        Activity activity=(Activity)mContext;
+                                        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                                         ((Activity)mContext).finish();
 
                                     }
@@ -179,7 +179,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                                 if (ER.contains("Error")){
                                   Toast.makeText(mContext," As this Address has been assigned to one of the orders,unable to delete ",Toast.LENGTH_SHORT).show();
                                 }else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(mContext);
                                     builder.setCancelable(false)
                                             .setTitle("Success")
                                             .setMessage("Successfully Deleted")
@@ -189,6 +189,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
 
                                                     Intent intent = new Intent(mContext, SelectAddress.class);
                                                     mContext.startActivity(intent);
+                                                    ((Activity)mContext).finish();
 
                                                 }
                                             });
@@ -234,7 +235,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         PDialog.hide();
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_address_adpter, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_address_adapter2, parent, false);
         MyViewHolder myViewHolder = new MyViewHolder(v);
         return myViewHolder;
     }
@@ -249,7 +250,29 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
         city = persons.get(position).getCity();
         state= persons.get(position).getState();
         zipcode=persons.get(position).getZipcode();
-        holder.address1.setText(address1);
+
+        if (address1.equals("")||address1.isEmpty()||address1.equals(null)){
+            holder.address1.setVisibility(View.GONE);
+        }else {
+            holder.address1.setVisibility(View.VISIBLE);
+            holder.address1.setText(address1);
+        }
+
+        if (address2.equals("")||address2.isEmpty()||address2.equals(null)){
+
+            holder.address2.setVisibility(View.VISIBLE);
+            holder.address2.setVisibility(View.GONE);
+        }else {
+            holder.address2.setText(address2);
+        }
+
+        if (address3.equals("")||address3.isEmpty()||address3.equals(null)){
+            holder.address3.setVisibility(View.GONE);
+        }else {
+            holder.address3.setVisibility(View.VISIBLE);
+            holder.address3.setText(address3);
+        }
+
         holder.address2.setText(address2);
         holder.address3.setText(address3);
         holder.city.setText(city);
@@ -257,13 +280,15 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
         holder.state.setText(state);
 
 
+
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, CreateAddress.class);
-                cbPos=position;
+                Intent intent = new Intent(mContext, CreateAddress.class);
+                cbPos = position;
                 try {
-                    intent.putExtra("edit_address", "edit_address");
+                    intent.putExtra("intent_name", "edit_address");
+
                     intent.putExtra("address1", persons.get(cbPos).getAddressline1());
                     intent.putExtra("address2", persons.get(cbPos).getAddressline2());
                     intent.putExtra("address3", persons.get(cbPos).getAddressline3());
@@ -272,10 +297,12 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                     intent.putExtra("zipcode", persons.get(cbPos).getZipcode());
                     intent.putExtra("address_id", persons.get(cbPos).getId());
                     Log.v("add1", persons.get(cbPos).getAddressline1());
-                    StaticVariables.addressId=persons.get(position).getId();
+                    StaticVariables.addressId = persons.get(position).getId();
 
                     mContext.startActivity(intent);
-                    ((Activity)mContext).finish();
+                    Activity activity=(Activity)mContext;
+                    activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                    ((Activity) mContext).finish();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -284,43 +311,27 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
             }
         });
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selctedPos = position;
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setCancelable(false)
-                        .setTitle("Delete Address")
-                        .setMessage("Are you sure want to delete this address?")
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                deleteAddressRequest();
-
-
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-
-                            }
-                        });
-                builder.show();
-            }
-        });
 
         holder.cb.setTag(new Integer(position));
         mCheckBoxes.add(holder.cb);
 
+        if (StaticVariables.address_id.equals("")){
+            if (position==0){
+                holder.cb.setChecked(true);
+                StaticVariables.cbpos=0;
+            }
+        }
+       else if (StaticVariables.address_id.equals(persons.get(position).getId())){
+
+            holder.cb.setChecked(true);
+            StaticVariables.cbpos=position;
+        }
+
+       else
+
         holder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
 
             }
         });
@@ -349,6 +360,8 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
                 else
                 {
                     selected_position=-1;
+                    StaticVariables.cbpos=-1;
+
                 }
             }
 
@@ -392,7 +405,7 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
         TextView address1,address2,address3,mcity,zipcode,state;
         CheckBox cb;
         TextView city;
-        ImageView delete,edit;
+        ImageView edit;
 
         public MyViewHolder(View itemView){
             super(itemView);
@@ -404,7 +417,6 @@ public class AddressCreateAdapter extends RecyclerView.Adapter<AddressCreateAdap
             state = (TextView)itemView.findViewById(R.id.state);
             zipcode = (TextView)itemView.findViewById(R.id.zipcode);
             cb = (CheckBox)itemView.findViewById(R.id.checkBox);
-            delete=(ImageView)itemView.findViewById(R.id.delete);
             edit=(ImageView)itemView.findViewById(R.id.edit);
         }
     }

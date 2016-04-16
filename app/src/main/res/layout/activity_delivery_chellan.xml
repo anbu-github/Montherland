@@ -16,7 +16,7 @@
             style="@style/TextviewStyle_space_blue"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Estimated Delivery Date"
-            android:id="@+id/textView11" />
+            android:id="@+id/contact" />
 
         <LinearLayout
             android:orientation="horizontal"
