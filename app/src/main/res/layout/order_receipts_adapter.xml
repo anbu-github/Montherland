@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/tshirt"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="1dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Jeans"
+            android:textStyle="bold"
+            android:id="@+id/garment_type"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView" />
+
+
+
+
+        <EditText
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="Quantity"
+            android:id="@+id/quantity"
+            android:inputType="number"
+            android:layout_marginLeft="26dp"
+            android:visibility="invisible"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="3dp"
+            android:layout_above="@+id/wash_type"
+            android:layout_toRightOf="@+id/textView37"
+            android:layout_toEndOf="@+id/textView37" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="0"
+            android:id="@+id/received_qty"
+            android:layout_below="@+id/date"
+            android:layout_alignLeft="@+id/date"
+            android:layout_alignStart="@+id/date"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Style "
+            android:id="@+id/styleno"
+            android:textColor="#000000"
+            android:layout_below="@+id/textView36"
+            android:layout_alignLeft="@+id/textView36"
+            android:layout_alignStart="@+id/textView36"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Date"
+            android:textSize="15dp"
+            android:id="@+id/date"
+            android:layout_alignBottom="@+id/textView37"
+            android:layout_alignLeft="@+id/style"
+            android:layout_alignStart="@+id/style"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="wash type"
+            android:maxLength="12"
+            android:id="@+id/wash_type"
+            android:layout_alignTop="@+id/textView36"
+            android:layout_alignLeft="@+id/quantity"
+            android:layout_alignStart="@+id/quantity"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ins"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone"
+            android:id="@+id/instruction"
+            android:layout_below="@+id/textView42"
+            android:layout_alignLeft="@+id/textView42"
+            android:layout_alignStart="@+id/textView42" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="No"
+            android:id="@+id/style"
+            android:layout_below="@+id/wash_type"
+            android:layout_alignLeft="@+id/wash_type"
+            android:layout_alignStart="@+id/wash_type"
+            android:layout_marginTop="4dp" />
+
+
+
+
+
+
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Wash type"
+            android:id="@+id/textView36"
+            android:layout_below="@+id/garment_type"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_marginTop="4dp"
+            android:textColor="#000000"
+            android:layout_alignRight="@+id/textView41"
+            android:layout_alignEnd="@+id/textView41" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Exp Delivery Date"
+            android:id="@+id/textView37"
+            android:textColor="#000000"
+            android:layout_below="@+id/styleno"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Received Qty"
+            android:id="@+id/textView38"
+            android:textColor="#000000"
+            android:layout_below="@+id/textView37"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="DC number"
+            android:id="@+id/textView41"
+            android:textColor="#000000"
+            android:layout_below="@+id/textView38"
+            android:layout_alignLeft="@+id/textView38"
+            android:layout_alignStart="@+id/textView38"
+            android:layout_marginTop="4dp" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Receive the order"
+            android:id="@+id/order_button"
+
+            android:padding="10dp"
+            android:layout_below="@+id/total_quantity"
+            android:layout_alignLeft="@+id/total_quantity"
+            android:layout_alignStart="@+id/total_quantity"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Quantity"
+            android:id="@+id/textView42"
+            android:textColor="#000000"
+            android:layout_below="@+id/textView41"
+            android:layout_alignLeft="@+id/textView41"
+            android:layout_alignStart="@+id/textView41"
+            android:layout_marginTop="5dp" />
+
+        <EditText
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="DC Number"
+            android:id="@+id/dc_number"
+            android:inputType="number"
+            android:layout_below="@+id/received_qty"
+            android:layout_alignLeft="@+id/received_qty"
+            android:layout_alignStart="@+id/received_qty" />
+
+        <EditText
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="Quantity"
+            android:visibility="invisible"
+            android:id="@+id/manual_dc_number"
+            android:layout_alignBottom="@+id/order_button"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView" />
+
+        <EditText
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:hint="Quantity"
+            android:id="@+id/total_quantity"
+            android:inputType="number"
+            android:layout_below="@+id/textView41"
+            android:layout_alignLeft="@+id/dc_number"
+            android:layout_alignStart="@+id/dc_number"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="2dp" />
+
+    </RelativeLayout>
+</LinearLayout>

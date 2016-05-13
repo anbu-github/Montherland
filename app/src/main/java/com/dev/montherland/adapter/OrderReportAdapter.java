@@ -10,9 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dev.montherland.R;
+import com.dev.montherland.model.Customer_Report_Model;
 import com.dev.montherland.util.StaticVariables;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pf-05 on 4/12/2016.
@@ -22,16 +24,20 @@ public class OrderReportAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private int count;
+    private List<Customer_Report_Model> persons;
+
     private ArrayAdapter<String> adapter;
     ArrayList<String> editQuantityList = new ArrayList<>();
     ArrayList<String> editQuantityList1 = new ArrayList<>();
-    public  OrderReportAdapter(Context context) {
+    public  OrderReportAdapter(Context context,List<Customer_Report_Model> persons) {
         this.context = context;
+        this.persons=persons;
+        this.layoutInflater = LayoutInflater.from(context);
 
     }
     @Override
     public int getCount() {
-        return StaticVariables.customerList.size();
+        return persons.size();
     }
 
     @Override
@@ -48,22 +54,28 @@ public class OrderReportAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         // if (convertView == null) {
         final ViewHolder holder;
-        convertView = layoutInflater.inflate(R.layout.order_report_adapter, null);
+        convertView = layoutInflater.inflate(R.layout.inflate_customer_report, null);
             /*ViewHolder viewHolder = new ViewHolder(convertView);
 
             convertView.setTag(viewHolder);
 */
         holder = new ViewHolder();
 
-       /* try {
-            holder.text = (TextView) convertView.findViewById(R.id.text);
+        holder.customer=(TextView)convertView.findViewById(R.id.customer);
+        holder.total_orders=(TextView)convertView.findViewById(R.id.total_orders);
+        holder.inprogress_orders=(TextView)convertView.findViewById(R.id.inprogress_orders);
+        holder.completed_orders=(TextView)convertView.findViewById(R.id.completed_orders);
 
-            holder.text.setText(StaticVariables.customerList.get(position).toString());
-        }
-        catch (Exception e){
+        try {
+
+
+            holder.customer.setText(persons.get(position).getName());
+            holder.total_orders.setText(persons.get(position).getTotal_orders());
+            holder.inprogress_orders.setText(persons.get(position).getInprogress_orders());
+            holder.completed_orders.setText(persons.get(position).getCompleted_orders());
+        }catch (Exception e){
             e.printStackTrace();
         }
-*/
         return convertView;
     }
 
@@ -79,7 +91,7 @@ public class OrderReportAdapter extends BaseAdapter {
      */
 
     private class ViewHolder {
-        TextView text;
+        TextView customer,total_orders,inprogress_orders,completed_orders;
     }
 
 

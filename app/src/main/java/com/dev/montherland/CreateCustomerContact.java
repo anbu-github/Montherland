@@ -86,7 +86,7 @@ public class CreateCustomerContact extends Activity {
         try {
 
         if (getIntent().getExtras().getString("intent_from").equals("edit_contact")) {
-            menuTitle = "Edit_Customer";
+            menuTitle = "Edit_Contact";
             getActionBar().setTitle("Edit Customer");
             name=getIntent().getExtras().getString("name");
             email=getIntent().getExtras().getString("email");
@@ -140,8 +140,12 @@ public class CreateCustomerContact extends Activity {
 
 
         if (StaticVariables.isNetworkConnected(thisActivity)) {
-            titleList();
+            titleList();                    }
+        else {
+            Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
     public void save() {
@@ -167,8 +171,12 @@ public class CreateCustomerContact extends Activity {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_limit_contact), Toast.LENGTH_SHORT).show();
         }
         else {
+            if (StaticVariables.isNetworkConnected(thisActivity)) {
+                createContact();
+            } else {
+                Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+            }
 
-            createContact();
         }
 
 
@@ -233,11 +241,7 @@ public class CreateCustomerContact extends Activity {
         } else if (mobile.equals("") || mobile.isEmpty()) {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_mobile), Toast.LENGTH_SHORT).show();
 
-        } else if (mobile.length() != 10) {
-            Toast.makeText(thisActivity, getResources().getString(R.string.correct_limit_contact), Toast.LENGTH_SHORT).show();
         } else {
-
-
             PDialog.show(thisActivity);
             StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "company_customer_edit.php",
                     new Response.Listener<String>() {
@@ -431,7 +435,13 @@ public class CreateCustomerContact extends Activity {
                 if (menuTitle.contains("Create_Contact")) {
                     save();
                 }else {
-                    editContact();
+                    if (StaticVariables.isNetworkConnected(thisActivity)) {
+                        editContact();                    }
+                    else {
+                        Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                    }
+
+
                 }
 
                 return true;

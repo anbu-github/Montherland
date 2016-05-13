@@ -87,7 +87,7 @@ public class EditOrderDetails extends Activity {
 
         order_type=(Spinner)findViewById(R.id.order_type);
         status=(Spinner)findViewById(R.id.status);
-        quantity=(EditText)findViewById(R.id.quantity);
+        quantity=(EditText)findViewById(R.id.dc_number);
         instr=(EditText)findViewById(R.id.instr);
         style=(EditText)findViewById(R.id.style);
         item=(TextView)findViewById(R.id.item);
@@ -414,7 +414,15 @@ public class EditOrderDetails extends Activity {
 
     public void update_display2() {
         if(!wash_test .equals("") && !status_test.equals("")) {
-            getPurchseOrder();
+
+            if (StaticVariables.isNetworkConnected(thisActivity)) {
+                getPurchseOrder();
+            }
+            else {
+                Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+            }
+
+
         }
     }
 
@@ -596,8 +604,13 @@ public class EditOrderDetails extends Activity {
 
     public void goBack(){
         Intent in = new Intent(thisActivity, PurchaseOrderDetails.class);
-        if (intent_from.contains("customer_order")){
-            in.putExtra("intent_from","customer_order");
+
+        try {
+            if (intent_from.contains("customer_order")) {
+                in.putExtra("intent_from", "customer_order");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         startActivity(in);
         finish();

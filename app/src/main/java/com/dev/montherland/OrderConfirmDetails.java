@@ -75,7 +75,7 @@ public class OrderConfirmDetails extends Activity {
         edit_order = (TextView) findViewById(R.id.edit_order);
 
 
-        customer_contact = (TextView) findViewById(R.id.quantity);
+        customer_contact = (TextView) findViewById(R.id.dc_number);
         // total_item = (TextView) findViewById(R.id.total_item_no);
         listview = (com.dev.montherland.adapter.ExpandableListView) findViewById(R.id.listView);
 

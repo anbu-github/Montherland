@@ -25,6 +25,7 @@
             style="@style/EditTextviewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:digits="name"
             android:ems="10"
             android:hint="@string/vieweditprofile_name_hint1">
 

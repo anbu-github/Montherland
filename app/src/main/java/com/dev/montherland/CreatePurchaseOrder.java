@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -57,10 +58,12 @@ public class CreatePurchaseOrder extends Activity {
     ArrayList<String> orderTypeList = new ArrayList<>();
     ArrayList<String> orderTypeIdList = new ArrayList<>();
     ArrayList<String> washTypeList = new ArrayList<>();
+    ArrayList<String> serviceTypeList = new ArrayList<>();
+    ArrayList<String> serviceTypeIdList = new ArrayList<>();
     static final int SHOW_DATE_PICKER_DIALOG = 1;
-    Spinner customerList, Companylist, orderType;
+    Spinner customerList, Companylist, orderType,ServiceType;
 
-    ArrayAdapter<String> dataAdapter, dataAdapter2, orderTypeAdapter, dataAdapter4, washTypeAdapter;
+    ArrayAdapter<String> dataAdapter, dataAdapter2, orderTypeAdapter, dataAdapter4, washTypeAdapter,serviceTypeAdapter;
 
     String companyId, customerId, companyName, customerName, order_type, menuTitle="", order_id, statusId;
     DatePickerDialog.OnDateSetListener date, pickup_date;
@@ -90,6 +93,7 @@ public class CreatePurchaseOrder extends Activity {
         customerList = (Spinner) findViewById(R.id.customer_company_list);
         Companylist = (Spinner) findViewById(R.id.customer_list);
         orderType = (Spinner) findViewById(R.id.order_type);
+        ServiceType = (Spinner) findViewById(R.id.service_type);
         Companylist.requestFocus();
         pickupDate = (TextView) findViewById(R.id.expect_pickup_date);
         pickupTime = (TextView) findViewById(R.id.expect_pickup_time);
@@ -120,16 +124,12 @@ public class CreatePurchaseOrder extends Activity {
         linearLayout.setVisibility(View.INVISIBLE);
 
 
-
-
         try {
             intent_from=getIntent().getExtras().getString("intent_from");
         }catch (Exception e){
             e.printStackTrace();
 
         }
-
-
 
         try {
             if (!(getIntent().getExtras().getString("order_details") == null)) {
@@ -158,7 +158,7 @@ public class CreatePurchaseOrder extends Activity {
             // PDialog.show(thisActivity);
             getCompanyList();
             getOrderTypeList();
-
+            getServiceList();
 
         } else {
             Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_access), Toast.LENGTH_LONG).show();
@@ -307,6 +307,21 @@ public class CreatePurchaseOrder extends Activity {
         washTypeAdapter = new ArrayAdapter<>(thisActivity,
                 android.R.layout.simple_spinner_item, washTypeList);
         washTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        serviceTypeAdapter = new ArrayAdapter<>(thisActivity,
+                android.R.layout.simple_spinner_item, serviceTypeList);
+        serviceTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        customerList.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (customerLIst.size()==1){
+                    Toast.makeText(thisActivity,getResources().getString(R.string.no_contacts_found),Toast.LENGTH_LONG).show();
+                }
+
+                return false;
+            }
+        });
 
         customerList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -458,8 +473,6 @@ public class CreatePurchaseOrder extends Activity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //
-
                         // PDialog.hide();
                         Log.v("response", response + "");
                         try {
@@ -523,8 +536,6 @@ public class CreatePurchaseOrder extends Activity {
                                     pickupTime.setText(pickTime);
                                     pickupDate.setText(pickup_date);
 
-
-
                                 }
                             }
 
@@ -559,6 +570,62 @@ public class CreatePurchaseOrder extends Activity {
         Log.v("request", request + "");
     }
 
+    public void getServiceList() {
+
+        //PDialog.show(thisActivity);
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "service_type_list.php?",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // PDialog.hide();
+                        Log.v("response", response + "");
+                        try {
+                            JSONArray ar = new JSONArray(response);
+
+                            serviceTypeList.clear();
+                            serviceTypeIdList.clear();
+
+                            serviceTypeList.add("Select");
+                            serviceTypeIdList.add("Select");
+
+                            for (int i = 0; i < ar.length(); i++) {
+                                JSONObject parentObject = ar.getJSONObject(i);
+                                if (!parentObject.getString("name").equals("NO Data")) {
+                                    serviceTypeList.add(parentObject.getString("name"));
+                                    serviceTypeIdList.add(parentObject.getString("id"));
+                                    Log.v("name", parentObject.getString("name"));
+                                }
+
+                            }
+                            ServiceType.setAdapter(serviceTypeAdapter);
+
+
+                        } catch (Exception e) {
+                            // PDialog.hide();
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError arg0) {
+                        //  PDialog.hide();
+
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(request, data_receive);
+        Log.v("request", request + "");
+    }
 
     public void getCustomerList() {
 
@@ -591,9 +658,20 @@ public class CreatePurchaseOrder extends Activity {
                                     customerIdList.add(parentObject.getString("id"));
                                     StaticVariables.customerName = parentObject.getString("name");
                                     Log.v("name", parentObject.getString("name"));
+                                } else if (parentObject.getString("name").equals("NO Data")){
+
+                                 //   Toast.makeText(thisActivity, getResources().getString(R.string.no_contacts_found), Toast.LENGTH_SHORT).show();
+
                                 }
                                 if (menuTitle.contains("Save")) {
-                                    getEditOrderDetails();
+
+
+                                    if (StaticVariables.isNetworkConnected(thisActivity)) {
+                                        getEditOrderDetails();                   }
+                                    else {
+                                        Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                                    }
+
                                 } else {
                                     PDialog.hide();
                                     isload=true;
@@ -1035,7 +1113,13 @@ public class CreatePurchaseOrder extends Activity {
 
         }
         else {
-            saveOrderRequest();
+            if (StaticVariables.isNetworkConnected(thisActivity)) {
+                saveOrderRequest();                 }
+            else {
+                Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+            }
+
+
         }
     }
 

@@ -2,6 +2,8 @@ package com.dev.montherland;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,6 +34,7 @@ public class Order_View extends Fragment implements ActionBar.TabListener {
         getActivity().invalidateOptionsMenu();
         getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
+
         // Set up the action bar.
         final ActionBar actionBar = getActivity().getActionBar();
 
@@ -39,6 +42,7 @@ public class Order_View extends Fragment implements ActionBar.TabListener {
         // parent.
         // Specify that we will be displaying tabs in the action bar.
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        //actionBar.setStackedBackgroundDrawable(new ColorDrawable(Color.parseColor("#6B949E")));
 
         // Set up the ViewPager, attaching the adapter and setting up a listener for when the
         // user swipes between sections.

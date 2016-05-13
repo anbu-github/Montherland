@@ -1,7 +1,6 @@
 package com.dev.montherland;
 
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -23,6 +22,7 @@ import android.widget.Toast;
 
 import com.dev.montherland.adapter.DrawerItemCustomAdapter;
 import com.dev.montherland.model.ObjectDrawerItem;
+import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
 public class NavigataionActivity extends FragmentActivity {
@@ -50,6 +50,7 @@ public class NavigataionActivity extends FragmentActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         StaticVariables.mode1="";
+
 
         // set a custom shadow that overlays the main content when the drawer opens
         try {
@@ -156,8 +157,7 @@ public class NavigataionActivity extends FragmentActivity {
                     //   Toast.makeText(NavigataionActivity.this,getResources().getString(R.string.under_construction),Toast.LENGTH_SHORT).show();
                     break;
                 }
-
-
+                
                 default: {
                     selectItem(0);
                 }
@@ -235,7 +235,7 @@ public class NavigataionActivity extends FragmentActivity {
                     Fragment test;
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    test = new Report_Fragment();
+                    test = new Order_View_Report();
 
                   /*  fragmentTransaction.setCustomAnimations(
                             R.anim.fragment_slide_left_enter,

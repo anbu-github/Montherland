@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dev.montherland" >
+    package="com.dev.montherland">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -20,87 +20,72 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" >
-        </activity>
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".Login"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity android:name=".HomeActivity" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HomeActivity" />
         <activity
             android:name=".CustomerDetails"
-            android:label="@string/customer_details_title" >
+            android:label="@string/customer_details_title">
             android:configChanges="orientation|screenSize"
         </activity>
         <activity
             android:name=".CreatePurchaseOrder"
             android:configChanges="orientation|screenSize"
             android:label="@string/Create_order_title"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".CreateAddress"
             android:configChanges="orientation|screenSize"
-            android:label="@string/Create_order_title" >
-        </activity>
+            android:label="@string/Create_order_title" />
         <activity
             android:name=".SelectAddress"
             android:configChanges="orientation|screenSize"
-            android:label="@string/Create_order_title" >
-        </activity>
+            android:label="@string/Create_order_title" />
         <activity
             android:name=".OrderConfirmDetails"
             android:configChanges="orientation|screenSize"
             android:label="@string/Create_order_title"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".NavigataionActivity"
             android:configChanges="orientation|screenSize"
-            android:label="Motherland" >
-        </activity>
+            android:label="Motherland" />
         <activity
             android:name=".PurchaseOrderActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/Create_order_title" >
-        </activity>
+            android:label="@string/Create_order_title" />
         <activity
             android:name=".PurchaseOrderDetails"
             android:configChanges="orientation|screenSize"
             android:label="Order Details"
-            android:noHistory="true" >
-        </activity>
-        <activity android:name=".DatepickupActivity" >
-        </activity>
-        <activity android:name=".InstructionActivity" >
-        </activity>
+            android:noHistory="true" />
+        <activity android:name=".DatepickupActivity" />
+        <activity android:name=".InstructionActivity" />
         <activity
             android:name=".EditOrderDetails"
             android:configChanges="orientation|screenSize"
             android:label="Edit Item"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".GarmentsDataActivity"
             android:configChanges="orientation|screenSize"
-            android:label="Create Order" >
-        </activity>
+            android:label="Create Order" />
         <activity
             android:name=".Change_Password"
             android:configChanges="orientation|screenSize"
-            android:label="Change Password" >
-        </activity>
+            android:label="Change Password" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -112,109 +97,84 @@
         <activity
             android:name=".ViewProfile"
             android:configChanges="orientation|screenSize"
-            android:label="Profile" >
-        </activity>
+            android:label="Profile" />
         <activity
             android:name=".EditProfile"
-            android:label="Edit profile" >
-        </activity>
+            android:label="Edit profile" />
         <activity android:name=".util.MainActivity" />
-        <activity android:name=".EditAddress" >
-        </activity>
+        <activity android:name=".EditAddress" />
         <activity
             android:name=".ViewAddress"
-            android:label="Address" >
-        </activity>
-        <activity android:name=".Settings" >
-        </activity>
+            android:label="Address" />
+        <activity android:name=".Settings" />
         <activity
             android:name=".Customer_details_orders"
-            android:label="Orders" >
-        </activity>
+            android:label="Orders" />
         <activity
             android:name=".Customer_contacts_list"
-            android:label="Contacts" >
-        </activity>
+            android:label="Contacts" />
         <activity
             android:name=".Customer_contact_details"
-            android:label="Contact details" >
-        </activity>
-        <activity android:name=".Customer_address" >
-        </activity>
+            android:label="Contact details" />
+        <activity android:name=".Customer_address" />
         <activity
             android:name=".CreateCustomerContact"
-            android:label="Create Contact" >
-        </activity>
-        <activity android:name=".Edit_Contact_detail" >
-        </activity>
-        <activity android:name=".CustomerEditAddress" >
-        </activity>
+            android:label="Create Contact" />
+        <activity android:name=".Edit_Contact_detail" />
+        <activity android:name=".CustomerEditAddress" />
         <activity
             android:name=".History_Orders_Details"
-            android:label="Order History" >
-        </activity>
-        <activity android:name=".Create_Customer" android:label="Add Customer">
-        </activity>
+            android:label="Order History" />
+        <activity
+            android:name=".Create_Customer"
+            android:label="Add Customer" />
         -----------------------------------------------------------------------
-        <activity android:name=".customers.HomeActivity" >
-        </activity>
+        <activity android:name=".customers.HomeActivity" />
         <activity
             android:name=".customers.CustomerDetails"
-            android:label="@string/customer_details_title" >
+            android:label="@string/customer_details_title">
             android:configChanges="orientation|screenSize"
         </activity>
         <activity
             android:name=".customers.CreatePurchaseOrder"
             android:configChanges="orientation|screenSize"
             android:label="@string/Create_order_title"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".customers.CreateAddress"
             android:configChanges="orientation|screenSize"
-            android:label="@string/Create_order_title" >
-        </activity>
+            android:label="@string/Create_order_title" />
         <activity
             android:name=".customers.SelectAddress"
             android:configChanges="orientation|screenSize"
-            android:label="@string/Create_order_title" >
-        </activity>
+            android:label="@string/Create_order_title" />
         <activity
             android:name=".customers.OrderConfirmDetails"
             android:configChanges="orientation|screenSize"
             android:label="@string/Create_order_title"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".customers.NavigataionActivity"
             android:configChanges="orientation|screenSize"
-            android:label="Motherland" >
-        </activity>
+            android:label="Motherland" />
         <activity
             android:name=".customers.PurchaseOrderActivity"
             android:configChanges="orientation|screenSize"
-            android:label="@string/Create_order_title" >
-        </activity>
+            android:label="@string/Create_order_title" />
         <activity
             android:name=".customers.PurchaseOrderDetails"
             android:configChanges="orientation|screenSize"
             android:label="Order Details"
-            android:noHistory="true" >
-        </activity>
-
-        <activity android:name=".customers.InstructionActivity" >
-        </activity>
-
+            android:noHistory="true" />
+        <activity android:name=".customers.InstructionActivity" />
         <activity
             android:name=".customers.GarmentsDataActivity"
             android:configChanges="orientation|screenSize"
-            android:label="Create Order" >
-        </activity>
+            android:label="Create Order" />
         <activity
             android:name=".customers.Change_Password"
             android:configChanges="orientation|screenSize"
-            android:label="Change Password" >
-        </activity>
+            android:label="Change Password" />
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -226,50 +186,41 @@
         <activity
             android:name=".customers.ViewProfile"
             android:configChanges="orientation|screenSize"
-            android:label="Profile" >
-        </activity>
+            android:label="Profile" />
         <activity
             android:name=".customers.EditProfile"
-            android:label="Edit profile" >
-        </activity>
-        <activity android:name=".customers.EditAddress" >
-        </activity>
+            android:label="Edit profile" />
+        <activity android:name=".customers.EditAddress" />
         <activity
             android:name=".customers.ViewAddress"
-            android:label="Address" >
-        </activity>
-
+            android:label="Address" />
         <activity
             android:name=".customers.Customer_details_orders"
-            android:label="Orders" >
-        </activity>
+            android:label="Orders" />
         <activity
             android:name=".customers.Customer_contacts_list"
-            android:label="Contacts" >
-        </activity>
+            android:label="Contacts" />
         <activity
             android:name=".customers.Customer_contact_details"
-            android:label="Contact details" >
-        </activity>
-        <activity android:name=".customers.Customer_address" >
-        </activity>
+            android:label="Contact details" />
+        <activity android:name=".customers.Customer_address" />
         <activity
             android:name=".customers.CreateCustomerContact"
-            android:label="Create Contact" >
-        </activity>
-        <activity android:name=".customers.Edit_Contact_detail" >
-        </activity>
+            android:label="Create Contact" />
+        <activity android:name=".customers.Edit_Contact_detail" />
         <activity
             android:name=".customers.History_Orders_Details"
-            android:label="Order History" >
-        </activity>
-        <activity android:name=".customers.Create_Customer" android:label="Create Customer">
-        </activity>
-        <activity android:name=".customers.CustomerEditAddress" android:label="Edit Address">
-        </activity>
-
-
-
+            android:label="Order History" />
+        <activity
+            android:name=".customers.Create_Customer"
+            android:label="Create Customer" />
+        <activity
+            android:name=".customers.CustomerEditAddress"
+            android:label="Edit Address" />
+        <activity
+            android:name=".FeedbackActivity"
+            android:label="Feedback"></activity>
+        <activity android:name=".OrderReceipts" android:windowSoftInputMode="adjustPan" android:label="Order Receipt"></activity>
     </application>
 
 </manifest>

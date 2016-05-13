@@ -99,7 +99,7 @@
                 android:text="Contact"
                 android:id="@+id/textView20"
                 android:textColor="@color/black_text_color"
-                android:layout_alignTop="@+id/quantity"
+                android:layout_alignTop="@+id/dc_number"
                 android:layout_alignLeft="@+id/textView21"
                 android:layout_alignStart="@+id/textView21"
                 android:layout_marginLeft="2dp" />
@@ -144,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/quantity"
+                android:id="@+id/dc_number"
                 android:layout_below="@+id/item"
                 android:layout_alignLeft="@+id/item"
                 android:layout_alignStart="@+id/item"
@@ -157,8 +157,8 @@
                 android:id="@+id/order_type"
                 android:layout_alignBaseline="@+id/textView21"
                 android:layout_alignBottom="@+id/textView21"
-                android:layout_alignLeft="@+id/quantity"
-                android:layout_alignStart="@+id/quantity" />
+                android:layout_alignLeft="@+id/dc_number"
+                android:layout_alignStart="@+id/dc_number" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -532,7 +532,6 @@
              <RelativeLayout
                  android:layout_width="wrap_content"
                  android:layout_marginBottom="20dp"
-
                  android:layout_height="wrap_content">
 
             <TextView
@@ -548,6 +547,35 @@
                 android:layout_marginStart="23dp" />
 
              </RelativeLayout>
+
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:text="Cancel Order"
+                android:visibility="gone"
+                android:background="@drawable/background_button"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/cancel_order"
+                android:layout_gravity="center_horizontal" />
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:text="Order Receipt"
+                android:background="@drawable/background_button"
+                android:layout_marginBottom="5dp"
+
+                android:layout_marginTop="5dp"
+                android:id="@+id/order_receipt"
+                android:layout_gravity="center_horizontal" />
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:text="Order Delivery"
+                android:background="@drawable/background_button"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/order_delivery"
+                android:layout_gravity="center_horizontal" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

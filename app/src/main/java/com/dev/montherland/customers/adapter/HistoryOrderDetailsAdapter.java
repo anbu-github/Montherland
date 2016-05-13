@@ -126,7 +126,7 @@ public class HistoryOrderDetailsAdapter extends RecyclerView.Adapter<HistoryOrde
             cv = (CardView)itemView.findViewById(R.id.cv);
             personName = (TextView)itemView.findViewById(R.id.add1);
 
-            cusName=(TextView)itemView.findViewById(R.id.quantity);
+            cusName=(TextView)itemView.findViewById(R.id.dc_number);
             cusCompany=(TextView)itemView.findViewById(R.id.item);
             date=(TextView)itemView.findViewById(R.id.date);
             add1=(TextView)itemView.findViewById(R.id.add1);

@@ -14,16 +14,14 @@ import java.util.List;
  * Created by pf-05 on 2/12/2016.
  */
 public class Garment_JSONParer {
-    public static List<GarmentListModel> parserFeed(String content) {
+    public static List<GarmentListModel> parserFeed() {
         try {
             // JSONObject parentObject = new JSONObject(content);
-            JSONArray ar = new JSONArray(content);
             List<GarmentListModel> respnse = new ArrayList<>();
-            for (int i = 0; i < ar.length(); i++) {
-                JSONObject parentObject = ar.getJSONObject(i);
+            for (int i = 0; i < 20; i++) {
                 GarmentListModel flower = new GarmentListModel();
-                flower.setGarmentTypeId(parentObject.getString("id"));
-                flower.setGarmentType(parentObject.getString("name"));
+                flower.setGarmentTypeId("");
+                flower.setGarmentType("Select Garment Type");
                 flower.setGarmentQuantity("");
                 flower.setGarmentStyle("");
                 flower.setGarmentInstr("");
@@ -33,11 +31,7 @@ public class Garment_JSONParer {
             }
 
             return respnse;
-        } catch (JSONException e) {
-
-            //Log.d("error in json", "l " + e);
-            return null;
-        } catch (Exception e) {
+        }  catch (Exception e) {
             //Log.d("json connection", "No internet access" + e);
             return null;
         }

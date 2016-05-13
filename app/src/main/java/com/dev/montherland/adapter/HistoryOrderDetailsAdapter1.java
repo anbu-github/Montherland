@@ -1,30 +1,22 @@
 package com.dev.montherland.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dev.montherland.EditOrderDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.model.GarmentListModel1;
 import com.dev.montherland.model.PurchaseOrderDetailsModel;
 import com.dev.montherland.util.StaticVariables;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -87,7 +79,7 @@ public class HistoryOrderDetailsAdapter1 extends BaseAdapter{
         holder.garment_instruction = (TextView) convertView.findViewById(R.id.instruction);
         holder.quantity = (TextView) convertView.findViewById(R.id.total_quantity);
         holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
-        holder.wash = (TextView) convertView.findViewById(R.id.wash);
+        holder.wash = (TextView) convertView.findViewById(R.id.received_qty);
         holder.wash_type = (TextView) convertView.findViewById(R.id.wash_type);
         holder.style = (TextView) convertView.findViewById(R.id.style);
         holder.date = (TextView) convertView.findViewById(R.id.date);

@@ -28,7 +28,7 @@ public class SplashActivity extends Activity {
         animation.setDuration(1500);
 
 
-        imgSplash.startAnimation(animation);
+       // imgSplash.startAnimation(animation);
 
 
 
@@ -57,7 +57,6 @@ public class SplashActivity extends Activity {
                         startActivity(in);
                         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                     }else
-
                     {
                         Intent in=new Intent(SplashActivity.this,NavigataionActivity.class);
                         finish();

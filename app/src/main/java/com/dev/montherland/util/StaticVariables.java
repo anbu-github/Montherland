@@ -51,6 +51,7 @@ public class StaticVariables {
     public static String mode="";
     public static String mode1="";
     public static String cus_id="";
+    public static Boolean isEditable=false;
     public  static   ArrayList<String> addressIdList=new ArrayList<>();
 
 

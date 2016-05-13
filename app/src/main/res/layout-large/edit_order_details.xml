@@ -38,7 +38,7 @@
 
         <LinearLayout
         android:layout_width="150dp"
-        android:background="@drawable/layout_border4"
+        android:background="@drawable/layout_border"
         android:id="@+id/textlayoudt"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="25dp"
@@ -71,7 +71,7 @@
 
         <LinearLayout
             android:layout_width="150dp"
-            android:background="@drawable/layout_border4"
+            android:background="@drawable/layout_border"
             android:id="@+id/quantitylayout"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="25dp"
@@ -80,7 +80,7 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:id="@+id/quantity"
+                android:id="@+id/dc_number"
                 android:spinnerMode="dialog"
                 android:textColor="@color/light_grey"
                 android:layout_marginLeft="15dp"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content">
             <Spinner
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/order_type"
                 android:spinnerMode="dialog"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -137,7 +137,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:background="@drawable/layout_border4"
+            android:background="@drawable/layout_border"
             android:layout_marginRight="20dp"
             android:orientation="horizontal"
             android:layout_marginLeft="25dp"
@@ -174,8 +174,8 @@
             android:layout_marginLeft="20dp" />
 
         <LinearLayout
-            android:layout_width="150dp"
-            android:background="@drawable/layout_border4"
+            android:layout_width="170dp"
+            android:background="@drawable/layout_border"
             android:layout_marginRight="20dp"
             android:orientation="horizontal"
             android:id="@+id/date"
@@ -191,10 +191,9 @@
                     android:maxLength="16"
                     android:textColor="@color/light_grey"
 
-                    android:layout_gravity="center"
                     android:id="@+id/date_id"
                     android:padding="6dp"
-                    android:layout_marginLeft="15dp" />
+                    android:layout_marginLeft="12dp" />
             </LinearLayout>
 
 
@@ -221,7 +220,7 @@
             android:layout_height="wrap_content">
             <Spinner
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:id="@+id/status"
                 android:spinnerMode="dialog"
                 android:textAppearance="?android:attr/textAppearanceMedium"

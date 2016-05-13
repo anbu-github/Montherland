@@ -9,16 +9,19 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.dev.montherland.AppController;
-import com.dev.montherland.R;
+import com.dev.montherland.*;
 import com.dev.montherland.adapter.CreateOrderAdapter;
 import com.dev.montherland.model.GarmentListModel;
 import com.dev.montherland.parsers.Garment_JSONParer;
@@ -41,7 +44,12 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
     Activity thisActivity=this;
     ArrayList<String> garmentWashIdList = new ArrayList<>();
     ArrayList<String> washTypeList = new ArrayList<>();
+    ArrayList<String> garmentTypeList = new ArrayList<>();
+    ArrayList<String> itemList = new ArrayList<>();
+    ArrayAdapter<String> itemsAdapter;
 
+
+    Spinner spinner_items;
     List<GarmentListModel> garment_model;
 
     @Override
@@ -49,6 +57,7 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_garments_data);
         mRecyclerView = (RecyclerView) findViewById(R.id.listView);
+        spinner_items = (Spinner) findViewById(R.id.spinner_items);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new GridLayoutManager(thisActivity, 1);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -74,6 +83,32 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
         } else {
             Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
         }
+
+
+        for (int i=1;i<=20;i++){
+            itemList.add(i+"");
+        }
+
+        itemsAdapter = new ArrayAdapter<String>(thisActivity,
+                android.R.layout.simple_spinner_item, itemList);
+        itemsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner_items.setAdapter(itemsAdapter);
+
+
+        spinner_items.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                getWashTypes();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        garment_model = Garment_JSONParer.parserFeed();
 
 
     }
@@ -102,7 +137,7 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
 
                             PDialog.hide();
                             mAdapter = new CreateOrderAdapter(thisActivity
-                                    , garment_model,washTypeList);
+                                    , garmentTypeList,washTypeList,spinner_items.getSelectedItem().toString(),garment_model);
 
                             mRecyclerView.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
 
@@ -139,19 +174,29 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
         Log.v("request", request + "");
     }
 
-    
+
     public void getGarmentTypes() {
-          PDialog.show(thisActivity);
+        PDialog.show(thisActivity);
         StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "garment_type_list.php?",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                       // PDialog.hide();
+                        // PDialog.hide();
                         Log.v("response", response + "");
                         try {
-                        //    PDialog.hide();
+                            //    PDialog.hide();
                             JSONArray ar = new JSONArray(response);
-                            garment_model = Garment_JSONParer.parserFeed(response);
+
+                            garmentTypeList.add("Select Garment Type");
+                            for (int i = 0; i < ar.length(); i++) {
+                                JSONObject parentObject = ar.getJSONObject(i);
+                                garmentTypeList.add(parentObject.getString("name"));
+
+                                Log.v("name", parentObject.getString("name"));
+                                //Log.d("success", parentObject.getString("success"));
+                            }
+
+
 
                             Log.v("garment size", garment_model.size() + "");
                             getWashTypes();
@@ -169,7 +214,7 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
                     public void onErrorResponse(VolleyError arg0) {
                         PDialog.hide();
 
-                      }
+                    }
                 }) {
 
             @Override
@@ -268,7 +313,7 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
             if (goOrnot) {
                 StaticVariables.address_id="";
                 StaticVariables.hideKeyboard(thisActivity);
-                Intent in = new Intent(thisActivity, SelectAddress.class);
+                Intent in = new Intent(thisActivity, com.dev.montherland.customers.SelectAddress.class);
                 StaticVariables.selectAddress = "Create order";
                 startActivity(in);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -299,7 +344,7 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
 
                 return true;
             case R.id.next_button:
-            //   Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(thisActivity, "next", Toast.LENGTH_SHORT).show();
 
                 goNext();
                 return true;
@@ -325,6 +370,13 @@ public class GarmentsDataActivity extends Activity implements CreateOrderAdapter
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void garmentType(String type, int i, int position) {
+        garment_model.get(i).setGarmentType(type);
+        garment_model.get(i).setGarmentTypeId(position+"");
+        Log.v("garment_item",type+position);
     }
 
     @Override

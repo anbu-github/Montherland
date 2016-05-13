@@ -13,6 +13,7 @@ public class GarmentListModel1 {
     String updatedBy;
     String updated;
 
+
     public String getUpdatedBy() {
         return updatedBy;
     }

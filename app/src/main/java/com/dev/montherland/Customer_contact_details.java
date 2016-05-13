@@ -106,9 +106,10 @@ public class Customer_contact_details extends Activity {
             e.printStackTrace();
         }
 
-        getCustomerList();
+
 
         if (StaticVariables.isNetworkConnected(thisActivity)) {
+            getCustomerList();
             getAddressList();
         }else {
             Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
@@ -164,7 +165,14 @@ public class Customer_contact_details extends Activity {
                         .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        updateAddressSelect();
+
+                                        if (StaticVariables.isNetworkConnected(thisActivity)) {
+                                            updateAddressSelect();               }
+                                        else {
+                                            Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+                                        }
+
+
 
                                     }
                                 }

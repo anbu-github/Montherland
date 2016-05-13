@@ -118,6 +118,8 @@ public class ViewAddress extends Activity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("email", StaticVariables.database.get(0).getEmail());
                 params.put("id", StaticVariables.database.get(0).getId());
+
+                Log.v("addressid",StaticVariables.database.get(0).getId());
                 return params;
             }
 

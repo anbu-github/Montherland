@@ -190,6 +190,7 @@ public class CustomerDetails extends Activity {
         Intent in=new Intent(thisActivity,NavigataionActivity.class);
         in.putExtra("redirection","Customers");
         startActivity(in);
+        finish();
 
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
@@ -212,8 +213,6 @@ public class CustomerDetails extends Activity {
     }
     public void onBackPressed() {
        PDialog.hide();
-        super.onBackPressed();
-
         onBack();
     }
 }

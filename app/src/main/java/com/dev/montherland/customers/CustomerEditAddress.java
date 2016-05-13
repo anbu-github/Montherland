@@ -330,11 +330,19 @@ public class CustomerEditAddress extends Activity {
     }
 
     public void onBackPressed() {
+           onBack();
+    }
 
-        Intent intent = new Intent(thisActivity, Customer_contact_details.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    public void onBack(){
+
+        if (action.contains("customer_edit_address")){
+            Intent intent = new Intent(thisActivity, com.dev.montherland.customers.SelectAddress.class);
+            intent.putExtra("customer_address","customer_address");
+
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
     }
 
     @Override
@@ -342,11 +350,7 @@ public class CustomerEditAddress extends Activity {
         switch (item.getItemId()) {
             case android.R.id.home:
 
-                    Intent intent = new Intent(thisActivity, Customer_contact_details.class);
-                    startActivity(intent);
-                    finish();
-                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
+                 onBack();
                 return true;
             case R.id.save_button:
 

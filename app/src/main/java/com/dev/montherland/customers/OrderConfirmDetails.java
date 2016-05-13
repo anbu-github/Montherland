@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,7 +78,7 @@ public class OrderConfirmDetails extends Activity {
         textView19 = (TextView) findViewById(R.id.textView19);
 
 
-        customer_contact = (TextView) findViewById(R.id.quantity);
+        customer_contact = (TextView) findViewById(R.id.dc_number);
         // total_item = (TextView) findViewById(R.id.total_item_no);
 
 

@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dev.montherland.EditOrderDetails;
 import com.dev.montherland.History_Orders_Details;
@@ -21,10 +19,7 @@ import com.dev.montherland.model.GarmentListModel1;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -45,7 +40,6 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
         count = StaticVariables.editQuantityList.size();
         this.adapter = adapter;
         this.layoutInflater = LayoutInflater.from(context);
-
         Log.v("count", StaticVariables.editQuantityList.size() + "");
     }
     @Override
@@ -84,7 +78,7 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
             holder.garment_instruction = (TextView) convertView.findViewById(R.id.instruction);
             holder.quantity = (TextView) convertView.findViewById(R.id.total_quantity);
             holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
-            holder.wash = (TextView) convertView.findViewById(R.id.wash);
+            holder.wash = (TextView) convertView.findViewById(R.id.received_qty);
             holder.wash_type = (TextView) convertView.findViewById(R.id.wash_type);
             holder.style = (TextView) convertView.findViewById(R.id.style);
             holder.date = (TextView) convertView.findViewById(R.id.date);
@@ -92,8 +86,7 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
             holder.itemImage=(ImageView)convertView.findViewById(R.id.imageView);
 
         if (person.get(position).getStatus().equals("Delivered")){
-            holder.edit.setVisibility(View.GONE
-            );
+            //holder.edit.setVisibility(View.GONE);
         }
 
            holder.edit.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +121,10 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
            // holder.wash_type.setText(person.get(position).getWashType());
             holder.style.setText(person.get(position).getStyleNumber());
             holder.wash.setText(person.get(position).getStatus());
+
+        if (!StaticVariables.isEditable){
+            holder.edit.setVisibility(View.INVISIBLE);
+        }
 
         if (StaticVariables.mode.equals("order_history")){
             holder.edit.setVisibility(View.VISIBLE);

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dev.montherland.R;
@@ -62,7 +61,7 @@ public class OrderConfirmDetailsAdapter  extends BaseAdapter{
 
         try {
             holder.quantity = (TextView) convertView.findViewById(R.id.total_quantity);
-            holder.washType = (TextView) convertView.findViewById(R.id.wash);
+            holder.washType = (TextView) convertView.findViewById(R.id.received_qty);
             holder.style = (TextView) convertView.findViewById(R.id.styleno);
             holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
             holder.instr = (TextView) convertView.findViewById(R.id.instr);

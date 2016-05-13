@@ -64,6 +64,7 @@ public class Customer_contacts_list extends Activity {
 
                // Toast.makeText(thisActivity,"This feature is under construction",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(thisActivity,CreateCustomerContact.class);
+                Log.v("customer_contact","yes");
                 startActivity(intent);
                 finish();
 

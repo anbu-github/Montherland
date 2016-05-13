@@ -62,6 +62,7 @@ public class CustomerHomeFragment extends Fragment {
         View view=inflater.inflate(R.layout.activity_customer_details,container,false);
         getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
+        getActivity().getActionBar().setTitle("Customer");
         recyclerView = (RecyclerView) view.findViewById(R.id.rv);
         name=(TextView)view.findViewById(R.id.add1);
         website=(TextView)view.findViewById(R.id.website);

@@ -1,6 +1,7 @@
 package com.dev.montherland;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -27,7 +29,6 @@ import com.dev.montherland.parsers.Purchase_OrderDetails_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +36,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,8 +56,10 @@ public class PurchaseOrderDetails extends Activity {
     ImageView edit_order,edit_instruction,edit_address;
     String menuTitle="";
     LinearLayout order_history_layout;
-    String mode="";
-
+    String mode="",order_status;
+    Date created_date;
+    Button cancelOrder,orderReceipt,orderDelivery;
+    String orders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,7 @@ public class PurchaseOrderDetails extends Activity {
 
         scrollView=(ScrollView)findViewById(R.id.scrollview);
         scrollView.setFocusable(true);
-        cusName=(TextView)findViewById(R.id.quantity);
+        cusName=(TextView)findViewById(R.id.dc_number);
         cusCompany=(TextView)findViewById(R.id.item);
         date=(TextView)findViewById(R.id.date);
         add1=(TextView)findViewById(R.id.add1);
@@ -88,12 +92,16 @@ public class PurchaseOrderDetails extends Activity {
         order_type=(TextView)findViewById(R.id.order_type);
         instr=(TextView)findViewById(R.id.instr);
         zipcode=(TextView)findViewById(R.id.zipcode);
+        orderReceipt=(Button) findViewById(R.id.order_receipt);
+        orderDelivery=(Button) findViewById(R.id.order_delivery);
+        cancelOrder=(Button) findViewById(R.id.cancel_order);
         edit_order = (ImageView) findViewById(R.id.edit_order);
         edit_address = (ImageView) findViewById(R.id.edit_address);
         order_id = (TextView) findViewById(R.id.order_id);
         edit_instruction = (ImageView) findViewById(R.id.edit_instruction);
         layout=(LinearLayout)findViewById(R.id.layout);
         order_history_layout=(LinearLayout)findViewById(R.id.order_history_layout);
+
 
         layout.setVisibility(View.INVISIBLE);
         StaticVariables.mode="";
@@ -113,13 +121,66 @@ public class PurchaseOrderDetails extends Activity {
             Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_access), Toast.LENGTH_LONG).show();
         }
 
+
+        orderReceipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in=new Intent(thisActivity,OrderReceipts.class);
+                in.putExtra("orders_list",orders);
+                startActivity(in);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+            }
+        });
+
+        orderDelivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in=new Intent(thisActivity,OrderReceipts.class);
+                in.putExtra("orders_list",orders);
+                in.putExtra("intent_from","order_delivery");
+                startActivity(in);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+        });
+
+        cancelOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (status.getText().equals("Entered")){
+                    android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(thisActivity);
+                    builder.setCancelable(false)
+                            .setTitle("Confirm")
+                            .setMessage("Are you sure want to cancel the order?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    orderCancel();
+                                }
+                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.show();
+                }
+                else {
+                    Intent fbIntent=new Intent(thisActivity,FeedbackActivity.class);
+                    startActivity(fbIntent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+                }
+            }
+        });
+
+
         mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         mLayoutManager.scrollToPositionWithOffset(0, 20);
         mLayoutManager.setOrientation(mLayoutManager.VERTICAL);
         listview = (com.dev.montherland.adapter.ExpandableListView) findViewById(R.id.listView);
         listview.setFocusable(false);
-
-
 
         try {
             if (getIntent().getExtras().get("order_history").equals("order_history")){
@@ -155,6 +216,8 @@ public class PurchaseOrderDetails extends Activity {
 
                     Intent in = new Intent(thisActivity, History_Orders_Details.class);
                     StaticVariables.order_id = feedlist.get(0).getId();
+
+
 
                     try {
 
@@ -207,7 +270,6 @@ public class PurchaseOrderDetails extends Activity {
 
                 } else {
                     StaticVariables.selectAddress = "order details";
-
                     Intent intent = new Intent(thisActivity, SelectAddress.class);
                     intent.putExtra("change_address", "change address");
                     if (mode.contains("customer_order")){
@@ -263,11 +325,76 @@ public class PurchaseOrderDetails extends Activity {
         });
     }
 
+    public void orderCancel() {
+        PDialog.show(thisActivity);
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "order_cancel.php?",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        PDialog.hide();
+                        Log.v("response", response + "");
+                        try {
+                            JSONObject ar = new JSONObject(response);
+
+                            if (ar.get("id").equals("Success")){
+                                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(thisActivity);
+                                builder.setCancelable(false)
+                                        .setTitle("Success")
+                                        .setMessage("Order has been cancelled")
+                                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                Intent intent = new Intent(thisActivity, NavigataionActivity.class);
+                                                intent.putExtra("redirection","Orders");
+                                                startActivity(intent);
+                                                finish();
+                                                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                                            }
+                                        });
+                                builder.show();
+                            }
+
+
+
+
+                        } catch (Exception e) {
+                            // PDialog.hide();
+                        }
+                    }
+                },
+
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError arg0) {
+                        //  PDialog.hide();
+
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("order_id", StaticVariables.order_id);
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
+                params.put("status_id", "9");
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(request, "data_receive");
+        Log.v("request", request + "");
+    }
+
+
     private void update_display(String response) {
         try {
             JSONObject jobj = new JSONObject(response);
             String basic_details=jobj.getString("basic_details");
-            String orders=jobj.getString("orders");
+             orders=jobj.getString("orders");
 
             feedlist= Purchase_OrderDetails_JSONParser.parserFeed(basic_details);
 
@@ -290,12 +417,20 @@ public class PurchaseOrderDetails extends Activity {
                 }
                 else {
                     add3.setText(feedlist.get(0).getAddressline3());
-
                 }
                 state.setText(feedlist.get(0).getState());
                 city.setText(feedlist.get(0).getCity());
                 zipcode.setText(feedlist.get(0).getZipcode());
                 status.setText(feedlist.get(0).getStatus());
+
+                order_status=feedlist.get(0).getStatus();
+                if (order_status.equals("Entered")){
+                    cancelOrder.setVisibility(View.VISIBLE);
+                }
+                else if (order_status.equals("Completed")){
+                    cancelOrder.setVisibility(View.VISIBLE);
+                    cancelOrder.setText("Feedback");
+                }
                 instr.setText(feedlist.get(0).getInstruction());
                 pickup_date.setText(feedlist.get(0).getExpected_pickup());
                 order_type.setText(feedlist.get(0).getOrder_type());
@@ -350,8 +485,6 @@ public class PurchaseOrderDetails extends Activity {
                 Toast.makeText(PurchaseOrderDetails.this,getResources().getString(R.string.error_occurred1),Toast.LENGTH_LONG).show();
             }
 
-            persons= Garment_JSONParser1.parserFeed(orders);
-
 
             Calendar deliveryItemCalendar = Calendar.getInstance();
             Calendar deliveryCalendar = Calendar.getInstance();
@@ -360,6 +493,30 @@ public class PurchaseOrderDetails extends Activity {
             DateFormat ddf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             deliveryCalendar.setTime(ddf1.parse(feedlist.get(0).getDeliverydate()));
+
+            created_date=ddf.parse(feedlist.get(0).getCreated_date());
+
+            Date current_date=new Date();
+           Log.v("currentdate",current_date.getDate()+"created"+created_date.getDate());
+            if (created_date.getDate()!=current_date.getDate()){
+                edit_address.setVisibility(View.INVISIBLE);
+                edit_instruction.setVisibility(View.INVISIBLE);
+                edit_order.setVisibility(View.INVISIBLE);
+                StaticVariables.isEditable=false;
+
+            }else {
+               // Toast.makeText(thisActivity,"greater date",Toast.LENGTH_SHORT).show();
+             StaticVariables.isEditable=true;
+            }
+
+            if (menuTitle.contains("order_history")){
+                edit_address.setVisibility(View.VISIBLE);
+                edit_instruction.setVisibility(View.VISIBLE);
+                edit_order.setVisibility(View.VISIBLE);
+
+            }
+
+            persons= Garment_JSONParser1.parserFeed(orders);
 
             Integer pos=-1;
             for (int i=0;i<=persons.size();i++){

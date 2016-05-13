@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dev.montherland.EditOrderDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.customers.History_Orders_Details;
 import com.dev.montherland.model.GarmentListModel1;
@@ -77,14 +79,14 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
             holder.garment_instruction = (TextView) convertView.findViewById(R.id.instruction);
             holder.quantity = (TextView) convertView.findViewById(R.id.total_quantity);
             holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
-            holder.wash = (TextView) convertView.findViewById(R.id.wash);
+            holder.wash = (TextView) convertView.findViewById(R.id.received_qty);
             holder.wash_type = (TextView) convertView.findViewById(R.id.wash_type);
             holder.style = (TextView) convertView.findViewById(R.id.style);
             holder.date = (TextView) convertView.findViewById(R.id.date);
             holder.edit=(ImageView)convertView.findViewById(R.id.edit);
             holder.itemImage=(ImageView)convertView.findViewById(R.id.imageView);
 
-       // holder.edit.setVisibility(View.INVISIBLE);
+            holder.edit.setVisibility(View.INVISIBLE);
 
         if (person.get(position).getStatus().equals("Delivered")){
             holder.edit.setVisibility(View.GONE);
@@ -100,12 +102,28 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
                        if (StaticVariables.mode1.contains("customer_order")){
                            in.putExtra("intent_to","customer_order");
                        }
+
                        context.startActivity(in);
                        Activity activity = (Activity) context;
                        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
                    }
+
                    else {
-                     holder.edit.setVisibility(View.INVISIBLE);
+                     //holder.edit.setVisibility(View.INVISIBLE);
+                       Intent in = new Intent(context, EditOrderDetails.class);
+                       in.putExtra("id", person.get(position).getId());
+                       in.putExtra("item", person.get(position).getGarmentName());
+
+                       if (StaticVariables.mode1.contains("customer_order")){
+                           in.putExtra("intent_to","customer_order");
+                       }
+
+                       context.startActivity(in);
+                       Activity activity = (Activity) context;
+                       activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+
                    }
                }
            });

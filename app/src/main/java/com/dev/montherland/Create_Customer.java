@@ -119,7 +119,7 @@ public class Create_Customer extends Activity {
 
         if (name.equals("") || name.isEmpty()) {
 
-            Toast.makeText(thisActivity, getResources().getString(R.string.correct_name), Toast.LENGTH_SHORT).show();
+            Toast.makeText(thisActivity, "Enter Customer Name", Toast.LENGTH_SHORT).show();
         } else if (email.equals("") || email.isEmpty()) {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_website), Toast.LENGTH_SHORT).show();
         }
@@ -129,12 +129,14 @@ public class Create_Customer extends Activity {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_mobile), Toast.LENGTH_SHORT).show();
 
         }
-        else if (mobile.length() != 10) {
-            Toast.makeText(thisActivity, getResources().getString(R.string.correct_limit_contact), Toast.LENGTH_SHORT).show();
-        }
         else {
 
-            createContact();
+            if (StaticVariables.isNetworkConnected(thisActivity)) {
+                createContact();
+            } else {
+                Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
+            }
+
         }
 
     }
@@ -146,7 +148,7 @@ public class Create_Customer extends Activity {
 
         if (name.equals("") || name.isEmpty()) {
 
-            Toast.makeText(thisActivity, getResources().getString(R.string.correct_name), Toast.LENGTH_SHORT).show();
+            Toast.makeText(thisActivity, getResources().getString(R.string.correct_customer_name), Toast.LENGTH_SHORT).show();
         }
         else if (email.equals("") || email.isEmpty()) {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_website), Toast.LENGTH_SHORT).show();
@@ -370,7 +372,12 @@ public class Create_Customer extends Activity {
                 }else {
 
                     //Toast.makeText(thisActivity,"This feature is under construction",Toast.LENGTH_SHORT).show();
-                    editContact();
+                    if (StaticVariables.isNetworkConnected(thisActivity)) {
+                        editContact();
+                    }
+                    else {
+                        Toast.makeText(thisActivity,getResources().getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 return true;

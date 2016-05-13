@@ -26,9 +26,18 @@ public class PurchaseOrderDetailsModel implements Serializable{
     String addressid;
     String createdBy;
     String updated;
+    String created_date;
 
     public String getCreated() {
         return created;
+    }
+
+    public String getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(String created_date) {
+        this.created_date = created_date;
     }
 
     public void setCreated(String created) {

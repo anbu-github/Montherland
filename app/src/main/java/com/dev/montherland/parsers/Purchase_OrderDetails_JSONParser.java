@@ -39,6 +39,7 @@ public class Purchase_OrderDetails_JSONParser {
                 flower.setPickupdate(parentObject.getString("expected_pick_up_date"));
                 flower.setDeliverydate(parentObject.getString("expected_delivery_date"));
                 flower.setAddressid(parentObject.getString("customer_contact_address_id"));
+                flower.setCreated_date(parentObject.getString("created_date"));
 
                 respnse.add(flower);
             }

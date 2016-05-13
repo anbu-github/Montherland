@@ -77,7 +77,7 @@ public class PurchaseOrderDetails extends Activity {
 
         scrollView=(ScrollView)findViewById(R.id.scrollview);
         scrollView.setFocusable(true);
-        cusName=(TextView)findViewById(R.id.quantity);
+        cusName=(TextView)findViewById(R.id.dc_number);
         cusCompany=(TextView)findViewById(R.id.item);
         date=(TextView)findViewById(R.id.date);
         add1=(TextView)findViewById(R.id.add1);
@@ -118,9 +118,9 @@ public class PurchaseOrderDetails extends Activity {
         }
 
 
-     //   edit_address.setVisibility(View.INVISIBLE);
-      //  edit_instruction.setVisibility(View.INVISIBLE);
-       // edit_order.setVisibility(View.INVISIBLE);
+        edit_address.setVisibility(View.INVISIBLE);
+        edit_instruction.setVisibility(View.INVISIBLE);
+       edit_order.setVisibility(View.INVISIBLE);
 
         try {
             if (getIntent().getExtras().get("order_history").equals("order_history")){

@@ -116,6 +116,42 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="5dp" />
             </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/service_type"
+            android:id="@+id/servicetype"
+            android:visibility="gone"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/customer_company_list"
+            style="@style/TextviewStyle_space_blue"
+            android:layout_marginLeft="20dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/layout_border"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="25dp"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:id="@+id/service_type"
+                android:spinnerMode="dialog"
+                android:popupTheme="@style/android:Widget.Holo.Light.PopupMenu"
+                android:visibility="visible"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView6"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="5dp" />
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

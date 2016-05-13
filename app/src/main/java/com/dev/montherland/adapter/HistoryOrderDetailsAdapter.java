@@ -1,26 +1,20 @@
 package com.dev.montherland.adapter;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.dev.montherland.CustomerDetails;
 import com.dev.montherland.R;
 import com.dev.montherland.model.Customer_Contact_Model;
 import com.dev.montherland.model.PurchaseOrderDetailsModel;
-import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -132,7 +126,7 @@ public class HistoryOrderDetailsAdapter extends RecyclerView.Adapter<HistoryOrde
             cv = (CardView)itemView.findViewById(R.id.cv);
             personName = (TextView)itemView.findViewById(R.id.add1);
 
-            cusName=(TextView)itemView.findViewById(R.id.quantity);
+            cusName=(TextView)itemView.findViewById(R.id.dc_number);
             cusCompany=(TextView)itemView.findViewById(R.id.item);
             date=(TextView)itemView.findViewById(R.id.date);
             add1=(TextView)itemView.findViewById(R.id.add1);

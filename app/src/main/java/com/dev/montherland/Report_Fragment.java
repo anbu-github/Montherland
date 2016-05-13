@@ -22,9 +22,24 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.dev.montherland.adapter.ExpandableListView;
+import com.dev.montherland.adapter.HistoryOrderDetailsAdapter1;
+import com.dev.montherland.model.ExistingUser_Model;
 import com.dev.montherland.model.Purchase_Order_Model;
+import com.dev.montherland.parsers.History_GarmentsItem_JSONParser;
+import com.dev.montherland.parsers.History_Order_Details_JSONParser;
+import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,11 +51,15 @@ public class Report_Fragment extends Fragment {
     ImageButton addButton;
     private RecyclerView recyclerView;
     private List<Purchase_Order_Model> persons;
-    ListView listview;
-    Button customer_report,monthly_report,created,inprogress,completed,title;
+    ExpandableListView listview;
+    Button created,inprogress,completed,title;
     LinearLayout monthly_layout;
+    ArrayList<String> monthlyOrders=new ArrayList<>();
+    ArrayList<String> orders_inprogress=new ArrayList<>();
+    ArrayList<String> orders_completed=new ArrayList<>();
     TranslateAnimation translateAnimation;
     TableLayout table_layout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,16 +74,15 @@ public class Report_Fragment extends Fragment {
 
        final ArrayAdapter<String> listAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,StaticVariables.customerList );
 
-        listview=(ListView)view.findViewById(R.id.listview);
-        monthly_report=(Button)view.findViewById(R.id.btn_monthly);
-        customer_report=(Button)view.findViewById(R.id.btn_customer);
+        listview=(ExpandableListView) view.findViewById(R.id.listview);
+
         created=(Button)view.findViewById(R.id.created);
         inprogress=(Button)view.findViewById(R.id.inprogress);
         completed=(Button)view.findViewById(R.id.completed);
         monthly_layout=(LinearLayout)view.findViewById(R.id.monthly_layout);
         table_layout = (TableLayout) view.findViewById(R.id.tableLayout1);
 
-        BuildTable(12,3);
+
 
 
 /*
@@ -95,39 +113,14 @@ public class Report_Fragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT));
 */
 
-        monthly_report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                table_layout.removeAllViews();
-                listview.setVisibility(View.INVISIBLE);
-                monthly_layout.setVisibility(View.VISIBLE);
-
-                monthly_report.setBackgroundColor(Color.parseColor("#a2b3c2"));
-                customer_report.setBackgroundResource(R.color.grey_light);
-                BuildTable(12,3);
 
 
-
-            }
-        });
-
-
-
-        customer_report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                table_layout.removeAllViews();
-                listview.setVisibility(View.VISIBLE);
-                monthly_layout.setVisibility(View.INVISIBLE);
-
-                customer_report.setBackgroundColor(Color.parseColor("#a2b3c2"));
-                monthly_report.setBackgroundResource(R.color.grey_light);
-
-                BuildTable1(StaticVariables.customerList.size(),3);
-            }
-        });
-
+        if (StaticVariables.isNetworkConnected(getActivity())){
+            getMasterList();
+        }
+        else {
+            Toast.makeText(getActivity(),getResources().getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show();
+        }
 
         /*created.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +164,106 @@ public class Report_Fragment extends Fragment {
 
         return view;
     }
+
+    public void getMasterList() {
+        PDialog.show(getActivity());
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customers_monthly_report.php?",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        PDialog.hide();
+                        Log.v("response",response);
+                        try {
+                            JSONObject jobj = new JSONObject(response);
+                            String order_report = jobj.getString("orders");
+                            String order_inprogress = jobj.getString("inprogress");
+                            String order_completed = jobj.getString("completed");
+
+
+                            JSONArray ar = new JSONArray(order_report);
+                            JSONArray ar_inprogress = new JSONArray(order_inprogress);
+                            JSONArray ar_completed = new JSONArray(order_completed);
+                            JSONObject obj = ar.getJSONObject(0);
+                            JSONObject obj_inprogress = ar_inprogress.getJSONObject(0);
+                            JSONObject obj_completed = ar_completed.getJSONObject(0);
+
+
+                            monthlyOrders.add(obj.getString("jan"));
+                            monthlyOrders.add(obj.getString("feb"));
+                            monthlyOrders.add(obj.getString("mar"));
+                            monthlyOrders.add(obj.getString("Apr"));
+                            monthlyOrders.add(obj.getString("May"));
+                            monthlyOrders.add(obj.getString("Jun"));
+                            monthlyOrders.add(obj.getString("July"));
+                            monthlyOrders.add(obj.getString("Aug"));
+                            monthlyOrders.add(obj.getString("Sep"));
+                            monthlyOrders.add(obj.getString("Oct"));
+                            monthlyOrders.add(obj.getString("Nov"));
+                            monthlyOrders.add(obj.getString("December"));
+
+                            orders_inprogress.add(obj_inprogress.getString("jan"));
+                            orders_inprogress.add(obj_inprogress.getString("feb"));
+                            orders_inprogress.add(obj_inprogress.getString("mar"));
+                            orders_inprogress.add(obj_inprogress.getString("Apr"));
+                            orders_inprogress.add(obj_inprogress.getString("May"));
+                            orders_inprogress.add(obj_inprogress.getString("Jun"));
+                            orders_inprogress.add(obj_inprogress.getString("July"));
+                            orders_inprogress.add(obj_inprogress.getString("Aug"));
+                            orders_inprogress.add(obj_inprogress.getString("Sep"));
+                            orders_inprogress.add(obj_inprogress.getString("Oct"));
+                            orders_inprogress.add(obj_inprogress.getString("Nov"));
+                            orders_inprogress.add(obj_inprogress.getString("December"));
+
+                            orders_completed.add(obj_completed.getString("jan"));
+                            orders_completed.add(obj_completed.getString("feb"));
+                            orders_completed.add(obj_completed.getString("mar"));
+                            orders_completed.add(obj_completed.getString("Apr"));
+                            orders_completed.add(obj_completed.getString("May"));
+                            orders_completed.add(obj_completed.getString("Jun"));
+                            orders_completed.add(obj_completed.getString("July"));
+                            orders_completed.add(obj_completed.getString("Aug"));
+                            orders_completed.add(obj_completed.getString("Sep"));
+                            orders_completed.add(obj_completed.getString("Oct"));
+                            orders_completed.add(obj_completed.getString("Nov"));
+                            orders_completed.add(obj_completed.getString("December"));
+
+                            Log.v("size",monthlyOrders.size()+"");
+//                            Log.v("line_r")
+
+                            BuildTable(12,3);
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                },
+
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError arg0) {
+                        PDialog.hide();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.no_internet_access), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<>();
+                params.put("email", StaticVariables.database.get(0).getEmail());
+                params.put("password", StaticVariables.database.get(0).getPassword());
+                params.put("id", StaticVariables.database.get(0).getId());
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(request, "data_receive");
+    }
+
+
     private void BuildTable(int rows, int cols) {
 
         try {
@@ -205,8 +298,20 @@ public class Report_Fragment extends Fragment {
                         tv.setPadding(80, 20, 10, 17);
 
                     }
-                    tv.setText("   " + i);
 
+
+                    try {
+                        tv.setText("   " + monthlyOrders.get(i-1));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    if (j==2){
+                        tv.setText("   " + orders_inprogress.get(i-1));
+
+                    } if (j==3){
+                        tv.setText("   " + orders_completed.get(i-1));
+
+                    }
                     row.addView(tv);
 
                 }

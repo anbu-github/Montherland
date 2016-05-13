@@ -80,7 +80,7 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
-                android:id="@+id/quantity"
+                android:id="@+id/dc_number"
                 android:spinnerMode="dialog"
                 android:textColor="@color/light_grey"
                 android:layout_marginLeft="15dp"

@@ -180,7 +180,13 @@ public class InstructionActivity extends Activity {
             case R.id.save_button:
 
                 StaticVariables.hideKeyboard(thisActivity);
-                save();
+
+                if (StaticVariables.isNetworkConnected(thisActivity)) {
+                    save();
+                }
+                else {
+                    Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
+                }
 
                /* Intent in=new Intent(thisActivity,OrderConfirmDetails.class);
                 in.putExtra("bundle",extras);
