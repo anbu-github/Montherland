@@ -407,6 +407,7 @@ public class Customer_contact_details extends Activity {
                                 Toast.makeText(thisActivity,getResources().getString(R.string.no_address),Toast.LENGTH_SHORT).show();
                             }
                             else {
+                                StaticVariables.selectAddress="contact_details_address";
 
 
                                 recyclerView.setAdapter(new CustomerAddressesListAdapter(persons, thisActivity,"contact_details_address"));

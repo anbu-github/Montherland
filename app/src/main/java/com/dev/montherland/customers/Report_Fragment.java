@@ -1,6 +1,7 @@
 package com.dev.montherland.customers;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,7 +28,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.AppController;
 import com.dev.montherland.R;
+import com.dev.montherland.customers.adapter.ExpandableListView;
+import com.dev.montherland.adapter.HistoryOrderDetailsAdapter1;
+import com.dev.montherland.model.ExistingUser_Model;
 import com.dev.montherland.model.Purchase_Order_Model;
+import com.dev.montherland.parsers.History_GarmentsItem_JSONParser;
+import com.dev.montherland.parsers.History_Order_Details_JSONParser;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
@@ -35,6 +41,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,16 +56,15 @@ public class Report_Fragment extends Fragment {
     ListView listview;
     Button created,inprogress,completed,title;
     LinearLayout monthly_layout;
-    TranslateAnimation translateAnimation;
-    TableLayout table_layout;
     ArrayList<String> monthlyOrders=new ArrayList<>();
     ArrayList<String> orders_inprogress=new ArrayList<>();
     ArrayList<String> orders_completed=new ArrayList<>();
+    TranslateAnimation translateAnimation;
+    TableLayout table_layout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -66,23 +72,19 @@ public class Report_Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_order_report, container, false);
-        final ArrayList<String> list=new ArrayList<>();
-        list.add(StaticVariables.companyName);
 
 
-        final ArrayAdapter<String> listAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,list);
+        final ArrayAdapter<String> listAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,StaticVariables.customerList );
 
-
-        listview=(ListView)view.findViewById(R.id.listview);
+        listview=(ListView) view.findViewById(R.id.listview);
 
         created=(Button)view.findViewById(R.id.created);
         inprogress=(Button)view.findViewById(R.id.inprogress);
-        title=(Button)view.findViewById(R.id.title);
         completed=(Button)view.findViewById(R.id.completed);
         monthly_layout=(LinearLayout)view.findViewById(R.id.monthly_layout);
         table_layout = (TableLayout) view.findViewById(R.id.tableLayout1);
 
-        BuildTable(12,3);
+
 
 
 /*
@@ -115,7 +117,12 @@ public class Report_Fragment extends Fragment {
 
 
 
-
+        if (StaticVariables.isNetworkConnected(getActivity())){
+            getMasterList();
+        }
+        else {
+            Toast.makeText(getActivity(),getResources().getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show();
+        }
 
         /*created.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,18 +158,18 @@ public class Report_Fragment extends Fragment {
         getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
 
-        if (StaticVariables.isNetworkConnected(getActivity())){
-            getMasterList();
+        if (StaticVariables.isNetworkConnected(getActivity())) {
+
+        } else {
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
         }
-        else {
-            Toast.makeText(getActivity(),getResources().getString(R.string.no_internet_connection),Toast.LENGTH_SHORT).show();
-        }
+
         return view;
     }
 
     public void getMasterList() {
         PDialog.show(getActivity());
-        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customers_monthly_report.php?",
+        StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_orders_report.php?",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -252,11 +259,13 @@ public class Report_Fragment extends Fragment {
                 params.put("email", StaticVariables.database.get(0).getEmail());
                 params.put("password", StaticVariables.database.get(0).getPassword());
                 params.put("id", StaticVariables.database.get(0).getId());
+                params.put("customer_id", StaticVariables.customerId);
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(request, "data_receive");
     }
+
 
     private void BuildTable(int rows, int cols) {
 
@@ -289,14 +298,16 @@ public class Report_Fragment extends Fragment {
                     if (j==1) {
                         tv.setPadding(40, 5, 10, 10);
                     }else {
-                        tv.setPadding(80, 20, 10, 17);
+                        tv.setPadding(80, 10, 10, 14);
 
                     }
 
 
                     try {
                         tv.setText("   " + monthlyOrders.get(i-1));
-
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     if (j==2){
                         tv.setText("   " + orders_inprogress.get(i-1));
 
@@ -304,10 +315,6 @@ public class Report_Fragment extends Fragment {
                         tv.setText("   " + orders_completed.get(i-1));
 
                     }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
                     row.addView(tv);
 
                 }
@@ -354,7 +361,7 @@ public class Report_Fragment extends Fragment {
                         tv.setPadding(80, 33, 10, 30);
 
                     }
-                    tv.setText("    "+j);
+                    tv.setText(""+i);
 
                     row1.addView(tv);
 

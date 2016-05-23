@@ -105,6 +105,7 @@ public class PurchaseOrderDetails extends Activity {
 
         layout.setVisibility(View.INVISIBLE);
         StaticVariables.mode="";
+        StaticVariables.state="";
         try {
             PDialog.show(thisActivity);
             mode=getIntent().getExtras().getString("intent_from");
@@ -418,18 +419,28 @@ public class PurchaseOrderDetails extends Activity {
                 else {
                     add3.setText(feedlist.get(0).getAddressline3());
                 }
+
                 state.setText(feedlist.get(0).getState());
                 city.setText(feedlist.get(0).getCity());
                 zipcode.setText(feedlist.get(0).getZipcode());
                 status.setText(feedlist.get(0).getStatus());
 
                 order_status=feedlist.get(0).getStatus();
+
+
                 if (order_status.equals("Entered")){
                     cancelOrder.setVisibility(View.VISIBLE);
                 }
+                if (order_status.equals("Entered")||order_status.equals("In Progress")){
+                  //  cancelOrder.setVisibility(View.VISIBLE);
+                    orderDelivery.setVisibility(View.VISIBLE);
+                    orderReceipt.setVisibility(View.VISIBLE);
+                }
+
                 else if (order_status.equals("Completed")){
                     cancelOrder.setVisibility(View.VISIBLE);
                     cancelOrder.setText("Feedback");
+
                 }
                 instr.setText(feedlist.get(0).getInstruction());
                 pickup_date.setText(feedlist.get(0).getExpected_pickup());
@@ -448,6 +459,10 @@ public class PurchaseOrderDetails extends Activity {
                         edit_address.setVisibility(View.VISIBLE);
                         edit_instruction.setVisibility(View.VISIBLE);
                         edit_order.setVisibility(View.VISIBLE);
+
+                        cancelOrder.setVisibility(View.GONE);
+                        orderDelivery.setVisibility(View.GONE);
+                        orderReceipt.setVisibility(View.GONE);
                     }
                 }catch (Exception e){
                     edit_address.setVisibility(View.VISIBLE);
@@ -459,7 +474,16 @@ public class PurchaseOrderDetails extends Activity {
                     edit_address.setVisibility(View.GONE);
                     edit_instruction.setVisibility(View.GONE);
                     edit_order.setVisibility(View.GONE);
+
                 }
+                else if (feedlist.get(0).getStatus().equals("Order Cancelled")||feedlist.get(0).getStatus().equals("Completed")){
+                    edit_address.setVisibility(View.GONE);
+                    edit_instruction.setVisibility(View.GONE);
+                    edit_order.setVisibility(View.GONE);
+
+                    StaticVariables.state="order_cancelled";
+                }
+
 
                 if (feedlist.get(0).getExpected_delivery().contains("null")){
                     date.setText("");
@@ -497,8 +521,10 @@ public class PurchaseOrderDetails extends Activity {
             created_date=ddf.parse(feedlist.get(0).getCreated_date());
 
             Date current_date=new Date();
-           Log.v("currentdate",current_date.getDate()+"created"+created_date.getDate());
-            if (created_date.getDate()!=current_date.getDate()){
+            Log.v("currentdate",current_date.getDate()+"created"+created_date.getDate());
+
+
+           /* if (created_date.getDate()!=current_date.getDate()){
                 edit_address.setVisibility(View.INVISIBLE);
                 edit_instruction.setVisibility(View.INVISIBLE);
                 edit_order.setVisibility(View.INVISIBLE);
@@ -507,7 +533,7 @@ public class PurchaseOrderDetails extends Activity {
             }else {
                // Toast.makeText(thisActivity,"greater date",Toast.LENGTH_SHORT).show();
              StaticVariables.isEditable=true;
-            }
+            }*/
 
             if (menuTitle.contains("order_history")){
                 edit_address.setVisibility(View.VISIBLE);

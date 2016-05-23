@@ -157,7 +157,7 @@ public class Create_Customer extends Activity {
         else if (mobile.equals("") || mobile.isEmpty()) {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_mobile), Toast.LENGTH_SHORT).show();
 
-        } else if (mobile.length() != 10) {
+        } else if (mobile.length() < 10) {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_limit_contact), Toast.LENGTH_SHORT).show();
         } else {
 
@@ -232,6 +232,9 @@ public class Create_Customer extends Activity {
                 builder.show();
 
             }
+            else if(id.equals("Already Exists")) {
+                Toast.makeText(thisActivity,getResources().getString(R.string.already_phone_exist),Toast.LENGTH_LONG).show();
+            }
 
         } else {
             Toast.makeText(thisActivity,getResources().getString(R.string.error_occurred1),Toast.LENGTH_LONG).show();
@@ -259,7 +262,7 @@ public class Create_Customer extends Activity {
                         });
                 builder.show();
             } else if(id.equals("Already Exists")) {
-                Toast.makeText(thisActivity,getResources().getString(R.string.already_exist),Toast.LENGTH_LONG).show();
+                Toast.makeText(thisActivity,getResources().getString(R.string.already_phone_exist),Toast.LENGTH_LONG).show();
             }
 
         } else {

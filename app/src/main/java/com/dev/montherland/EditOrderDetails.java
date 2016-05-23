@@ -78,6 +78,8 @@ public class EditOrderDetails extends Activity {
     LinearLayout selectDate;
     String wash_test="",status_test="", current_status_id ="",current_status="",intent_from="";
     Bundle bundle;
+    String order_recevied="0";
+
 
     Calendar calc,deliveryCalendar,pickupCalendar,deliveryDateTime;
     @Override
@@ -443,7 +445,15 @@ public class EditOrderDetails extends Activity {
 
                                 JSONObject parentObject = ar.getJSONObject(0);
 
-                                //Log.d("success", parentObject.getString("success"));
+
+                            order_recevied=(parentObject.getString("order_reciepts"));
+                            if (order_recevied.equals("null")){
+                                order_recevied="0";
+                            }
+
+                            Log.v("order_recevied",parentObject.getString("order_reciepts"));
+
+                            //Log.d("success", parentObject.getString("success"));
                                 item.setText(parentObject.getString("garment"));
                                 quantity.setText(parentObject.getString("quantity"));
                                // style.setText(parentObject.getString("style_number"));
@@ -457,11 +467,18 @@ public class EditOrderDetails extends Activity {
                                 current_status_id="-1";
                             }*/
 
+
                             if (parentObject.getString("style_number").contains("null")){
                                 style.setText("");
 
                             }else {
                                 style.setText(parentObject.getString("style_number"));
+                            }
+
+                            if (parentObject.getString("order_reciepts").contains("null")){
+
+                            }else {
+
                             }
 
                             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -652,7 +669,7 @@ public class EditOrderDetails extends Activity {
 
 
 
-                Log.v("currentwashid", current_status_id +"washid"+wash_id);
+                Log.v("order_recevied", order_recevied +"");
 
                 if(quantity_str.trim().equals("")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.enter_quantity),Toast.LENGTH_LONG).show();
@@ -661,6 +678,11 @@ public class EditOrderDetails extends Activity {
                     Toast.makeText(thisActivity,getResources().getString(R.string.enter_valid_number),Toast.LENGTH_LONG).show();
 
                 }
+                else if (Integer.parseInt(quantity_str)<Integer.parseInt(order_recevied)){
+                    Toast.makeText(thisActivity,getResources().getString(R.string.quantity_receipt_validate),Toast.LENGTH_LONG).show();
+
+                }
+
                 else if(wash_id.equals("") || wash_id.equals("Select")) {
                     Toast.makeText(thisActivity,getResources().getString(R.string.select_wash_type),Toast.LENGTH_LONG).show();
                 } else if(style_no.trim().equals("")) {

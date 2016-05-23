@@ -61,7 +61,7 @@ public class OrderConfirmDetailsAdapter  extends BaseAdapter{
 
         try {
             holder.quantity = (TextView) convertView.findViewById(R.id.total_quantity);
-            holder.washType = (TextView) convertView.findViewById(R.id.received_qty);
+            holder.washType = (TextView) convertView.findViewById(R.id.status);
             holder.style = (TextView) convertView.findViewById(R.id.styleno);
             holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
             holder.instr = (TextView) convertView.findViewById(R.id.instr);

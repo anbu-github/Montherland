@@ -277,9 +277,9 @@ public class EditProfile extends Activity {
     public void validationfunction() {
 
         if (name.equals("") || name.isEmpty() || name.trim().isEmpty()) {
-            nameet.setError(getResources().getString(R.string.correct_name));
-            Toast.makeText(EditProfile.this, R.string.correct_name, Toast.LENGTH_LONG).show();
-        } else if (phone.length() != 10) {
+            nameet.setError(getResources().getString(R.string.correct__name));
+            Toast.makeText(EditProfile.this, R.string.correct__name, Toast.LENGTH_LONG).show();
+        } else if (phone.length() < 10) {
             phoneet.setError(getResources().getString(R.string.correct_limit_contact));
             Toast.makeText(EditProfile.this, R.string.correct_limit_contact, Toast.LENGTH_LONG).show();
         } /*else if (address.equals("") || address.isEmpty() || address.trim().isEmpty()) {

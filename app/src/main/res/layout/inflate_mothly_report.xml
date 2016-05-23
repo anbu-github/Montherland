@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:background="#8f000000"
         android:layout_marginLeft="5dp"
         android:id="@+id/monthly_layout"
@@ -12,8 +12,7 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_height="30dp"
             android:layout_marginLeft="3dp"
             android:gravity="center"
             android:text="@string/str_January"
@@ -29,8 +28,7 @@
             android:layout_alignParentTop="true"/>
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_height="30dp"
             android:layout_marginLeft="3dp"
 
             android:gravity="center"
@@ -46,8 +44,7 @@
             android:layout_alignParentTop="true"/>
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_height="30dp"
             android:layout_marginLeft="3dp"
 
             android:gravity="center"
@@ -64,10 +61,8 @@
             android:layout_alignParentTop="true"/>
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginLeft="3dp"
-
-            android:layout_weight="0.3"
             android:gravity="center"
             android:text="@string/str_April"
             android:textColor="@android:color/white"
@@ -82,8 +77,7 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_height="30dp"
             android:layout_marginLeft="3dp"
 
             android:gravity="center"
@@ -100,8 +94,7 @@
             android:layout_alignParentTop="true"/>
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_height="30dp"
             android:gravity="center"
             android:layout_marginLeft="3dp"
 
@@ -117,8 +110,7 @@
             android:layout_alignParentTop="true"/>
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_height="30dp"
             android:layout_marginLeft="3dp"
 
             android:gravity="center"
@@ -134,8 +126,7 @@
             android:layout_alignParentTop="true"/>
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_height="30dp"
             android:layout_marginLeft="3dp"
 
             android:gravity="center"
@@ -151,10 +142,8 @@
             android:layout_alignParentTop="true"/>
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginLeft="3dp"
-
-            android:layout_weight="0.3"
             android:gravity="center"
             android:text="@string/str_September"
             android:textColor="@android:color/white"
@@ -168,8 +157,7 @@
             android:layout_alignParentTop="true"/>
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_height="30dp"
             android:gravity="center"
             android:layout_marginLeft="3dp"
 
@@ -185,8 +173,7 @@
             android:layout_alignParentTop="true"/>
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_height="30dp"
             android:layout_marginLeft="3dp"
 
             android:gravity="center"
@@ -202,8 +189,7 @@
             android:layout_alignParentTop="true"/>
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.3"
+            android:layout_height="30dp"
             android:layout_marginLeft="3dp"
 
             android:gravity="center"

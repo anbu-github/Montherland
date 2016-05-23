@@ -121,7 +121,6 @@ public class PurchaseOrderDetails extends Activity {
         edit_address.setVisibility(View.INVISIBLE);
         edit_instruction.setVisibility(View.INVISIBLE);
        edit_order.setVisibility(View.INVISIBLE);
-
         try {
             if (getIntent().getExtras().get("order_history").equals("order_history")){
                 menuTitle="order_history";

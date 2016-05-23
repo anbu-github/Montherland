@@ -114,6 +114,12 @@ public class Order_View extends Fragment implements ActionBar.TabListener {
                     Bundle args2 = new Bundle();
                     fragment2.setArguments(args2);
                     return fragment2;
+                } case 2: {
+                    //Log.d("Lee here", "here is arived2");
+                    Fragment fragment2 = new CancelledOrderFragment();
+                    Bundle args2 = new Bundle();
+                    fragment2.setArguments(args2);
+                    return fragment2;
                 }
                 default:
                     //Log.d("Lee here", "here is arived");
@@ -127,15 +133,18 @@ public class Order_View extends Fragment implements ActionBar.TabListener {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
                 return "Inprogress";
+            }else if (position == 1) {
+                return "Completed";
+            }else {
+                return "Cancelled";
             }
-            return "Completed";
         }
     }
 }

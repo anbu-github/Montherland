@@ -24,6 +24,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.dev.montherland.customers.*;
 import com.dev.montherland.model.Response_Model;
 import com.dev.montherland.parsers.Response_JSONParser;
 import com.dev.montherland.util.PDialog;
@@ -187,6 +188,8 @@ public class CustomerEditAddress extends Activity {
                     public void onResponse(String response) {
                         PDialog.hide();
 //                        Toast.makeText(thisActivity,"address saved",Toast.LENGTH_SHORT).show();
+
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(thisActivity);
                         builder.setCancelable(false)
                                 .setTitle("Success")
@@ -194,14 +197,23 @@ public class CustomerEditAddress extends Activity {
                                 .setNegativeButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(thisActivity, SelectAddress.class);
 
-                                        intent.putExtra("customer_address","customer_address");
-                                        startActivity(intent);
-                                        finish();
-                                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                                        if (StaticVariables.selectAddress.contains("contact_details_address")){
+                                            Intent intent = new Intent(thisActivity, com.dev.montherland.Customer_contact_details.class);
+                                            startActivity(intent);
+                                            finish();
+                                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
+                                        }
+                                        else {
+                                            Intent intent = new Intent(thisActivity, SelectAddress.class);
 
+                                            intent.putExtra("customer_address", "customer_address");
+                                            startActivity(intent);
+                                            finish();
+                                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                                        }
                                     }
                                 });
                         builder.show();
@@ -330,6 +342,14 @@ public class CustomerEditAddress extends Activity {
 
     public void onBack(){
 
+        if (StaticVariables.selectAddress.contains("contact_details_address")) {
+            Intent intent = new Intent(thisActivity, com.dev.montherland.Customer_contact_details.class);
+
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+        }else
         if (action.contains("customer_edit_address")){
             Intent intent = new Intent(thisActivity, SelectAddress.class);
             intent.putExtra("customer_address","customer_address");

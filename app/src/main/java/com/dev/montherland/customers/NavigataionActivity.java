@@ -45,7 +45,7 @@ public class NavigataionActivity extends FragmentActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mTitle = mDrawerTitle = getTitle();
-        mPlanetTitles = getResources().getStringArray(R.array.planets_array);
+        mPlanetTitles = getResources().getStringArray(R.array.planets_array1);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -61,7 +61,7 @@ public class NavigataionActivity extends FragmentActivity {
 
         ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[5];
 
-        drawerItem[0] = new ObjectDrawerItem(R.drawable.school_icon1, "Customers");
+        drawerItem[0] = new ObjectDrawerItem(R.drawable.school_icon1, "Customer");
         drawerItem[1] = new ObjectDrawerItem(R.drawable.communication_icon, "Orders");
         drawerItem[2] = new ObjectDrawerItem(R.drawable.communication_icon, "Reports");
         drawerItem[3] = new ObjectDrawerItem(R.drawable.password_icon2, "Settings");
@@ -110,7 +110,7 @@ public class NavigataionActivity extends FragmentActivity {
         try {
             redirection = getIntent().getExtras().getString("redirection");
             switch (redirection) {
-                case "Customers": {
+                case "Customer": {
                     selectItem(0);
                     break;
                 }
@@ -210,7 +210,7 @@ public class NavigataionActivity extends FragmentActivity {
             //        selectItem(position);
             mDrawerLayout.closeDrawer(mDrawerList);
             switch (planet) {
-                case "Customers":
+                case "Customer":
                     selectItem(0);
 
                     break;

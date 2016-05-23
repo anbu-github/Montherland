@@ -78,7 +78,7 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
             holder.garment_instruction = (TextView) convertView.findViewById(R.id.instruction);
             holder.quantity = (TextView) convertView.findViewById(R.id.total_quantity);
             holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
-            holder.wash = (TextView) convertView.findViewById(R.id.received_qty);
+            holder.wash = (TextView) convertView.findViewById(R.id.status);
             holder.wash_type = (TextView) convertView.findViewById(R.id.wash_type);
             holder.style = (TextView) convertView.findViewById(R.id.style);
             holder.date = (TextView) convertView.findViewById(R.id.date);
@@ -88,6 +88,10 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
         if (person.get(position).getStatus().equals("Delivered")){
             //holder.edit.setVisibility(View.GONE);
         }
+        if (StaticVariables.state.contains("order_cancelled")){
+            holder.edit.setVisibility(View.INVISIBLE);
+        }
+
 
            holder.edit.setOnClickListener(new View.OnClickListener() {
                @Override
@@ -122,9 +126,9 @@ public class PurchaseOrderDetailadapter extends BaseAdapter{
             holder.style.setText(person.get(position).getStyleNumber());
             holder.wash.setText(person.get(position).getStatus());
 
-        if (!StaticVariables.isEditable){
+        /*if (!StaticVariables.isEditable){
             holder.edit.setVisibility(View.INVISIBLE);
-        }
+        }*/
 
         if (StaticVariables.mode.equals("order_history")){
             holder.edit.setVisibility(View.VISIBLE);

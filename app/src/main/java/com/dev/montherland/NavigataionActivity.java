@@ -36,7 +36,6 @@ public class NavigataionActivity extends FragmentActivity {
     private CharSequence mTitle;
     private String[] mPlanetTitles;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +69,6 @@ public class NavigataionActivity extends FragmentActivity {
 
 
 
-
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_list_item, drawerItem);
         mDrawerList.setAdapter(adapter);
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -78,7 +76,6 @@ public class NavigataionActivity extends FragmentActivity {
         // enable ActionBar app icon to behave as action to toggle nav drawer
        getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon

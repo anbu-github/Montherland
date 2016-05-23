@@ -61,6 +61,7 @@ public class CustomerAddressesListAdapter extends RecyclerView.Adapter<CustomerA
     public CustomerAddressesListAdapter(List<Create_Address_Model> persons,Context context) {
         this.persons = persons;
         this.mContext=context;
+
 }
 
 
@@ -245,9 +246,10 @@ public class CustomerAddressesListAdapter extends RecyclerView.Adapter<CustomerA
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, CustomerEditAddress.class);
+                Intent intent = new Intent(mContext, com.dev.montherland.CustomerEditAddress.class);
                 cbPos = position;
                 try {
+
                     intent.putExtra("intent_name", "customer_edit_address");
 
                     intent.putExtra("address1", persons.get(cbPos).getAddressline1());
@@ -262,8 +264,9 @@ public class CustomerAddressesListAdapter extends RecyclerView.Adapter<CustomerA
 
                     mContext.startActivity(intent);
                     Activity activity=(Activity)mContext;
+                    activity.finish();
                     activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                    ((Activity) mContext).finish();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

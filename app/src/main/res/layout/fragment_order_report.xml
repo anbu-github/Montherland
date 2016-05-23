@@ -23,7 +23,7 @@
                 android:text="Month"
                 android:textColor="@color/color_black"
                 android:background="#90A4AE"
-                android:textSize="15dp" />
+                android:textSize="12dp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -37,7 +37,7 @@
                 android:text="Orders"
                 android:textColor="@color/color_black"
                 android:background="#a2c2b2"
-                android:textSize="15dp" />
+                android:textSize="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -51,6 +51,7 @@
                 android:layout_height="fill_parent"
                 android:text="Inprogress"
                 android:background="#a2c2b2"
+                android:textSize="12dp"
                 android:textColor="@color/color_black"
                 android:layout_marginLeft="1dp">
             </Button>
@@ -66,6 +67,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:text="Completed"
+                android:textSize="12dp"
                 android:background="#a2c2b2"
                 android:textColor="@color/color_black"
                 android:layout_marginLeft="1dp">
@@ -92,11 +94,11 @@
                 android:layout_height="450dp"
                 layout="@layout/inflate_mothly_report" />
 
-            <ExpandableListView
+            <ListView
                 android:layout_width="wrap_content"
                 android:id="@+id/listview"
                 android:visibility="invisible"
-                android:layout_height="fill_parent"></ExpandableListView>
+                android:layout_height="fill_parent"></ListView>
 
         </FrameLayout>
         <LinearLayout

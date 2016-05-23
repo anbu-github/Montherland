@@ -68,11 +68,36 @@ public class OrderReportAdapter extends BaseAdapter {
 
         try {
 
-
             holder.customer.setText(persons.get(position).getName());
-            holder.total_orders.setText(persons.get(position).getTotal_orders());
-            holder.inprogress_orders.setText(persons.get(position).getInprogress_orders());
-            holder.completed_orders.setText(persons.get(position).getCompleted_orders());
+
+            if (persons.get(position).getTotal_orders().length()>1){
+                holder.total_orders.setText(persons.get(position).getTotal_orders());
+
+            }
+            else {
+                holder.total_orders.setText(" "+persons.get(position).getTotal_orders());
+
+            }
+
+            if (persons.get(position).getInprogress_orders().length()>1){
+                holder.inprogress_orders.setText(persons.get(position).getInprogress_orders()+" ");
+
+            }
+            else {
+                holder.inprogress_orders.setText(" "+persons.get(position).getInprogress_orders());
+
+            }
+
+            if (persons.get(position).getCompleted_orders().length()>1){
+                holder.completed_orders.setText(persons.get(position).getCompleted_orders()+" ");
+
+            }
+            else {
+                holder.completed_orders.setText(" "+persons.get(position).getCompleted_orders());
+
+            }
+
+
         }catch (Exception e){
             e.printStackTrace();
         }

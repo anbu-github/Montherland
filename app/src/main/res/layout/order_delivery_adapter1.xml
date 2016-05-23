@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_height="match_parent">
 
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_height="match_parent"
-    android:layout_marginTop="4dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="4dp">
+
 
         <ImageView
             android:layout_width="20dp"
@@ -55,7 +59,7 @@
             android:layout_below="@+id/date"
             android:layout_alignLeft="@+id/date"
             android:layout_alignStart="@+id/date"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4.5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,12 +79,15 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Date"
             android:textSize="15dp"
-            android:maxLength="12"
             android:id="@+id/date"
+            android:singleLine="true"
+            android:maxLength="12"
             android:layout_alignBottom="@+id/textView37"
             android:layout_alignLeft="@+id/style"
             android:layout_alignStart="@+id/style"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -146,13 +153,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Received Qty"
+            android:text="Delivered Qty"
             android:id="@+id/textView38"
             android:textColor="#000000"
             android:layout_below="@+id/textView37"
-            android:layout_toRightOf="@+id/imageView"
+            android:layout_toRightOf="@+id/date"
             android:layout_toEndOf="@+id/imageView"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4.5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -166,7 +173,6 @@
             android:layout_alignStart="@+id/textView38"
             android:layout_marginTop="4dp" />
 
-
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -175,8 +181,7 @@
 
             android:padding="10dp"
             android:layout_below="@+id/total_quantity"
-            android:layout_toRightOf="@+id/textView41"
-            android:layout_toEndOf="@+id/textView41" />
+            android:layout_centerHorizontal="true" />
 
 
 
@@ -185,13 +190,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Quantity"
+            android:text="Manual Dc number"
             android:id="@+id/textView42"
             android:textColor="#000000"
             android:layout_below="@+id/textView41"
             android:layout_alignLeft="@+id/textView41"
             android:layout_alignStart="@+id/textView41"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="7dp" />
 
         <EditText
             android:layout_width="120dp"
@@ -199,7 +204,6 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:hint="DC Number"
             android:id="@+id/dc_number"
-            android:inputType="number"
             android:layout_below="@+id/status"
             android:layout_alignLeft="@+id/status"
             android:layout_alignStart="@+id/status"
@@ -210,12 +214,26 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:hint="Quantity"
-            android:visibility="invisible"
+            android:hint="Enter Number"
             android:id="@+id/manual_dc_number"
-            android:layout_alignBottom="@+id/order_button"
-            android:layout_toRightOf="@+id/imageView"
-            android:layout_toEndOf="@+id/imageView" />
+            android:layout_below="@+id/textView41"
+            android:layout_alignLeft="@+id/dc_number"
+            android:layout_alignStart="@+id/dc_number"
+            android:layout_marginTop="2dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Quantity"
+            android:id="@+id/textView43"
+            android:textColor="#000000"
+            android:layout_below="@+id/textView42"
+            android:layout_alignLeft="@+id/textView42"
+            android:layout_alignStart="@+id/textView42"
+            android:layout_marginTop="6dp" />
 
         <EditText
             android:layout_width="120dp"
@@ -224,11 +242,11 @@
             android:hint="Quantity"
             android:id="@+id/total_quantity"
             android:inputType="number"
-            android:layout_below="@+id/textView41"
-            android:layout_alignLeft="@+id/dc_number"
-            android:layout_alignStart="@+id/dc_number"
-            android:layout_marginTop="2dp"
+            android:layout_below="@+id/textView42"
+            android:layout_alignLeft="@+id/manual_dc_number"
+            android:layout_alignStart="@+id/manual_dc_number"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
+</LinearLayout>

@@ -209,10 +209,9 @@ public class MonthlyReportFragment extends Fragment {
                     if (j==1) {
                         tv.setPadding(40, 5, 10, 10);
                     }else {
-                        tv.setPadding(80, 20, 10, 17);
+                        tv.setPadding(80, 10, 10, 14);
 
                     }
-
 
                     try {
                         tv.setText("   " + monthlyOrders.get(i-1));

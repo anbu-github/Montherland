@@ -22,6 +22,7 @@
     <string name="no_contact_found">No contacts found</string>
     <string name="cancel">Cancel</string>
     <string name="already_exist">This contact is already exist</string>
+    <string name="already_phone_exist">This phone number is already exist</string>
     <string name="save_selection_alert">Address selection have changed.do you want to update this address selection?</string>
     <string name="error_occurred1">Error occurred while accessing server please try again</string>
     <string name="error_occurred2">Error occurred while saving changes please try again.</string>
@@ -72,6 +73,7 @@
     // Edit purchase order
 
     <string name="enter_quantity2">Enter quantity</string>
+    <string name="enter_quantity3">Enter quantity</string>
     <string name="item">Item</string>
     <string name="enter_style_code">Enter style code</string>
     <string name="enter_instruction">Enter instruction</string>
@@ -109,8 +111,7 @@
     <!-- View/Edit Profile -->
     <string name="vieweditprofile_heading">View/Edit Profile</string>
     <string name="vieweditprofile_name">Name*</string>
-    <string name="vieweditprofile_name_hint">Enter your name</string>
-    <string name="vieweditprofile_name_hint1">Enter  name</string>
+    <string name="vieweditprofile_name_hint1">Enter name</string>
     <string name="vieweditprofile_email">Email</string>
     <string name="vieweditprofile_email_hint">Enter your email address</string>
     <string name="vieweditprofile_email_hint1">Enter your email</string>
@@ -173,6 +174,16 @@
         <!--   <item>Change Password</item>
            <item>Logout</item>-->
     </string-array>
+    <string-array name="planets_array1">
+        <item>Customers</item>
+        <item>Orders</item>
+        <item>Reports</item>
+        <item>Settings</item>
+        <item>Exit</item>
+
+        <!--   <item>Change Password</item>
+           <item>Logout</item>-->
+    </string-array>
     <string-array name="garment_item">
         <item>1</item>
         <item>2</item>
@@ -211,7 +222,7 @@
     <string name="correct_email2">Enter correct email</string>
     <string name="correct_contact">Enter contact number</string>
     <string name="category_not_change">Category can not be changed</string>
-    <string name="correct_limit_contact">Enter 10 digit mobile number only</string>
+    <string name="correct_limit_contact">Enter minimum 10 digit number </string>
     <string name="correct_mobile">Enter correct mobile number</string>
 
 
@@ -248,7 +259,7 @@
     <string name="dialog_password_button">Verify</string>
     <string name="dialog_password_button2">Cancel</string>
     <string name="dialog_password_correct">Enter correct password</string>
-    <string name="correct_name">Enter your name</string>
+    <string name="enter_customer_name">Enter Customer name</string>
     <string name="correct_customer_name">Enter Customer your name</string>
     <string name="correct__name">Enter name</string>
     <string name="contact_name">Enter contact person name</string>
@@ -307,6 +318,7 @@
     <string name="select_style_code">Please select style code</string>
     <string name="expected_delivery_time">Please select expected delivery time</string>
     <string name="select_status">Please select status</string>
+    <string name="quantity_receipt_validate">Quantity cannot be less than already recevied quantity</string>
     <string name="enter_valid_number">Please enter valid number</string>
     <string name="enter_instructions">Please enter instructions</string>
 

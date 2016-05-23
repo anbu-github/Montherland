@@ -1,8 +1,10 @@
 package com.dev.montherland.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,14 +24,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.dev.montherland.AppController;
+import com.dev.montherland.PurchaseOrderDetails;
 import com.dev.montherland.R;
-import com.dev.montherland.model.GarmentListModel1;
+import com.dev.montherland.model.Order_Receipts_Details_Model;
 import com.dev.montherland.util.PDialog;
 import com.dev.montherland.util.StaticVariables;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,12 +47,13 @@ public class OrderReceiptsAdapter extends BaseAdapter{
     private LayoutInflater layoutInflater;
     private int count,pos;
     private ArrayAdapter<String> adapter;
-    List<GarmentListModel1> person;
+    List<Order_Receipts_Details_Model> person;
     ArrayList<String> dcNumberList = new ArrayList<>();
     ArrayList<String> quantityList = new ArrayList<>();
     ArrayList<String> manualDcNumberList = new ArrayList<>();
     String received_quantity;
-    public OrderReceiptsAdapter(Context context, List<GarmentListModel1> person) {
+    Integer required_amount;
+    public OrderReceiptsAdapter(Context context, List<Order_Receipts_Details_Model> person) {
         this.context = context;
         this.person=person;
         count = StaticVariables.editQuantityList.size();
@@ -59,7 +62,7 @@ public class OrderReceiptsAdapter extends BaseAdapter{
 
         for (int i=0;i<person.size();i++){
             dcNumberList.add("");
-            quantityList.add(person.get(i).getGarmentQuantity());
+            quantityList.add("");
             manualDcNumberList.add("");
         }
 
@@ -88,7 +91,7 @@ public class OrderReceiptsAdapter extends BaseAdapter{
         pos=position;
 
         if(StaticVariables.mode.equals("delivery")){
-            convertView = layoutInflater.inflate(R.layout.order_delivery_adapter, null);
+            convertView = layoutInflater.inflate(R.layout.order_delivery_adapter1, null);
 
 
         }else {
@@ -112,7 +115,7 @@ public class OrderReceiptsAdapter extends BaseAdapter{
         holder.garment_instruction = (TextView) convertView.findViewById(R.id.instruction);
         holder.quantity = (EditText) convertView.findViewById(R.id.total_quantity);
         holder.garment_type = (TextView) convertView.findViewById(R.id.garment_type);
-        holder.received_Qty = (TextView) convertView.findViewById(R.id.received_qty);
+        holder.received_Qty = (TextView) convertView.findViewById(R.id.status);
         holder.wash_type = (TextView) convertView.findViewById(R.id.wash_type);
         holder.style = (TextView) convertView.findViewById(R.id.style);
         holder.date = (TextView) convertView.findViewById(R.id.date);
@@ -122,16 +125,40 @@ public class OrderReceiptsAdapter extends BaseAdapter{
         holder.manual_dc_number=(EditText)convertView.findViewById(R.id.manual_dc_number);
 
 
-        holder.quantity.setText(person.get(position).getGarmentQuantity());
-        holder.garment_type.setText(person.get(position).getGarmentName());
+        //holder.quantity.setText(person.get(position).getQuantityOrdered());
+        holder.garment_type.setText(person.get(position).getGarmentType());
         // holder.wash_type.setText(person.get(position).getWashType());
-        holder.style.setText(person.get(position).getStyleNumber());
+        holder.style.setText(person.get(position).getStyleNum());
         //holder.wash.setText(person.get(position).getStatus());
-       /// holder.received_Qty.setText(received_quantity);
+        holder.quantity.setHint(context.getResources().getString(R.string.enter_quantity2));
+
+
+        holder.received_Qty.setText(person.get(position).getOrderReceipts());
+
+        if (person.get(position).getOrderReceipts().equals("null")||person.get(position).getOrderReceipts().isEmpty()){
+            holder.received_Qty.setText(" 0");
+
+        }else {
+            holder.received_Qty.setText(" "+person.get(position).getOrderReceipts());
+
+        }
 
        // Toast.makeText(context,received_quantity,Toast.LENGTH_SHORT).show();
 
 
+        required_amount=Integer.parseInt(person.get(position).getQuantityOrdered())-Integer.parseInt(person.get(position).getOrderReceipts().trim());
+
+
+        if (StaticVariables.mode.equals("delivery")){
+            required_amount=Integer.parseInt(person.get(position).getOrderReceipts())-Integer.parseInt(person.get(position).getOrderDelivery().trim());
+
+            holder.received_Qty.setText(" "+person.get(position).getOrderDelivery());
+           // holder.quantity.setText(""+required_amount);
+        }
+        else {
+          //  holder.quantity.setText(""+required_amount);
+
+        }
 
         holder.manual_dc_number.addTextChangedListener(new TextWatcher() {
             @Override
@@ -153,7 +180,7 @@ public class OrderReceiptsAdapter extends BaseAdapter{
         });
 
         if(StaticVariables.mode.equals("delivery")){
-            holder.order_button.setText("DELIVER THE ORDER");
+            holder.order_button.setText("DELIVER ORDER");
 
         }
 
@@ -162,6 +189,9 @@ public class OrderReceiptsAdapter extends BaseAdapter{
             public void onClick(View v) {
 
                 holder.order_button.setTag(position);
+
+                StaticVariables.hideKeyboard((Activity)context);
+
                 if (StaticVariables.mode.equals("delivery")) {
 
                     if ((dcNumberList.get(position).equals("") || dcNumberList.get(position).isEmpty())&&(manualDcNumberList.get(position).equals("")||manualDcNumberList.get(position).isEmpty())) {
@@ -169,7 +199,11 @@ public class OrderReceiptsAdapter extends BaseAdapter{
                         Toast.makeText(context, "Please enter either Manual Dc number or Dc number", Toast.LENGTH_SHORT).show();
                     } else if (quantityList.get(position).equals("") || quantityList.get(position).isEmpty()) {
                         Toast.makeText(context, "Please enter the quantity amount", Toast.LENGTH_SHORT).show();
-                    } else if (Integer.parseInt(quantityList.get(position).toString()) > Integer.parseInt(person.get(position).getGarmentQuantity())) {
+                    }
+                    else if (person.get(position).getOrderReceipts().equals("0")){
+                        Toast.makeText(context, "No order received for deliver", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (Integer.parseInt(quantityList.get(position).toString()) > required_amount) {
                         Toast.makeText(context, "Order item's Delivery amount cannot be greater than Ordered received item amount", Toast.LENGTH_SHORT).show();
 
                     } else {
@@ -177,8 +211,7 @@ public class OrderReceiptsAdapter extends BaseAdapter{
                         pos=Integer.parseInt(v.getTag()+"");
 
                       // Toast.makeText(context,v.getTag()+"",Toast.LENGTH_SHORT).show();
-                       Toast.makeText(context,quantityList.toString()+"",Toast.LENGTH_SHORT).show();
-                      deliveryOrder();
+                         deliveryOrder();
                     }
 
                 } else {
@@ -189,13 +222,13 @@ public class OrderReceiptsAdapter extends BaseAdapter{
                     } else if (quantityList.get(position).equals("") || quantityList.get(position).isEmpty()) {
 
                         Toast.makeText(context, "Please enter the quantity amount", Toast.LENGTH_SHORT).show();
-                    } else if (Integer.parseInt(quantityList.get(position).toString()) > Integer.parseInt(person.get(position).getGarmentQuantity())) {
+                    } else if (Integer.parseInt(person.get(position).getQuantityOrdered())-Integer.parseInt(person.get(position).getOrderReceipts().trim()) < Integer.parseInt(quantityList.get(position).trim())) {
                         Toast.makeText(context, "Order item's Receiving amount cannot be greater than Ordered item amount", Toast.LENGTH_SHORT).show();
 
                     } else {
                         pos=Integer.parseInt(v.getTag()+"");
 
-                        Toast.makeText(context, dcNumberList.toString(), Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(context, dcNumberList.toString(), Toast.LENGTH_SHORT).show();
                         receiveOrder();
                     }
                 }
@@ -248,14 +281,14 @@ public class OrderReceiptsAdapter extends BaseAdapter{
 
 
 
-        if (person.get(position).getGarmentName().contains("Shirts")){
+        if (person.get(position).getGarmentType().contains("Shirts")){
 
             holder.itemImage.setImageResource(R.drawable.item_shirts);
         }
-        if (person.get(position).getGarmentName().contains("Jeans")){
+        if (person.get(position).getGarmentType().contains("Jeans")){
             holder.itemImage.setImageResource(R.drawable.item_jeans);
         }
-        if (person.get(position).getGarmentName().contains("Pants")){
+        if (person.get(position).getGarmentType().contains("Pants")){
             holder.itemImage.setImageResource(R.drawable.item_pants);
         }
 
@@ -263,36 +296,36 @@ public class OrderReceiptsAdapter extends BaseAdapter{
             holder.wash_type.setText("");
 
         }else {
-            holder.wash_type.setText(person.get(position).getWashType());
+            holder.wash_type.setText(" "+person.get(position).getWashType());
 
         }
 
-        if (person.get(position).getStyleNumber().contains("null")){
+        if (person.get(position).getStyleNum().contains("null")){
             holder.style.setText("");
 
         }else {
 
-            holder.style.setText(person.get(position).getStyleNumber());
+            holder.style.setText(" "+person.get(position).getStyleNum());
 
         }
 
 
-        if (person.get(position).getExpectedDelivery().contains("null")) {
+        if (person.get(position).getExpectedDeliveryDate().contains("null")) {
 
             holder.date.setText(StaticVariables.deliveryDefultDate);
         }
         else
         {
-            holder.date.setText(person.get(position).getExpectedDelivery());
+            holder.date.setText(" "+person.get(position).getExpectedDeliveryDate());
         }
 
-        if (person.get(position).getGarmentInstruction().equals("")||person.get(position).getGarmentInstruction().isEmpty()){
+        /*if (person.get(position).getGarmentInstruction().equals("")||person.get(position).getGarmentInstruction().isEmpty()){
 
             holder.garment_instruction.setVisibility(View.GONE);
         }else {
             holder.garment_instruction.setText(person.get(position).getGarmentInstruction());
         }
-
+*/
         PDialog.hide();
 
         return convertView;
@@ -314,7 +347,11 @@ public class OrderReceiptsAdapter extends BaseAdapter{
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
-
+                                        Intent in=new Intent(context, PurchaseOrderDetails.class);
+                                        context.startActivity(in);
+                                        Activity activity=(Activity)context;
+                                        activity.finish();
+                                        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                                     }
                                 });
                         builder.show();
@@ -366,8 +403,6 @@ public class OrderReceiptsAdapter extends BaseAdapter{
     }
 
 
-
-
     public void deliveryOrder() {
         PDialog.show(context);
         StringRequest request = new StringRequest(Request.Method.POST, context.getResources().getString(R.string.url_motherland) + "delivery_order_submit.php?",
@@ -379,10 +414,17 @@ public class OrderReceiptsAdapter extends BaseAdapter{
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setCancelable(false)
                                 .setTitle("Success")
-                                .setMessage("Order has been submit for deliver.")
+                                .setMessage("Order has been submit for deliver")
                                 .setNegativeButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+
+                                        Intent in=new Intent(context, PurchaseOrderDetails.class);
+                                        context.startActivity(in);
+                                        Activity activity=(Activity)context;
+                                        activity.finish();
+                                        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
 
                                     }
                                 });
@@ -455,5 +497,7 @@ public class OrderReceiptsAdapter extends BaseAdapter{
         Button order_button;
 
     }
+
+
 
 }

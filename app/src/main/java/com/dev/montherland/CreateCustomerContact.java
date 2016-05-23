@@ -144,8 +144,6 @@ public class CreateCustomerContact extends Activity {
         else {
             Toast.makeText(thisActivity, getResources().getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
     public void save() {
@@ -155,7 +153,7 @@ public class CreateCustomerContact extends Activity {
 
         if (name.equals("") || name.isEmpty()) {
 
-            Toast.makeText(thisActivity, getResources().getString(R.string.correct_name), Toast.LENGTH_SHORT).show();
+            Toast.makeText(thisActivity, getResources().getString(R.string.enter_customer_name), Toast.LENGTH_SHORT).show();
         } else if (email.equals("") || email.isEmpty()) {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_email_error), Toast.LENGTH_SHORT).show();
         }
@@ -167,7 +165,7 @@ public class CreateCustomerContact extends Activity {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_mobile), Toast.LENGTH_SHORT).show();
 
         }
-        else if (mobile.length() != 10) {
+        else if (mobile.length() < 10) {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_limit_contact), Toast.LENGTH_SHORT).show();
         }
         else {
@@ -237,7 +235,7 @@ public class CreateCustomerContact extends Activity {
 
         if (name.equals("") || name.isEmpty()) {
 
-            Toast.makeText(thisActivity, getResources().getString(R.string.correct_name), Toast.LENGTH_SHORT).show();
+            Toast.makeText(thisActivity, getResources().getString(R.string.enter_customer_name), Toast.LENGTH_SHORT).show();
         } else if (mobile.equals("") || mobile.isEmpty()) {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_mobile), Toast.LENGTH_SHORT).show();
 
@@ -252,22 +250,9 @@ public class CreateCustomerContact extends Activity {
                             try {
                                 JSONObject ar = new JSONObject(s);
 
-                                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(thisActivity);
-                                builder.setCancelable(false)
-                                        .setTitle("Success")
-                                        .setMessage("contact details has updated successfully")
-                                        .setNegativeButton("ok", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent intent = new Intent(thisActivity, Customer_contact_details.class);
-                                                thisActivity.finish();
-                                                startActivity(intent);
-                                                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                                            }
-                                        });
-                                builder.show();
 
                                 id = ar.getString("id");
+                                updatedisplay1(id);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -308,6 +293,37 @@ public class CreateCustomerContact extends Activity {
         }
 
     }
+
+    void updatedisplay1(String id){
+
+        if(id != null) {
+
+            if(id.equals("Success")) {
+
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(thisActivity);
+                builder.setCancelable(false)
+                        .setTitle("Success")
+                        .setMessage("contact details has updated successfully")
+                        .setNegativeButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(thisActivity, com.dev.montherland.Customer_contact_details.class);
+                                thisActivity.finish();
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                            }
+                        });
+                builder.show();
+            } else if(id.equals("Already Exists")) {
+                Toast.makeText(thisActivity,getResources().getString(R.string.already_exist),Toast.LENGTH_LONG).show();
+            }
+
+        } else {
+            Toast.makeText(thisActivity,getResources().getString(R.string.error_occurred1),Toast.LENGTH_LONG).show();
+        }
+
+    }
+
     void updatedisplay(String id){
 
         if(id != null) {

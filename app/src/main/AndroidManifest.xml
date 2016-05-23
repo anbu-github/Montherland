@@ -220,7 +220,8 @@
         <activity
             android:name=".FeedbackActivity"
             android:label="Feedback"></activity>
-        <activity android:name=".OrderReceipts" android:windowSoftInputMode="adjustPan" android:label="Order Receipt"></activity>
+        <activity android:name=".OrderReceipts" android:windowSoftInputMode="adjustPan"
+            android:label="Order Receipt"></activity>
     </application>
 
 </manifest>

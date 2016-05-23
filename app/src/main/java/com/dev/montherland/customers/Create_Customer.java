@@ -55,13 +55,10 @@ public class Create_Customer extends Activity {
         et_email = (EditText) findViewById(R.id.create_email);
         et_mobile = (EditText) findViewById(R.id.viewedit_phone_edit);
         textView11 = (TextView) findViewById(R.id.contact);
-
-
-
         et_email.setVisibility(View.VISIBLE);
         textView11.setVisibility(View.VISIBLE);
 
-        et_name.setFilters(new InputFilter[]{
+     /*   et_name.setFilters(new InputFilter[]{
                 new InputFilter() {
                     @Override
                     public CharSequence filter(CharSequence cs, int start,
@@ -77,7 +74,7 @@ public class Create_Customer extends Activity {
                     }
                 }
         });
-
+*/
         try {
 
             if (getIntent().getExtras().getString("intent_from").equals("edit_customer")) {
@@ -180,7 +177,7 @@ public class Create_Customer extends Activity {
 
         if (name.equals("") || name.isEmpty()) {
 
-            Toast.makeText(thisActivity, getResources().getString(R.string.correct_name), Toast.LENGTH_SHORT).show();
+            Toast.makeText(thisActivity, getResources().getString(R.string.enter_customer_name), Toast.LENGTH_SHORT).show();
         }
         else if (email.equals("") || email.isEmpty()) {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_website), Toast.LENGTH_SHORT).show();
@@ -189,9 +186,7 @@ public class Create_Customer extends Activity {
         else if (mobile.equals("") || mobile.isEmpty()) {
             Toast.makeText(thisActivity, getResources().getString(R.string.correct_mobile), Toast.LENGTH_SHORT).show();
 
-        } else if (mobile.length() != 10) {
-            Toast.makeText(thisActivity, getResources().getString(R.string.correct_limit_contact), Toast.LENGTH_SHORT).show();
-        } else {
+        }  else {
 
             PDialog.show(thisActivity);
             StringRequest request = new StringRequest(Request.Method.POST, getResources().getString(R.string.url_motherland) + "customer_edit.php",

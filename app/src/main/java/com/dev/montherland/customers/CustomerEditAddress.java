@@ -195,12 +195,22 @@ public class CustomerEditAddress extends Activity {
                                 .setNegativeButton("ok", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(thisActivity, SelectAddress.class);
 
-                                        intent.putExtra("customer_address","customer_address");
-                                        startActivity(intent);
-                                        finish();
-                                        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                                        if (StaticVariables.selectAddress.contains("contact_details_address")){
+                                            Intent intent = new Intent(thisActivity, com.dev.montherland.customers.Customer_contact_details.class);
+                                            startActivity(intent);
+                                            finish();
+                                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                                        }else {
+                                            Intent intent = new Intent(thisActivity, SelectAddress.class);
+
+                                            intent.putExtra("customer_address", "customer_address");
+                                            startActivity(intent);
+                                            finish();
+                                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                                        }
 
 
                                     }
@@ -335,6 +345,16 @@ public class CustomerEditAddress extends Activity {
 
     public void onBack(){
 
+
+
+        if (StaticVariables.selectAddress.contains("contact_details_address")) {
+            Intent intent = new Intent(thisActivity, com.dev.montherland.customers.Customer_contact_details.class);
+
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+        }else
         if (action.contains("customer_edit_address")){
             Intent intent = new Intent(thisActivity, com.dev.montherland.customers.SelectAddress.class);
             intent.putExtra("customer_address","customer_address");
@@ -343,6 +363,8 @@ public class CustomerEditAddress extends Activity {
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
+
+
     }
 
     @Override
