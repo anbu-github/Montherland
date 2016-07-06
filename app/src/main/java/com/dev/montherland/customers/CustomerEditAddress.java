@@ -173,7 +173,6 @@ public class CustomerEditAddress extends Activity {
 
             if (StaticVariables.isNetworkConnected(thisActivity)) {
                 editAddress();
-
             } else {
                 Toast.makeText(thisActivity, "Please check the network connection", Toast.LENGTH_SHORT).show();
             }
@@ -203,7 +202,15 @@ public class CustomerEditAddress extends Activity {
                                             finish();
                                             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
-                                        }else {
+                                        }
+                                        else if (StaticVariables.selectAddress.contains("Create order")){
+                                            Intent intent = new Intent(thisActivity, com.dev.montherland.customers.SelectAddress.class);
+                                            startActivity(intent);
+                                            finish();
+                                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                                        }
+                                        else {
                                             Intent intent = new Intent(thisActivity, SelectAddress.class);
 
                                             intent.putExtra("customer_address", "customer_address");
@@ -354,11 +361,27 @@ public class CustomerEditAddress extends Activity {
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
-        }else
+        }
+        else if (StaticVariables.selectAddress.contains("Create order")){
+            Intent intent = new Intent(thisActivity, com.dev.montherland.customers.SelectAddress.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+        }
+        else
         if (action.contains("customer_edit_address")){
             Intent intent = new Intent(thisActivity, com.dev.montherland.customers.SelectAddress.class);
             intent.putExtra("customer_address","customer_address");
 
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+        else  {
+            Intent intent = new Intent(thisActivity, SelectAddress.class);
+
+            intent.putExtra("customer_address", "customer_address");
             startActivity(intent);
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);

@@ -80,6 +80,7 @@ public class SelectAddress extends Activity {
 
             if (!(getIntent().getExtras().getString("change_address")==null)){
 
+                StaticVariables.selectAddress="change_address";
                 getActionBar().setTitle("Change Address");
                 StaticVariables.status="Save";
                 ig.setVisibility(View.INVISIBLE);

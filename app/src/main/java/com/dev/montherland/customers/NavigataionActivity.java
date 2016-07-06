@@ -382,6 +382,7 @@ public class NavigataionActivity extends FragmentActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         test = new CustomerHomeFragment();
 
+        StaticVariables.selectAddress="";
        /* fragmentTransaction.setCustomAnimations(
                 R.animator.fragment_slide_left_enter,
                 R.anim.fragment_slide_left_exit,
@@ -389,6 +390,7 @@ public class NavigataionActivity extends FragmentActivity {
                 R.anim.fragment_slide_right_exit);*/
         fragmentTransaction.replace(R.id.content_frame, test);
         fragmentTransaction.addToBackStack(null);
+
         fragmentTransaction.commit();
 
         // update selected item and title, then close the drawer

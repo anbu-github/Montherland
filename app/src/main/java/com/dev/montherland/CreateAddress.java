@@ -98,9 +98,7 @@ public class CreateAddress extends Activity {
 
                 getActionBar().setTitle("Create Address");
                 action="create_customer_address";
-
             }
-
 
             dbhelp.DatabaseHelper2 dbhelp = new dbhelp.DatabaseHelper2(thisActivity);
             dbhelp.getReadableDatabase();
@@ -335,13 +333,11 @@ public class CreateAddress extends Activity {
                                     public void onClick(DialogInterface dialog, int which) {
 
                                         if (action.contains("create_customer_address")){
-
                                             Intent intent1 = new Intent(thisActivity, SelectAddress.class);
                                             intent1.putExtra("customer_address", "customer_address");
                                             startActivity(intent1);
                                             finish();
                                             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
                                         }
                                         else {
                                             Intent intent = new Intent(thisActivity, SelectAddress.class);
@@ -349,8 +345,6 @@ public class CreateAddress extends Activity {
                                             finish();
                                             overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                                         }
-
-
 
                                     }
                                 });
@@ -470,7 +464,6 @@ public class CreateAddress extends Activity {
                     }
                 }) {
 
-
         };
         AppController.getInstance().addToRequestQueue(request, data_receive);
         Log.v("request", request + "");
@@ -480,7 +473,6 @@ public class CreateAddress extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action barenu
         getMenuInflater().inflate(R.menu.menu_save, menu);
-
         return true;
     }
 

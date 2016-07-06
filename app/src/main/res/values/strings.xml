@@ -322,4 +322,6 @@
     <string name="enter_valid_number">Please enter valid number</string>
     <string name="enter_instructions">Please enter instructions</string>
 
+    <!-- Forgot password -->
+
 </resources>

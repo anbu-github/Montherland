@@ -112,7 +112,7 @@
             android:layout_height="wrap_content">
             <Spinner
                 android:layout_width="fill_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:id="@+id/order_type"
                 android:spinnerMode="dialog"
                 android:textAppearance="?android:attr/textAppearanceMedium"

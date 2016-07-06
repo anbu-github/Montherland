@@ -96,6 +96,7 @@ public class SelectAddress extends Activity {
                 getActionBar().setTitle("Customer Address");
                 title_bar.setVisibility(View.GONE);
 
+
             }
 
 

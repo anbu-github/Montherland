@@ -20,18 +20,12 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         ImageView imgSplash = (ImageView) findViewById(R.id.imgSplash);
 
-
-
         AnimationSet animation = new AnimationSet(true);
         animation.addAnimation(new AlphaAnimation(0.0F, 1.0F));
         animation.addAnimation(new ScaleAnimation(0.0f, 1, 0.0f, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)); // Change args as desired
         animation.setDuration(1500);
 
-
        // imgSplash.startAnimation(animation);
-
-
-
 
         new CountDownTimer(3000, 1000) {
 
@@ -40,7 +34,6 @@ public class SplashActivity extends Activity {
             }
 
             public void onFinish() {
-
                 try {
                     dbhelp.DatabaseHelper2 dbhelp = new dbhelp.DatabaseHelper2(SplashActivity.this);
                     dbhelp.getReadableDatabase();

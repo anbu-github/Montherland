@@ -219,9 +219,12 @@
             android:label="Edit Address" />
         <activity
             android:name=".FeedbackActivity"
-            android:label="Feedback"></activity>
-        <activity android:name=".OrderReceipts" android:windowSoftInputMode="adjustPan"
-            android:label="Order Receipt"></activity>
+            android:label="Feedback" />
+        <activity
+            android:name=".OrderReceipts"
+            android:label="Order Receipt"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ForgotPassword"></activity>
     </application>
 
 </manifest>

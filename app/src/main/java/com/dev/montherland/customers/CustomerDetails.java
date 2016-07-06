@@ -102,7 +102,7 @@ public class CustomerDetails extends Activity {
     }
 
     public void customerAddress(View view){
-        StaticVariables.selectAddress="";
+        StaticVariables.selectAddress="customer_address";
 
         Intent in=new Intent(thisActivity,SelectAddress.class);
         in.putExtra("customer_address","customer_address");

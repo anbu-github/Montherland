@@ -40,7 +40,7 @@
 
             <Spinner
                 android:layout_width="fill_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:id="@+id/customer_list"
                 android:popupTheme="@style/android:Widget.Holo.Light.PopupMenu"
                 android:layout_marginRight="10dp"
@@ -72,7 +72,7 @@
 
             <Spinner
                 android:layout_width="fill_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:id="@+id/customer_company_list"
                 android:spinnerMode="dialog"
 
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content">
             <Spinner
                 android:layout_width="fill_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:id="@+id/order_type"
                 android:spinnerMode="dialog"
                 android:popupTheme="@style/android:Widget.Holo.Light.PopupMenu"

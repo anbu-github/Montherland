@@ -77,7 +77,6 @@ public class InstructionActivity extends Activity {
 
     public void updateDisplay() {
 
-
          android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(thisActivity);
             builder.setCancelable(false)
                     .setTitle("Success")

@@ -205,6 +205,22 @@ public class CustomerEditAddress extends Activity {
                                             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
                                         }
+                                       else if (StaticVariables.selectAddress.contains("Create order")){
+                                            Intent intent = new Intent(thisActivity, com.dev.montherland.SelectAddress.class);
+                                            startActivity(intent);
+                                            finish();
+                                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                                        } else if (StaticVariables.selectAddress.contains("change_address")){
+                                            Intent intent = new Intent(thisActivity, SelectAddress.class);
+                                            intent.putExtra("change_address","change_address");
+
+                                            startActivity(intent);
+                                            finish();
+                                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+                                        }
+
                                         else {
                                             Intent intent = new Intent(thisActivity, SelectAddress.class);
 
@@ -349,7 +365,24 @@ public class CustomerEditAddress extends Activity {
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
-        }else
+        }
+        else if (StaticVariables.selectAddress.contains("Create order")){
+            Intent intent = new Intent(thisActivity, com.dev.montherland.SelectAddress.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+        }
+        else if (StaticVariables.selectAddress.contains("change_address")){
+            Intent intent = new Intent(thisActivity, SelectAddress.class);
+            intent.putExtra("change_address","change_address");
+            startActivity(intent);
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+
+        }
+
+        else
         if (action.contains("customer_edit_address")){
             Intent intent = new Intent(thisActivity, SelectAddress.class);
             intent.putExtra("customer_address","customer_address");

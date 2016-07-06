@@ -26,6 +26,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.persons = persons;
     }
 
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         PDialog.hide();
@@ -33,6 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         MyViewHolder myViewHolder = new MyViewHolder(v);
         return myViewHolder;
     }
+
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {

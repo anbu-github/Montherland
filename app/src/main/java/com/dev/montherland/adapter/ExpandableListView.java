@@ -31,4 +31,5 @@ public class ExpandableListView extends ListView {
         ViewGroup.LayoutParams params = getLayoutParams();
         params.height = getMeasuredHeight();
     }
+
 }

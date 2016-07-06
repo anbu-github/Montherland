@@ -101,8 +101,7 @@ public class PurchaseOrderDetails extends Activity {
         edit_instruction = (ImageView) findViewById(R.id.edit_instruction);
         layout=(LinearLayout)findViewById(R.id.layout);
         order_history_layout=(LinearLayout)findViewById(R.id.order_history_layout);
-
-
+        
         layout.setVisibility(View.INVISIBLE);
         StaticVariables.mode="";
         StaticVariables.state="";
@@ -273,6 +272,7 @@ public class PurchaseOrderDetails extends Activity {
                     StaticVariables.selectAddress = "order details";
                     Intent intent = new Intent(thisActivity, SelectAddress.class);
                     intent.putExtra("change_address", "change address");
+                    StaticVariables.selectAddress="change_address";
                     if (mode.contains("customer_order")){
                         intent.putExtra("intent_from","customer_order");
                     }
